@@ -2,26 +2,26 @@ import { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import { CanceledError } from "axios";
 
-export interface Pokemon {
+interface Sprites {
+  front_default: string;
+}
+
+export interface OnePokemon {
+  id: number;
   name: string;
-  url: string;
+  sprites: Sprites;
 }
 
-interface FetchPokemonsResponse {
-  count: number;
-  results: Pokemon[];
-}
-
-const usePokemons = () => {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+const useOnePokemon = (name: string) => {
+  const [pokemon, setPokemon] = useState<OnePokemon>({});
   const [error, setError] = useState("");
 
   useEffect(() => {
     const controller = new AbortController();
 
     apiClient
-      .get<FetchPokemonsResponse>("/pokemon", { signal: controller.signal })
-      .then((res) => setPokemons(res.data.results))
+      .get<OnePokemon>("/pokemon/" + name, { signal: controller.signal })
+      .then((res) => setPokemon(res.data))
       .catch((err) => {
         if (err instanceof CanceledError) return;
         setError(err.message);
@@ -29,8 +29,8 @@ const usePokemons = () => {
 
     return () => controller.abort();
   }, []);
-
-  return { pokemons, error };
+  console.log(pokemon);
+  return { pokemon, error };
 };
 
-export default usePokemons;
+export default useOnePokemon;
