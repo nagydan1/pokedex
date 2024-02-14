@@ -1,27 +1,8 @@
-import { useState, useEffect } from "react";
-import apiClient from "../services/api-client";
+import usePokemons from "../hooks/usePokemons";
 import { Text } from "@chakra-ui/react";
 
-interface Pokemon {
-  name: string;
-  url: string;
-}
-
-interface FetchPokemonResponse {
-  count: number;
-  results: Pokemon[];
-}
-
 const PokemonGrid = () => {
-  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    apiClient
-      .get<FetchPokemonResponse>("/pokemon ")
-      .then((res) => setPokemons(res.data.results))
-      .catch((err) => setError(err.message));
-  });
+ const {pokemons, error} = usePokemons();
 
   return (
     <>
