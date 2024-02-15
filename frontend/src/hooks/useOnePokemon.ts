@@ -29,7 +29,6 @@ const useOnePokemon = (name: string) => {
 
     return () => controller.abort();
   }, []);
-  console.log(pokemon);
   return { pokemon, error };
 };
 
