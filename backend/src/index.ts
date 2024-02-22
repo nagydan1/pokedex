@@ -1,19 +1,21 @@
-import Koa from "koa";
-import bodyParser from "koa-bodyparser";
-import cors from "koa2-cors";
-import logger from "koa-logger";
-import poekmonRoutes from "./routes/pokemon";
+import { Pool } from "pg";
+import app from "./app";
 import config from "./config";
-
-const app = new Koa();
 
 const PORT = config.port;
 
-app.use(bodyParser());
-app.use(cors({ origin: "*" }));
-app.use(logger());
- 
-app.use(poekmonRoutes.routes());
+const pool = new Pool(config.client);
+
+const connectPG = async () => {
+  try {
+    await pool.connect();
+    console.log("Successfully connected to PG");
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+connectPG();
 
 const server = app
   .listen(PORT, async () => {
