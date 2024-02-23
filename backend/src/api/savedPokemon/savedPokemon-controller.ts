@@ -3,7 +3,11 @@ import savedPokemonService from "./savedPokemon-service";
 
 const savedpokemonController = {
   async get(ctx: Context) {
-    const savedPokemon = await savedPokemonService.getPokemon();
+    const savedPokemonList = await savedPokemonService.getPokemon();
+    ctx.body = savedPokemonList;
+  },
+  async post(ctx: Context) {
+    const savedPokemon = await savedPokemonService.savePokemon(ctx);
     ctx.body = savedPokemon;
   },
 };
