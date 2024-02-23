@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../services/api-client";
+import { pokeApiClient } from "../services/api-client";
 import { CanceledError } from "axios";
 
 export interface Pokemon {
@@ -19,7 +19,7 @@ const usePokemons = () => {
   useEffect(() => {
     const controller = new AbortController();
 
-    apiClient
+    pokeApiClient
       .get<FetchPokemonsResponse>("/pokemon", { signal: controller.signal })
       .then((res) => setPokemons(res.data.results))
       .catch((err) => {

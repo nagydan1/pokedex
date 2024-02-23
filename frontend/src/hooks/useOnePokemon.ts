@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import apiClient from "../services/api-client";
+import { pokeApiClient } from "../services/api-client";
 import { CanceledError } from "axios";
 
 interface Sprites {
@@ -19,7 +19,7 @@ const useOnePokemon = (name: string) => {
   useEffect(() => {
     const controller = new AbortController();
 
-    apiClient
+    pokeApiClient
       .get<OnePokemon>("/pokemon/" + name, { signal: controller.signal })
       .then((res) => setPokemon(res.data))
       .catch((err) => {
