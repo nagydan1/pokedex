@@ -4,7 +4,7 @@ import config from "./config";
 
 const PORT = config.port;
 
-const pool = new Pool(config.client);
+export const pool = new Pool(config.client);
 
 const connectPG = async () => {
   try {
