@@ -29,8 +29,6 @@ const PokemonCard = ({ pokemonName }: Props) => {
     <>
       {error && <Text>{error}</Text>}
       <Card
-        borderRadius={10}
-        overflow="hidden"
         variant={isSaved ? "filled" : "elevated"}
       >
         <CardBody>
