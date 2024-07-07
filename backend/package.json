@@ -18,7 +18,7 @@
     "pg": "^8.11.3",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
-    "zapatos": "^6.3.0"
+    "zapatos": "^6.4.2"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

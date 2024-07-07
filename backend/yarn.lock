@@ -2263,7 +2263,7 @@ jsesc@^2.5.1:
   resolved "https://registry.yarnpkg.com/jsesc/-/jsesc-2.5.2.tgz#80564d2e483dacf6e8ef209650a67df3f0c283a4"
   integrity sha512-OYu7XEzjkCQ3C5Ps3QIZsQfNpqoJyZZA99wd9aWd05NCtC5pWOkShK2mkL6HXQR6/Cy2lbNdPlZBpuQHXE63gA==
 
-json-custom-numbers@^3.0.4:
+json-custom-numbers@^3.1.1:
   version "3.1.1"
   resolved "https://registry.yarnpkg.com/json-custom-numbers/-/json-custom-numbers-3.1.1.tgz#c038e33de03eb051d3fdc2b5de3321e3c8920e42"
   integrity sha512-rYIAIuiIRy58aax2tuZb7HawKFATBG848PiguybJh/R+pvC8jxjEOVBQHj4J3U2D4/Y4acBCO4A/glILW8wPoA==
@@ -3369,9 +3369,9 @@ yocto-queue@^0.1.0:
   resolved "https://registry.yarnpkg.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
 
-zapatos@^6.3.0:
-  version "6.3.0"
-  resolved "https://registry.yarnpkg.com/zapatos/-/zapatos-6.3.0.tgz#97f07e0ae99af15866296a0a7aa351d61dcdebbb"
-  integrity sha512-4jgv0yti+eYaxo2o55Pz/YiNgP6uKQ0WGtfZgABMRiEpS+oR2PxRXcJkki9Uy9eDuEclp4sIBp28zn8EbJ4/hw==
+zapatos@^6.4.2:
+  version "6.4.2"
+  resolved "https://registry.yarnpkg.com/zapatos/-/zapatos-6.4.2.tgz#6fb8032dc0d5c98b9770ed05137a5f8a73279330"
+  integrity sha512-XmE8KVTF+h2FimvJVL+n6z80k3i3dJNGh7PHqU0DdFpNP1papqRufYZ5JZDGbJlGvRZ0zm0UU+InpeWtWoQwkg==
   dependencies:
-    json-custom-numbers "^3.0.4"
+    json-custom-numbers "^3.1.1"

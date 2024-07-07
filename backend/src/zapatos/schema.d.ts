@@ -30,75 +30,75 @@ declare module 'zapatos/schema' {
     export type Table = 'savedpokemon';
     export interface Selectable {
       /**
-      * **savedpokemon.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
-      /**
       * **savedpokemon.id**
       * - `int4` in database
       * - `NOT NULL`, no default
       */
       id: number;
+      /**
+      * **savedpokemon.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name: string;
     }
     export interface JSONSelectable {
       /**
-      * **savedpokemon.name**
-      * - `varchar` in database
-      * - `NOT NULL`, no default
-      */
-      name: string;
-      /**
       * **savedpokemon.id**
       * - `int4` in database
       * - `NOT NULL`, no default
       */
       id: number;
-    }
-    export interface Whereable {
       /**
       * **savedpokemon.name**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+      name: string;
+    }
+    export interface Whereable {
       /**
       * **savedpokemon.id**
       * - `int4` in database
       * - `NOT NULL`, no default
       */
       id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
-    }
-    export interface Insertable {
       /**
       * **savedpokemon.name**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      name: string | db.Parameter<string> | db.SQLFragment;
+      name?: string | db.Parameter<string> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment | db.ParentColumn>;
+    }
+    export interface Insertable {
       /**
       * **savedpokemon.id**
       * - `int4` in database
       * - `NOT NULL`, no default
       */
       id: number | db.Parameter<number> | db.SQLFragment;
-    }
-    export interface Updatable {
       /**
       * **savedpokemon.name**
       * - `varchar` in database
       * - `NOT NULL`, no default
       */
-      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
+      name: string | db.Parameter<string> | db.SQLFragment;
+    }
+    export interface Updatable {
       /**
       * **savedpokemon.id**
       * - `int4` in database
       * - `NOT NULL`, no default
       */
       id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      /**
+      * **savedpokemon.name**
+      * - `varchar` in database
+      * - `NOT NULL`, no default
+      */
+      name?: string | db.Parameter<string> | db.SQLFragment | db.SQLFragment<any, string | db.Parameter<string> | db.SQLFragment>;
     }
-    export type UniqueIndex = 'savedPokemon_pkey';
+    export type UniqueIndex = 'savedpokemon_pkey';
     export type Column = keyof Selectable;
     export type OnlyCols<T extends readonly Column[]> = Pick<Selectable, T[number]>;
     export type SQLExpression = Table | db.ColumnNames<Updatable | (keyof Updatable)[]> | db.ColumnValues<Updatable> | Whereable | Column | db.ParentColumn | db.GenericSQLExpression;
