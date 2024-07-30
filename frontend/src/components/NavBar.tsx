@@ -4,7 +4,7 @@ import logo from "../assets/pokemon_logo_PNG12.png";
 
 const NavBar = () => {
   return (
-    <HStack p={2} justifyContent='space-between'>
+    <HStack p={3} justifyContent='space-between'>
       <Image src={logo} boxSize="60px" />
       <ColorModeSwitch />
     </HStack>

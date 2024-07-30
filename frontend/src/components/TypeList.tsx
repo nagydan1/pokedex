@@ -1,14 +1,17 @@
+import { List, ListItem, Text } from "@chakra-ui/react";
 import useTypes from "../hooks/useTypes";
 
 const TypeList = () => {
   const { resourceList } = useTypes();
 
   return (
-    <ul>
+    <List>
       {resourceList.map((type) => (
-        <li key={type.name}>{type.name}</li>
+        <ListItem key={type.name} paddingY="5px">
+          <Text fontSize='lg'>{type.name.charAt(0).toUpperCase() + type.name.slice(1)}</Text>
+        </ListItem>
       ))}
-    </ul>
+    </List> 
   );
 };
 

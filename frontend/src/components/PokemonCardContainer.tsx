@@ -8,7 +8,6 @@ interface Props {
 const PokemonCardContainer = ({ children }: Props) => {
   return (
     <Box
-      width='250px' 
       borderRadius={10}
       overflow="hidden"
     >
