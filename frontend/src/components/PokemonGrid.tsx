@@ -2,7 +2,7 @@ import usePokemons from "../hooks/usePokemons";
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
-import PokemonCardContainer from "./PokemonCardContainer"
+import PokemonCardContainer from "./PokemonCardContainer";
 
 const PokemonGrid = () => {
   const { pokemons, error, isLoading } = usePokemons();
@@ -11,8 +11,13 @@ const PokemonGrid = () => {
   return (
     <>
       {error && <Text>{error}</Text>}
-      <SimpleGrid columns={{ sm: 2, md: 3, lg: 4 }} spacing={10} p='10px'>
-        {isLoading && skeletons.map(skeleton => <PokemonCardContainer key={skeleton}><PokemonCardSkeleton key={skeleton} /></PokemonCardContainer>)}
+      <SimpleGrid columns={{ sm: 2, md: 3, lg: 4 }} spacing={10} p="10px">
+        {isLoading &&
+          skeletons.map((skeleton) => (
+            <PokemonCardContainer key={skeleton}>
+              <PokemonCardSkeleton key={skeleton} />
+            </PokemonCardContainer>
+          ))}
         {pokemons.map((pokemon, index) => (
           <PokemonCardContainer key={index}>
             <PokemonCard key={index} pokemonName={pokemon.name} />
