@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { backendClient } from "../services/api-client";
 import { useState } from "react";
+import fallback from "../assets/pokemon_fallback_PNG12.png";
 
 interface Props {
   pokemonName: string;
@@ -33,7 +34,7 @@ const PokemonCard = ({ pokemonName }: Props) => {
       >
         <CardBody>
           <Flex direction="column" align="center">
-            <Image src={pokemon.sprites?.front_default} boxSize="160px" />
+            <Image src={pokemon.sprites?.front_default} boxSize="160px" fallbackSrc={fallback}/>
             <Heading size="md" mb={3}>
               {pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}
             </Heading>
