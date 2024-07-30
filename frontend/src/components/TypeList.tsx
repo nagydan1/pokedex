@@ -1,11 +1,11 @@
 import useTypes from "../hooks/useTypes";
 
 const TypeList = () => {
-  const { types } = useTypes();
+  const { resourceList } = useTypes();
 
   return (
     <ul>
-      {types.map((type) => (
+      {resourceList.map((type) => (
         <li key={type.name}>{type.name}</li>
       ))}
     </ul>
