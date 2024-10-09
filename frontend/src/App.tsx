@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
+import { Type } from "./hooks/useTypes";
 
 function App() {
+  const [selectedType, setSelectedType] = useState<Type | null>(null);
+
   return (
     <Grid
       templateAreas={{
@@ -20,11 +24,11 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" paddingX={3}>
-          <TypeList />
+          <TypeList onSelectType={(type) => setSelectedType(type)}/>
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PokemonGrid />
+        <PokemonGrid selectedType={selectedType}/>
       </GridItem>
     </Grid>
   );
