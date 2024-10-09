@@ -24,11 +24,11 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" paddingX={3}>
-          <TypeList onSelectType={(type) => setSelectedType(type)}/>
+          <TypeList selectedType={selectedType} onSelectType={(type) => setSelectedType(type)}/>
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PokemonGrid selectedType={selectedType}/>
+        <PokemonGrid />
       </GridItem>
     </Grid>
   );
