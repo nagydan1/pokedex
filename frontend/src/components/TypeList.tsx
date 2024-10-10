@@ -1,8 +1,8 @@
-import { List, ListItem, Spinner, Button } from "@chakra-ui/react";
+import { Heading, List, ListItem, Spinner, Button } from "@chakra-ui/react";
 import useTypes, { Type } from "../hooks/useTypes";
 
 interface Props {
-  onSelectType: (type: Type) => void;
+  onSelectType: (type: Type | null) => void;
   selectedType: Type | null;
 }
 
@@ -13,21 +13,35 @@ const TypeList = ({ selectedType, onSelectType }: Props) => {
   if (isLoading) return <Spinner />;
 
   return (
-    <List>
-      {resourceList.map((type) => (
-        <ListItem key={type.name} paddingY="5px">
+    <>
+      <Heading my={2}>Types</Heading>
+      <List>
+        <ListItem paddingY="5px">
           <Button
-            onClick={() => onSelectType(type)}
+            onClick={() => onSelectType(null)}
             fontSize="lg"
             variant="link"
             justifyContent="flex-start"
-            fontWeight={type.name === selectedType?.name ? 'bold' : 'normal'}
+            fontWeight={selectedType === null ? "bold" : "normal"}
           >
-            {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
+            All types
           </Button>
         </ListItem>
-      ))}
-    </List>
+        {resourceList.map((type) => (
+          <ListItem key={type.name} paddingY="5px">
+            <Button
+              onClick={() => onSelectType(type)}
+              fontSize="lg"
+              variant="link"
+              justifyContent="flex-start"
+              fontWeight={type.name === selectedType?.name ? "bold" : "normal"}
+            >
+              {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
+            </Button>
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 };
 

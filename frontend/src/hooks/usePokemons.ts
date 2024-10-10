@@ -39,7 +39,7 @@ const usePokemons = () => {
 
     setLoading(true);
     pokeApiClient
-      .get<PokemonFetchResponse>("/pokemon", { signal: controller.signal })
+      .get<PokemonFetchResponse>("/pokemon?limit=100", { signal: controller.signal })
       .then((res) => res.data.results)
       .then((fetchedPokemonList) => {
         Promise.all<OnePokemon[]>(
