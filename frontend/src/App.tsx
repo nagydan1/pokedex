@@ -28,7 +28,7 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main">
-        <PokemonGrid />
+        <PokemonGrid selectedType={selectedType} />
       </GridItem>
     </Grid>
   );

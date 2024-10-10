@@ -54,7 +54,6 @@ const usePokemons = () => {
               })
           )
         ).then((fetchedPokemons) => {
-          console.log(fetchedPokemons);
           setPokemons(fetchedPokemons);
           setLoading(false);
         });
