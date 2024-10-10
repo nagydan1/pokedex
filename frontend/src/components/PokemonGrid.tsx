@@ -5,7 +5,7 @@ import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
 
 const PokemonGrid = () => {
-  const { resourceList, error, isLoading } = usePokemons();
+  const { pokemons, error, isLoading } = usePokemons();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   return (
@@ -18,9 +18,9 @@ const PokemonGrid = () => {
               <PokemonCardSkeleton />
             </PokemonCardContainer>
           ))}
-        {resourceList.map((pokemon, index) => (
+        {pokemons.map((pokemon, index) => (
           <PokemonCardContainer key={index}>
-            <PokemonCard pokemonName={pokemon.name} />
+            <PokemonCard name={pokemon.name} imageURL={pokemon.sprites.front_default} />
           </PokemonCardContainer>
         ))}
       </SimpleGrid>

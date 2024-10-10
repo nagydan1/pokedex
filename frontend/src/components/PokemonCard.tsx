@@ -1,11 +1,9 @@
-import useOnePokemon from "../hooks/useOnePokemon";
 import {
   Card,
   CardBody,
   Flex,
   Heading,
   Image,
-  Text,
   Button,
 } from "@chakra-ui/react";
 import { backendClient } from "../services/api-client";
@@ -13,30 +11,27 @@ import { useState } from "react";
 import fallback from "../assets/pokemon_fallback_PNG12.png";
 
 interface Props {
-  pokemonName: string;
+  name: string;
+  imageURL: string;
 }
 
-const PokemonCard = ({ pokemonName }: Props) => {
-  const { pokemon, error } = useOnePokemon(pokemonName);
+const PokemonCard = ({ name, imageURL }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const handleSavePokemon = () => {
     backendClient
-      .post("/api/savedpokemon", { name: pokemonName })
+      .post("/api/savedpokemon", { name })
       .then(() => setIsSaved(true));
   };
 
   return (
     <>
-      {error && <Text>{error}</Text>}
-      <Card
-        variant={isSaved ? "filled" : "elevated"}
-      >
+      <Card variant={isSaved ? "filled" : "elevated"}>
         <CardBody>
           <Flex direction="column" align="center">
-            <Image src={pokemon.sprites?.front_default} boxSize="160px" fallbackSrc={fallback}/>
+            <Image src={imageURL} boxSize="160px" fallbackSrc={fallback} />
             <Heading size="md" mb={3}>
-              {pokemonName.charAt(0).toUpperCase() + pokemonName.slice(1)}
+              {name.charAt(0).toUpperCase() + name.slice(1)}
             </Heading>
             <Button
               colorScheme="blue"
