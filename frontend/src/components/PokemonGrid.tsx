@@ -16,7 +16,7 @@ const PokemonGrid = ({ selectedType }: Props) => {
   return (
     <>
       {error && <Text>{error}</Text>}
-      <SimpleGrid columns={{ sm: 2, md: 3, lg: 4 }} spacing={5} p="10px">
+      <SimpleGrid columns={{ sm: 2, md: 3, lg: 4 }} spacing={5}>
         {isLoading &&
           skeletons.map((skeleton) => (
             <PokemonCardContainer key={skeleton}>
@@ -25,7 +25,8 @@ const PokemonGrid = ({ selectedType }: Props) => {
           ))}
         {pokemons.map(
           (pokemon, index) =>
-            (!selectedType || pokemon.types.some((t) => t.type.name === selectedType.name)) && (
+            (!selectedType ||
+              pokemon.types.some((t) => t.type.name === selectedType.name)) && (
               <PokemonCardContainer key={index}>
                 <PokemonCard
                   name={pokemon.name}

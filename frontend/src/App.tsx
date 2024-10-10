@@ -4,6 +4,7 @@ import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import { Type } from "./hooks/useTypes";
+import HabitatSelector from "./components/HabitatSelector";
 
 function App() {
   const [selectedType, setSelectedType] = useState<Type | null>(null);
@@ -27,7 +28,8 @@ function App() {
           <TypeList selectedType={selectedType} onSelectType={(type) => setSelectedType(type)}/>
         </GridItem>
       </Show>
-      <GridItem area="main">
+      <GridItem area="main" p={2}>
+        <HabitatSelector />
         <PokemonGrid selectedType={selectedType} />
       </GridItem>
     </Grid>
