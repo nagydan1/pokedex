@@ -3,11 +3,13 @@ import { Grid, GridItem, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
-import { Type } from "./hooks/useTypes";
 import HabitatSelector from "./components/HabitatSelector";
+import { Type } from "./hooks/useTypes";
+import { OneHabitat } from "./hooks/useHabitats";
 
 function App() {
   const [selectedType, setSelectedType] = useState<Type | null>(null);
+  const [selectedHabitat, setSelectedHabitat] = useState<OneHabitat | null>(null);
 
   return (
     <Grid
@@ -29,8 +31,8 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main" p={2}>
-        <HabitatSelector />
-        <PokemonGrid selectedType={selectedType} />
+        <HabitatSelector selectedHabitat={selectedHabitat} onSelectHabitat={(habitat) => setSelectedHabitat(habitat)}/>
+        <PokemonGrid selectedType={selectedType} selectedHabitat={selectedHabitat} />
       </GridItem>
     </Grid>
   );

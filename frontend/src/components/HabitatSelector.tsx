@@ -1,19 +1,28 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
-import useHabitats from "../hooks/useHabitats";
+import useHabitats, { OneHabitat } from "../hooks/useHabitats";
 
-const HabitatSelector = () => {
-  const { resourceList, error } = useHabitats();
+interface Props {
+  onSelectHabitat: (habitat: OneHabitat | null) => void;
+  selectedHabitat: OneHabitat | null;
+}
+
+const HabitatSelector = ({ onSelectHabitat, selectedHabitat }: Props) => {
+  const { habitats, error } = useHabitats();
 
   if (error) return null;
   return (
     <Menu>
       <MenuButton as={Button} rightIcon={<BsChevronDown />} mb={4}>
-        Habitats
+        {selectedHabitat?.name
+          .charAt(0)
+          .toUpperCase()
+          .concat(selectedHabitat.name.slice(1)) || "Habitats"}
       </MenuButton>
       <MenuList>
-        {resourceList.map((habitat) => (
-          <MenuItem key={habitat.name}>
+        <MenuItem onClick={() => onSelectHabitat(null)}>Habitats</MenuItem>
+        {habitats.map((habitat) => (
+          <MenuItem key={habitat.name} onClick={() => onSelectHabitat(habitat)}>
             {habitat.name.charAt(0).toUpperCase() + habitat.name.slice(1)}
           </MenuItem>
         ))}

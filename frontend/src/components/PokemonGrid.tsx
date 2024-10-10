@@ -4,12 +4,14 @@ import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
 import { Type } from "../hooks/useTypes";
+import { OneHabitat } from "../hooks/useHabitats";
 
 interface Props {
   selectedType: Type | null;
+  selectedHabitat: OneHabitat | null;
 }
 
-const PokemonGrid = ({ selectedType }: Props) => {
+const PokemonGrid = ({ selectedType, selectedHabitat }: Props) => {
   const { pokemons, error, isLoading } = usePokemons();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -26,7 +28,11 @@ const PokemonGrid = ({ selectedType }: Props) => {
         {pokemons.map(
           (pokemon, index) =>
             (!selectedType ||
-              pokemon.types.some((t) => t.type.name === selectedType.name)) && (
+              pokemon.types.some((t) => t.type.name === selectedType.name)) &&
+            (!selectedHabitat ||
+              selectedHabitat.pokemon_species.some(
+                (ps) => ps.name === pokemon.name
+              )) && (
               <PokemonCardContainer key={index}>
                 <PokemonCard
                   name={pokemon.name}
