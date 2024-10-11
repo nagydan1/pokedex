@@ -3,15 +3,13 @@ import { SimpleGrid, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
-import { Type } from "../hooks/useTypes";
-import { OneHabitat } from "../hooks/useHabitats";
+import { PokemonQuery } from "../App";
 
 interface Props {
-  selectedType: Type | null;
-  selectedHabitat: OneHabitat | null;
+  pokemonQuery: PokemonQuery;
 }
 
-const PokemonGrid = ({ selectedType, selectedHabitat }: Props) => {
+const PokemonGrid = ({ pokemonQuery }: Props) => {
   const { pokemons, error, isLoading } = usePokemons();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -27,12 +25,12 @@ const PokemonGrid = ({ selectedType, selectedHabitat }: Props) => {
           ))}
         {pokemons.map(
           (pokemon, index) =>
-            (!selectedType ||
-              pokemon.types.some((t) => t.type.name === selectedType.name)) &&
-            (!selectedHabitat ||
-              selectedHabitat.pokemon_species.some(
-                (ps) => ps.name === pokemon.name
-              )) && (
+            (!pokemonQuery.type ||
+              pokemon.types.some((t) => t.type.name === pokemonQuery.type?.name)
+            ) &&
+            (!pokemonQuery.habitat ||
+              pokemonQuery.habitat.pokemon_species.some((ps) => ps.name === pokemon.name)
+            ) && (
               <PokemonCardContainer key={index}>
                 <PokemonCard
                   name={pokemon.name}

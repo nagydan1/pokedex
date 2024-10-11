@@ -7,9 +7,13 @@ import HabitatSelector from "./components/HabitatSelector";
 import { Type } from "./hooks/useTypes";
 import { OneHabitat } from "./hooks/useHabitats";
 
+export interface PokemonQuery {
+  type: Type | null;
+  habitat: OneHabitat | null;
+}
+
 function App() {
-  const [selectedType, setSelectedType] = useState<Type | null>(null);
-  const [selectedHabitat, setSelectedHabitat] = useState<OneHabitat | null>(null);
+  const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
 
   return (
     <Grid
@@ -27,12 +31,20 @@ function App() {
       </GridItem>
       <Show above="lg">
         <GridItem area="aside" paddingX={3}>
-          <TypeList selectedType={selectedType} onSelectType={(type) => setSelectedType(type)}/>
+          <TypeList
+            selectedType={pokemonQuery.type}
+            onSelectType={(type) => setPokemonQuery({ ...pokemonQuery, type })}
+          />
         </GridItem>
       </Show>
       <GridItem area="main" p={2}>
-        <HabitatSelector selectedHabitat={selectedHabitat} onSelectHabitat={(habitat) => setSelectedHabitat(habitat)}/>
-        <PokemonGrid selectedType={selectedType} selectedHabitat={selectedHabitat} />
+        <HabitatSelector
+          selectedHabitat={pokemonQuery.habitat}
+          onSelectHabitat={(habitat) =>
+            setPokemonQuery({ ...pokemonQuery, habitat })
+          }
+        />
+        <PokemonGrid pokemonQuery={pokemonQuery} />
       </GridItem>
     </Grid>
   );
