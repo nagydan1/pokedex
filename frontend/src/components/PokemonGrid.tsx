@@ -1,17 +1,31 @@
-import usePokemons from "../hooks/usePokemons";
+import usePokemons, { OnePokemon } from "../hooks/usePokemons";
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
 import { PokemonQuery } from "../App";
+import { OneType } from "../hooks/useTypes";
 
 interface Props {
   pokemonQuery: PokemonQuery;
+  types: OneType[];
 }
 
-const PokemonGrid = ({ pokemonQuery }: Props) => {
+const PokemonGrid = ({ types, pokemonQuery }: Props) => {
   const { pokemons, error, isLoading } = usePokemons();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  const typeSprites = (pokemon: OnePokemon, typesArray: OneType[]): string[] => {
+    const sprites: string[] = [];
+    pokemon.types.forEach((pokemonType) => {
+      typesArray.forEach((t) => {
+        if (t.name === pokemonType.type.name) {
+          sprites.push(t.sprites["generation-ix"]["scarlet-violet"].name_icon)
+        }
+      })
+    })
+    return sprites;
+  } 
 
   return (
     <>
@@ -35,6 +49,7 @@ const PokemonGrid = ({ pokemonQuery }: Props) => {
                 <PokemonCard
                   name={pokemon.name}
                   imageURL={pokemon.sprites.front_default}
+                  typeSprites={typeSprites(pokemon, types)}
                 />
               </PokemonCardContainer>
             )

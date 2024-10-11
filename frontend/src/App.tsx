@@ -4,16 +4,17 @@ import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import HabitatSelector from "./components/HabitatSelector";
-import { Type } from "./hooks/useTypes";
+import useTypes, { OneType } from "./hooks/useTypes";
 import { OneHabitat } from "./hooks/useHabitats";
 
 export interface PokemonQuery {
-  type: Type | null;
+  type: OneType | null;
   habitat: OneHabitat | null;
 }
 
 function App() {
   const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
+  const { types, isLoading, error } = useTypes();
 
   return (
     <Grid
@@ -32,6 +33,9 @@ function App() {
       <Show above="lg">
         <GridItem area="aside" paddingX={3}>
           <TypeList
+            types={types}
+            error={error}
+            isLoading={isLoading}
             selectedType={pokemonQuery.type}
             onSelectType={(type) => setPokemonQuery({ ...pokemonQuery, type })}
           />
@@ -44,7 +48,7 @@ function App() {
             setPokemonQuery({ ...pokemonQuery, habitat })
           }
         />
-        <PokemonGrid pokemonQuery={pokemonQuery} />
+        <PokemonGrid types={types} pokemonQuery={pokemonQuery} />
       </GridItem>
     </Grid>
   );

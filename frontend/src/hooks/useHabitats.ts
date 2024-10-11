@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { pokeApiClient } from "../services/api-client";
 import { CanceledError } from "axios";
 
-interface PokemonFetchResponse {
+interface HabitatFetchResponse {
   count: number;
   results: Habitat[];
 }
@@ -33,7 +33,7 @@ const usePokemons = () => {
 
     setLoading(true);
     pokeApiClient
-      .get<PokemonFetchResponse>("/pokemon-habitat", {
+      .get<HabitatFetchResponse>("/pokemon-habitat", {
         signal: controller.signal,
       })
       .then((res) => res.data.results)

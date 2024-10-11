@@ -1,13 +1,15 @@
-import { Heading, List, ListItem, Spinner, Button } from "@chakra-ui/react";
-import useTypes, { Type } from "../hooks/useTypes";
+import { Heading, List, ListItem, Spinner, Button, Image } from "@chakra-ui/react";
+import { OneType } from "../hooks/useTypes";
 
 interface Props {
-  onSelectType: (type: Type | null) => void;
-  selectedType: Type | null;
+  onSelectType: (type: OneType | null) => void;
+  selectedType: OneType | null;
+  types: OneType[];
+  error: string;
+  isLoading: boolean;
 }
 
-const TypeList = ({ selectedType, onSelectType }: Props) => {
-  const { resourceList, isLoading, error } = useTypes();
+const TypeList = ({ types, error, isLoading, selectedType, onSelectType }: Props) => {
 
   if (error) return null;
   if (isLoading) return <Spinner />;
@@ -27,8 +29,9 @@ const TypeList = ({ selectedType, onSelectType }: Props) => {
             All types
           </Button>
         </ListItem>
-        {resourceList.map((type) => (
+        {types.map((type) => (
           <ListItem key={type.name} paddingY="5px">
+            {/* <Image src={type.sprites["generation-ix"]["scarlet-violet"].name_icon} /> */}
             <Button
               onClick={() => onSelectType(type)}
               fontSize="lg"
