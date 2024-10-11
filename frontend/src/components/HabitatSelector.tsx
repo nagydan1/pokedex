@@ -13,7 +13,7 @@ const HabitatSelector = ({ onSelectHabitat, selectedHabitat }: Props) => {
   if (error) return null;
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<BsChevronDown />} mb={4}>
+      <MenuButton as={Button} size="lg" rightIcon={<BsChevronDown />} mb={4}>
         {selectedHabitat?.name
           .charAt(0)
           .toUpperCase()
