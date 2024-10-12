@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { Grid, GridItem, Show } from "@chakra-ui/react";
+import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import HabitatSelector from "./components/HabitatSelector";
+import SortSelector from "./components/SortSelector";
 import useTypes, { Type } from "./hooks/useTypes";
 import { Habitat } from "./hooks/useHabitats";
 
 export interface PokemonQuery {
   type: Type | null;
   habitat: Habitat | null;
+  sortOrder: string;
 }
 
 function App() {
@@ -42,12 +44,20 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main" p={2}>
-        <HabitatSelector
-          selectedHabitat={pokemonQuery.habitat}
-          onSelectHabitat={(habitat) =>
-            setPokemonQuery({ ...pokemonQuery, habitat })
-          }
-        />
+        <HStack spacing={5}>
+          <HabitatSelector
+            selectedHabitat={pokemonQuery.habitat}
+            onSelectHabitat={(habitat) =>
+              setPokemonQuery({ ...pokemonQuery, habitat })
+            }
+          />
+          <SortSelector
+            sortOrder={pokemonQuery.sortOrder}
+            onSelectSortOrder={(sortOrder) =>
+              setPokemonQuery({ ...pokemonQuery, sortOrder })
+            }
+          />
+        </HStack>
         <PokemonGrid types={types} pokemonQuery={pokemonQuery} />
       </GridItem>
     </Grid>
