@@ -6,6 +6,9 @@ export interface Pokemon {
   name: string;
   sprites: Sprites;
   types: SlottedTypes[];
+  weight: number;
+  height: number;
+  order: number
 }
 
 interface Sprites {

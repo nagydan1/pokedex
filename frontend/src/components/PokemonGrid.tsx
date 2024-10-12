@@ -30,7 +30,7 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
   return (
     <>
       {error && <Text>{error}</Text>}
-      <SimpleGrid columns={{ sm: 2, md: 3, lg: 4 }} spacing={5}>
+      <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5}>
         {isLoading &&
           skeletons.map((skeleton) => (
             <PokemonCardContainer key={skeleton}>
@@ -49,8 +49,7 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
               )) && (
               <PokemonCardContainer key={index}>
                 <PokemonCard
-                  name={pokemon.name}
-                  imageURL={pokemon.sprites.front_default}
+                  pokemon={pokemon}
                   typeSprites={typeSprites(pokemon, types)}
                 />
               </PokemonCardContainer>

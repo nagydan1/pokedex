@@ -6,18 +6,21 @@ import {
   Image,
   Button,
   VStack,
+  Text,
+  HStack,
+  Badge,
 } from "@chakra-ui/react";
 import { backendClient } from "../services/api-client";
 import { useState } from "react";
 import fallback from "../assets/pokemon_fallback_PNG12.png";
+import { Pokemon } from "../hooks/usePokemons";
 
 interface Props {
-  name: string;
-  imageURL: string;
+  pokemon: Pokemon;
   typeSprites: string[];
 }
 
-const PokemonCard = ({ name, imageURL, typeSprites }: Props) => {
+const PokemonCard = ({ pokemon, typeSprites }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const handleSavePokemon = () => {
@@ -36,16 +39,33 @@ const PokemonCard = ({ name, imageURL, typeSprites }: Props) => {
             justifyContent="space-between"
             height="100%"
           >
-            <Flex direction="column" align="center">
-              <Image src={imageURL} boxSize="160px" fallbackSrc={fallback} />
-              <Heading size="md" mb={3}>
-                {name.charAt(0).toUpperCase() + name.slice(1)}
-              </Heading>
-              <VStack mb={3} gap={2}>
-                {typeSprites.map((sprite, index) => (
-                  <Image key={index} src={sprite} width="100px" />
-                ))}
-              </VStack>
+            <Flex direction="column" align="center" width="100%">
+              <Image
+                src={pokemon.sprites.front_default}
+                boxSize="160px"
+                fallbackSrc={fallback}
+              />
+              <HStack mb={2} gap={2} alignItems="center">
+                <Badge variant="subtle">{pokemon.order}</Badge>
+                <Heading size="md">
+                  {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+                </Heading>
+              </HStack>
+              <Flex justifyContent="space-between" width="100%" gap={1}>
+                <VStack my={3} gap={0} alignItems="start">
+                  <Text>
+                    Height:&nbsp;<b>{pokemon.height}</b>
+                  </Text>
+                  <Text>
+                    Weight:&nbsp;<b>{pokemon.weight}</b>
+                  </Text>
+                </VStack>
+                <VStack my={3} gap={2}>
+                  {typeSprites.map((sprite, index) => (
+                    <Image key={index} src={sprite} width="100px" />
+                  ))}
+                </VStack>
+              </Flex>
             </Flex>
             <Button
               colorScheme="blue"
