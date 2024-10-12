@@ -1,18 +1,6 @@
-import { useEffect, useState } from "react";
-import { pokeApiClient } from "../services/api-client";
-import { CanceledError } from "axios";
-
-interface HabitatFetchResponse {
-  count: number;
-  results: Habitat[];
-}
+import useData from "./useData";
 
 export interface Habitat {
-  name: string;
-  url: string;
-}
-
-export interface OneHabitat {
   id: number;
   name: string;
   pokemon_species: PokemonSpecies[];
@@ -23,47 +11,9 @@ interface PokemonSpecies {
   url: string;
 }
 
-const usePokemons = () => {
-  const [habitats, setHabitats] = useState<OneHabitat[]>([]);
-  const [error, setError] = useState("");
-  const [isLoading, setLoading] = useState(false);
-
-  useEffect(() => {
-    const controller = new AbortController();
-
-    setLoading(true);
-    pokeApiClient
-      .get<HabitatFetchResponse>("/pokemon-habitat", {
-        signal: controller.signal,
-      })
-      .then((res) => res.data.results)
-      .then((fetchedHabitatList) => {
-        Promise.all<OneHabitat[]>(
-          fetchedHabitatList.map((h): any =>
-            pokeApiClient
-              .get<OneHabitat>(h.url, { signal: controller.signal })
-              .then((res) => res.data)
-              .catch((err) => {
-                if (err instanceof CanceledError) return;
-                setError(err.message);
-                setLoading(false);
-              })
-          )
-        ).then((fetchedHabitats) => {
-          setHabitats(fetchedHabitats);
-          setLoading(false);
-        });
-      })
-      .catch((err) => {
-        if (err instanceof CanceledError) return;
-        setError(err.message);
-        setLoading(false);
-      });
-
-    return () => controller.abort();
-  }, []);
-
-  return { habitats, error, isLoading };
+const useHabitats = () => {
+  const { data, error, isLoading } = useData<Habitat>("/pokemon-habitat");
+  return { habitats: data, error, isLoading };
 };
 
-export default usePokemons;
+export default useHabitats;

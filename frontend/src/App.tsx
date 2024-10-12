@@ -4,12 +4,12 @@ import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import HabitatSelector from "./components/HabitatSelector";
-import useTypes, { OneType } from "./hooks/useTypes";
-import { OneHabitat } from "./hooks/useHabitats";
+import useTypes, { Type } from "./hooks/useTypes";
+import { Habitat } from "./hooks/useHabitats";
 
 export interface PokemonQuery {
-  type: OneType | null;
-  habitat: OneHabitat | null;
+  type: Type | null;
+  habitat: Habitat | null;
 }
 
 function App() {

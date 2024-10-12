@@ -42,8 +42,8 @@ const PokemonCard = ({ name, imageURL, typeSprites }: Props) => {
                 {name.charAt(0).toUpperCase() + name.slice(1)}
               </Heading>
               <VStack mb={3} gap={2}>
-                {typeSprites.map((sprite) => (
-                  <Image src={sprite} width="100px" />
+                {typeSprites.map((sprite, index) => (
+                  <Image key={index} src={sprite} width="100px" />
                 ))}
               </VStack>
             </Flex>

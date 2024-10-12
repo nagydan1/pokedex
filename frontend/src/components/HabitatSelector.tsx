@@ -1,10 +1,10 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
-import useHabitats, { OneHabitat } from "../hooks/useHabitats";
+import useHabitats, { Habitat } from "../hooks/useHabitats";
 
 interface Props {
-  onSelectHabitat: (habitat: OneHabitat | null) => void;
-  selectedHabitat: OneHabitat | null;
+  onSelectHabitat: (habitat: Habitat | null) => void;
+  selectedHabitat: Habitat | null;
 }
 
 const HabitatSelector = ({ onSelectHabitat, selectedHabitat }: Props) => {
