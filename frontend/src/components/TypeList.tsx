@@ -28,30 +28,29 @@ const TypeList = ({
 
   return (
     <>
-      <Heading my={2}>Types</Heading>
       <List>
         <ListItem paddingY="5px">
           <Button
             onClick={() => onSelectType(null)}
-            fontSize="lg"
             variant="link"
-            justifyContent="flex-start"
-            fontWeight={selectedType === null ? "bold" : "normal"}
           >
-            All types
+            <Heading my={2}>Types</Heading>
           </Button>
         </ListItem>
         {types.map((type) => (
           <ListItem key={type.name} paddingY="5px">
-            {/* <Image src={type.sprites["generation-ix"]["scarlet-violet"].name_icon} /> */}
             <Button
               onClick={() => onSelectType(type)}
               fontSize="lg"
-              variant="link"
+              variant={type.name === selectedType?.name ? "solid" : "link"}
               justifyContent="flex-start"
               fontWeight={type.name === selectedType?.name ? "bold" : "normal"}
             >
-              {type.name.charAt(0).toUpperCase() + type.name.slice(1)}
+              <Image
+                src={type.sprites["generation-ix"]["scarlet-violet"].name_icon}
+                alt={type.name.charAt(0).toUpperCase() + type.name.slice(1)}
+              />
+              {/* {type.name.charAt(0).toUpperCase() + type.name.slice(1)} */}
             </Button>
           </ListItem>
         ))}

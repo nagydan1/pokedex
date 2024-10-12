@@ -20,7 +20,7 @@ const HabitatSelector = ({ onSelectHabitat, selectedHabitat }: Props) => {
           .concat(selectedHabitat.name.slice(1)) || "Habitats"}
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => onSelectHabitat(null)}>Habitats</MenuItem>
+        <MenuItem onClick={() => onSelectHabitat(null)}>All habitats</MenuItem>
         {habitats.map((habitat) => (
           <MenuItem key={habitat.name} onClick={() => onSelectHabitat(habitat)}>
             {habitat.name.charAt(0).toUpperCase() + habitat.name.slice(1)}
