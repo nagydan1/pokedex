@@ -8,7 +8,6 @@ export interface Pokemon {
   types: SlottedTypes[];
   weight: number;
   height: number;
-  order: number
 }
 
 interface Sprites {
@@ -21,8 +20,8 @@ interface SlottedTypes {
 }
 
 const usePokemons = () => {
-  const { data, error, isLoading } = useData<Pokemon>("/pokemon?limit=100");
-  return { pokemons: data, error, isLoading };
+  const { setData, data, error, isLoading } = useData<Pokemon>("/pokemon?limit=100");
+  return { setPokemons: setData, pokemons: data, error, isLoading };
 };
 
 export default usePokemons;

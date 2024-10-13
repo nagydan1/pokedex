@@ -46,7 +46,7 @@ const PokemonCard = ({ pokemon, typeSprites }: Props) => {
                 fallbackSrc={fallback}
               />
               <HStack mb={2} gap={2} alignItems="center">
-                <Badge variant="subtle">{pokemon.order}</Badge>
+                <Badge variant="subtle">{pokemon.id}</Badge>
                 <Heading size="md">
                   {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
                 </Heading>

@@ -4,14 +4,14 @@ import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import HabitatSelector from "./components/HabitatSelector";
-import SortSelector from "./components/SortSelector";
+import SortSelector, { SortOrder } from "./components/SortSelector";
 import useTypes, { Type } from "./hooks/useTypes";
 import { Habitat } from "./hooks/useHabitats";
 
 export interface PokemonQuery {
   type: Type | null;
   habitat: Habitat | null;
-  sortOrder: string;
+  sortOrder: SortOrder;
 }
 
 function App() {

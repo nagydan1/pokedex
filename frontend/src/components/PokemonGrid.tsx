@@ -5,6 +5,7 @@ import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
 import { PokemonQuery } from "../App";
 import { Type } from "../hooks/useTypes";
+import { useEffect } from "react";
 
 interface Props {
   pokemonQuery: PokemonQuery;
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const PokemonGrid = ({ types, pokemonQuery }: Props) => {
-  const { pokemons, error, isLoading } = usePokemons();
+  const { setPokemons, pokemons, error, isLoading } = usePokemons();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   const typeSprites = (pokemon: Pokemon, typesArray: Type[]): string[] => {
@@ -26,6 +27,24 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
     });
     return sprites;
   };
+
+  useEffect(() => {
+    const sortedPokemons = [...pokemons];
+    if (pokemons.length > 0) {
+      const { factor, value } = pokemonQuery.sortOrder;
+      const isNumeric = typeof pokemons[0][value as keyof Pokemon] === "number";
+
+      sortedPokemons.sort((a, b) => {
+        const aValue = a[value as keyof Pokemon];
+        const bValue = b[value as keyof Pokemon];
+
+        return isNumeric
+          ? ((aValue as number) - (bValue as number)) * factor
+          : (aValue as string).localeCompare(bValue as string) * factor;
+      });
+    }
+    setPokemons(sortedPokemons);
+  }, [pokemonQuery.sortOrder]);
 
   return (
     <>
