@@ -7,7 +7,7 @@ import HabitatSelector from "./components/HabitatSelector";
 import SortSelector, { SortOrder } from "./components/SortSelector";
 import PokemonHeading from "./components/PokemonHeading";
 import useTypes, { Type } from "./hooks/useTypes";
-import { Habitat } from "./hooks/useHabitats";
+import useHabitats, { Habitat } from "./hooks/useHabitats";
 
 export interface PokemonQuery {
   type: Type | null;
@@ -18,7 +18,8 @@ export interface PokemonQuery {
 
 function App() {
   const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
-  const { types, isLoading, error } = useTypes();
+  const { types, isLoading, typesErr } = useTypes();
+  const { habitats, habitatErr } = useHabitats();
 
   return (
     <Grid
@@ -38,7 +39,7 @@ function App() {
         <GridItem area="aside" paddingX={3}>
           <TypeList
             types={types}
-            error={error}
+            error={typesErr}
             isLoading={isLoading}
             selectedType={pokemonQuery.type}
             onSelectType={(type) => setPokemonQuery({ ...pokemonQuery, type })}
@@ -50,18 +51,16 @@ function App() {
         <HStack spacing={5}>
           <HabitatSelector
             selectedHabitat={pokemonQuery.habitat}
-            onSelectHabitat={(habitat) =>
-              setPokemonQuery({ ...pokemonQuery, habitat })
-            }
+            onSelectHabitat={(habitat) => setPokemonQuery({ ...pokemonQuery, habitat })}
+            habitats={habitats}
+            error={habitatErr}
           />
           <SortSelector
             sortOrder={pokemonQuery.sortOrder}
-            onSelectSortOrder={(sortOrder) =>
-              setPokemonQuery({ ...pokemonQuery, sortOrder })
-            }
+            onSelectSortOrder={(sortOrder) => setPokemonQuery({ ...pokemonQuery, sortOrder })}
           />
         </HStack>
-        <PokemonGrid types={types} pokemonQuery={pokemonQuery} />
+        <PokemonGrid types={types} pokemonQuery={pokemonQuery} habitats={habitats} />
       </GridItem>
     </Grid>
   );

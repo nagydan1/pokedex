@@ -20,7 +20,7 @@ export interface nameIcon {
 
 const useTypes = () => {
   const { data, error, isLoading } = useData<Type>("/type?limit=19");
-  return { types: data, error, isLoading };
+  return { types: data, typesErr: error, isLoading };
 };
 
 export default useTypes;

@@ -6,13 +6,15 @@ import PokemonCardContainer from "./PokemonCardContainer";
 import { PokemonQuery } from "../App";
 import { Type } from "../hooks/useTypes";
 import { useEffect } from "react";
+import { Habitat } from "../hooks/useHabitats";
 
 interface Props {
   pokemonQuery: PokemonQuery;
   types: Type[];
+  habitats: Habitat[];
 }
 
-const PokemonGrid = ({ types, pokemonQuery }: Props) => {
+const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
   const { setPokemons, pokemons, error, isLoading } = usePokemons();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
@@ -27,6 +29,16 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
     });
     return sprites;
   };
+
+  const correspondHabitat = (pokemon: Pokemon, habitatsArray: Habitat[]): string => {
+    let foundHabitat: string = "";
+    habitatsArray.forEach((hab) => {
+     hab.pokemon_species.forEach((ps) => {
+       if (ps.name === pokemon.name) foundHabitat = hab.name
+     });
+    });
+    return foundHabitat;
+  }
 
   useEffect(() => {
     if (pokemons.length > 0) {
@@ -71,6 +83,7 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
                 <PokemonCard
                   pokemon={pokemon}
                   typeSprites={typeSprites(pokemon, types)}
+                  habitat={correspondHabitat(pokemon, habitats)}
                 />
               </PokemonCardContainer>
             )

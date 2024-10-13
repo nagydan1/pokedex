@@ -14,13 +14,15 @@ import { backendClient } from "../services/api-client";
 import { useState } from "react";
 import fallback from "../assets/pokemon_fallback_PNG12.png";
 import { Pokemon } from "../hooks/usePokemons";
+import HabitatEmoji from "./HabitatEmoji";
 
 interface Props {
   pokemon: Pokemon;
   typeSprites: string[];
+  habitat: string;
 }
 
-const PokemonCard = ({ pokemon, typeSprites }: Props) => {
+const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const handleSavePokemon = () => {
@@ -46,10 +48,11 @@ const PokemonCard = ({ pokemon, typeSprites }: Props) => {
                 fallbackSrc={fallback}
               />
               <HStack mb={2} gap={2} alignItems="center">
-                <Badge variant="subtle">{pokemon.id}</Badge>
+                <Badge fontSize="md" variant="subtle">{pokemon.id}</Badge>
                 <Heading size="md">
                   {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
                 </Heading>
+              <HabitatEmoji habitat={habitat}/>
               </HStack>
               <Flex justifyContent="space-between" width="100%" gap={1}>
                 <VStack my={3} gap={0} alignItems="start">

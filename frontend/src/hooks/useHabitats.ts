@@ -13,7 +13,7 @@ interface PokemonSpecies {
 
 const useHabitats = () => {
   const { data, error, isLoading } = useData<Habitat>("/pokemon-habitat");
-  return { habitats: data, error, isLoading };
+  return { habitats: data, habitatErr: error, isLoading };
 };
 
 export default useHabitats;
