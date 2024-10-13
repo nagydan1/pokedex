@@ -3,7 +3,11 @@ import { ColorModeSwitch } from "./ColorModeSwitch";
 import logo from "../assets/pokemon_logo_PNG12.png";
 import SearchInput from "./SearchInput";
 
-const NavBar = () => {
+interface Props {
+  onSearch: (searchText: string) => void;
+}
+
+const NavBar = ({ onSearch }: Props) => {
   return (
     <HStack p={3} gap={3}>
       <HStack gap={6} width="100%">
@@ -11,7 +15,7 @@ const NavBar = () => {
         <Show above="md">
           <Heading my={2}>Pokedex</Heading>
         </Show>
-        <SearchInput />
+        <SearchInput onSearch={onSearch}/>
       </HStack>
       <ColorModeSwitch />
     </HStack>

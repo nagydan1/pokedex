@@ -12,6 +12,7 @@ export interface PokemonQuery {
   type: Type | null;
   habitat: Habitat | null;
   sortOrder: SortOrder;
+  searchText: string;
 }
 
 function App() {
@@ -30,7 +31,7 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar />
+        <NavBar onSearch={(searchText) => setPokemonQuery({...pokemonQuery, searchText})}/>
       </GridItem>
       <Show above="md">
         <GridItem area="aside" paddingX={3}>

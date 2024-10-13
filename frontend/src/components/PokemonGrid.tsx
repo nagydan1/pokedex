@@ -29,8 +29,8 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
   };
 
   useEffect(() => {
-    const sortedPokemons = [...pokemons];
     if (pokemons.length > 0) {
+      const sortedPokemons = [...pokemons];
       const { factor, value } = pokemonQuery.sortOrder;
       const isNumeric = typeof pokemons[0][value as keyof Pokemon] === "number";
 
@@ -42,8 +42,8 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
           ? ((aValue as number) - (bValue as number)) * factor
           : (aValue as string).localeCompare(bValue as string) * factor;
       });
+      setPokemons(sortedPokemons);
     }
-    setPokemons(sortedPokemons);
   }, [pokemonQuery.sortOrder]);
 
   return (
@@ -65,7 +65,8 @@ const PokemonGrid = ({ types, pokemonQuery }: Props) => {
             (!pokemonQuery.habitat ||
               pokemonQuery.habitat.pokemon_species.some(
                 (ps) => ps.name === pokemon.name
-              )) && (
+              )) &&
+            pokemon.name.search(pokemonQuery.searchText) !== -1 && (
               <PokemonCardContainer key={index}>
                 <PokemonCard
                   pokemon={pokemon}
