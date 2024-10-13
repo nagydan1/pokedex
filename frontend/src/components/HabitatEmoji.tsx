@@ -14,6 +14,7 @@ export const emojiMap: { [key: string]: string } = {
   sea: "🌊",
   urban: "🏙️",
   "waters-edge": "🏖️",
+  unknown: "❔",
 };
 
 export const HabitatEmoji = ({ habitat }: Props) => {

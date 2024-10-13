@@ -8,6 +8,12 @@ export interface Pokemon {
   types: SlottedTypes[];
   weight: number;
   height: number;
+  species: Species;
+}
+
+interface Species {
+  name: string;
+  url: string;
 }
 
 interface Sprites {

@@ -12,10 +12,13 @@ interface Props {
 
 const writeHabitat = (habitatName: string): string | void => {
   if (!habitatName) return;
-    const emoji: string = emojiMap[habitatName as keyof typeof emojiMap];
-    const name: string = habitatName.charAt(0).toUpperCase().concat(habitatName.slice(1));
-    return emoji + "  " + name;
-}
+  const emoji: string = emojiMap[habitatName as keyof typeof emojiMap];
+  const name: string = habitatName
+    .charAt(0)
+    .toUpperCase()
+    .concat(habitatName.slice(1));
+  return emoji + "  " + name;
+};
 
 const HabitatSelector = ({
   onSelectHabitat,

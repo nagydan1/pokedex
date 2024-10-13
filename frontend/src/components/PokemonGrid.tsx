@@ -31,10 +31,10 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
   };
 
   const correspondHabitat = (pokemon: Pokemon, habitatsArray: Habitat[]): string => {
-    let foundHabitat: string = "";
+    let foundHabitat: string = "unknown";
     habitatsArray.forEach((hab) => {
      hab.pokemon_species.forEach((ps) => {
-       if (ps.name === pokemon.name) foundHabitat = hab.name
+       if (ps.name === pokemon.species.name) foundHabitat = hab.name
      });
     });
     return foundHabitat;
@@ -76,7 +76,7 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
               )) &&
             (!pokemonQuery.habitat ||
               pokemonQuery.habitat.pokemon_species.some(
-                (ps) => ps.name === pokemon.name
+                (ps) => ps.name === pokemon.species.name
               )) &&
             pokemon.name.search(pokemonQuery.searchText) !== -1 && (
               <PokemonCardContainer key={index}>
