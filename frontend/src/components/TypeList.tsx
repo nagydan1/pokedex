@@ -34,7 +34,7 @@ const TypeList = ({
             onClick={() => onSelectType(null)}
             variant="link"
           >
-            <Heading my={2}>Types</Heading>
+            <Heading mb={2}>Types</Heading>
           </Button>
         </ListItem>
         {types.map((type) => (
@@ -50,7 +50,6 @@ const TypeList = ({
                 src={type.sprites["generation-ix"]["scarlet-violet"].name_icon}
                 alt={type.name.charAt(0).toUpperCase() + type.name.slice(1)}
               />
-              {/* {type.name.charAt(0).toUpperCase() + type.name.slice(1)} */}
             </Button>
           </ListItem>
         ))}

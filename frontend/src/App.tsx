@@ -5,6 +5,7 @@ import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import HabitatSelector from "./components/HabitatSelector";
 import SortSelector, { SortOrder } from "./components/SortSelector";
+import PokemonHeading from "./components/PokemonHeading";
 import useTypes, { Type } from "./hooks/useTypes";
 import { Habitat } from "./hooks/useHabitats";
 
@@ -45,6 +46,7 @@ function App() {
         </GridItem>
       </Show>
       <GridItem area="main" p={2}>
+        <PokemonHeading pokemonQuery={pokemonQuery}/>
         <HStack spacing={5}>
           <HabitatSelector
             selectedHabitat={pokemonQuery.habitat}
