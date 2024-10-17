@@ -1,4 +1,5 @@
 import useData from "./useData";
+import habitats from "../data/hatitats";
 
 export interface Habitat {
   id: number;
@@ -11,9 +12,10 @@ interface PokemonSpecies {
   url: string;
 }
 
-const useHabitats = () => {
-  const { data, error, isLoading } = useData<Habitat>("/pokemon-habitat");
-  return { habitats: data, habitatErr: error, isLoading };
-};
+const useHabitats = () => ({ habitats, isLoading: false, error: null });
+// const useHabitats = () => {
+//   const { data, error, isLoading } = useData<Habitat>("/pokemon-habitat");
+//   return { habitats: data, habitatErr: error, isLoading };
+// };
 
 export default useHabitats;

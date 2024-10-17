@@ -1,4 +1,5 @@
 import useData from "./useData";
+import types from "../data/types"
 
 export interface Type {
   id: number;
@@ -18,9 +19,10 @@ export interface nameIcon {
   name_icon: string;
 }
 
-const useTypes = () => {
-  const { data, error, isLoading } = useData<Type>("/type?limit=19");
-  return { types: data, typesErr: error, isLoading };
-};
+const useTypes = () => ({ types, isLoading: false, error: null });
+// const useTypes = () => {
+//   const { data, error, isLoading } = useData<Type>("/type?limit=19");
+//   return { types: data, typesErr: error, isLoading };
+// };
 
 export default useTypes;
