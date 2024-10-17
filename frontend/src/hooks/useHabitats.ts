@@ -1,5 +1,6 @@
-import useData from "./useData";
 import habitats from "../data/hatitats";
+import { useQuery } from "@tanstack/react-query";
+import fetchFn from "./fetchFn";
 
 export interface Habitat {
   id: number;
@@ -12,10 +13,12 @@ interface PokemonSpecies {
   url: string;
 }
 
-const useHabitats = () => ({ habitats, isLoading: false, error: null });
-// const useHabitats = () => {
-//   const { data, error, isLoading } = useData<Habitat>("/pokemon-habitat");
-//   return { habitats: data, habitatErr: error, isLoading };
-// };
+const useHabitats = () =>
+  useQuery({
+    queryKey: ["habitats"],
+    queryFn: () => fetchFn<Habitat>("/pokemon-habitat"),
+    staleTime: 24 * 60 * 60 * 1000, // 24h
+    initialData: habitats,
+  });
 
 export default useHabitats;

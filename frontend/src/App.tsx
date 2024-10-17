@@ -19,7 +19,7 @@ export interface PokemonQuery {
 function App() {
   const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
   const { data: types, isLoading: typesLoading, error: typesErr } = useTypes();
-  const { habitats, habitatErr } = useHabitats();
+  const { data: habitats, isLoading: habitatsLoading, error: habitatErr } = useHabitats();
 
   return (
     <Grid
@@ -54,6 +54,7 @@ function App() {
             onSelectHabitat={(habitat) => setPokemonQuery({ ...pokemonQuery, habitat })}
             habitats={habitats}
             error={habitatErr}
+            isLoading={habitatsLoading}
           />
           <SortSelector
             sortOrder={pokemonQuery.sortOrder}

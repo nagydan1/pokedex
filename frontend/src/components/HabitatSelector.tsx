@@ -7,7 +7,8 @@ interface Props {
   onSelectHabitat: (habitat: Habitat | null) => void;
   selectedHabitat: Habitat | null;
   habitats: Habitat[];
-  error: string;
+  error: Error | null;
+  isLoading: boolean;
 }
 
 const writeHabitat = (habitatName: string): string | void => {
@@ -25,8 +26,9 @@ const HabitatSelector = ({
   selectedHabitat,
   habitats,
   error,
+  isLoading,
 }: Props) => {
-  if (error) return null;
+  if (error || isLoading) return null;
 
   return (
     <Menu>
@@ -37,7 +39,7 @@ const HabitatSelector = ({
         <MenuItem onClick={() => onSelectHabitat(null)}>
           🏠&nbsp;&nbsp;All habitats
         </MenuItem>
-        {habitats.map((habitat) => (
+        {habitats?.map((habitat) => (
           <MenuItem key={habitat.name} onClick={() => onSelectHabitat(habitat)}>
             {writeHabitat(habitat.name) || ""}
           </MenuItem>

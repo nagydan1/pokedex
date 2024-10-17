@@ -32,8 +32,8 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
 
   const correspondHabitat = (pokemon: Pokemon, habitatsArray: Habitat[]): string => {
     let foundHabitat: string = "unknown";
-    habitatsArray.forEach((hab) => {
-     hab.pokemon_species.forEach((ps) => {
+    habitatsArray?.forEach((hab) => {
+     hab.pokemon_species?.forEach((ps) => {
        if (ps.name === pokemon.species.name) foundHabitat = hab.name
      });
     });
