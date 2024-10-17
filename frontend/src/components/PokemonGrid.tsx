@@ -1,11 +1,12 @@
-import usePokemons, { Pokemon } from "../hooks/usePokemons";
+import { useEffect, useState } from "react";
 import { SimpleGrid, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
+import usePokemons, { Pokemon } from "../hooks/usePokemons";
+import { Habitat } from "../hooks/useHabitats";
 import { PokemonQuery } from "../App";
 import { Type } from "../hooks/useTypes";
-import { Habitat } from "../hooks/useHabitats";
 
 interface Props {
   pokemonQuery: PokemonQuery;
@@ -14,8 +15,13 @@ interface Props {
 }
 
 const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
-  const { data: pokemons, error, isLoading } = usePokemons();
+  const [pokemons, setPokemons] = useState<Pokemon[]>([]);
+  const { data: fetchedPokemons, error, isLoading } = usePokemons();
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+  useEffect(() => {
+    if (fetchedPokemons) setPokemons(fetchedPokemons);
+  }, [fetchedPokemons]);
 
   const typeSprites = (pokemon: Pokemon, typesArray: Type[]): string[] => {
     const sprites: string[] = [];
@@ -29,33 +35,36 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
     return sprites;
   };
 
-  const correspondHabitat = (pokemon: Pokemon, habitatsArray: Habitat[]): string => {
+  const correspondHabitat = (
+    pokemon: Pokemon,
+    habitatsArray: Habitat[]
+  ): string => {
     let foundHabitat: string = "unknown";
     habitatsArray?.forEach((hab) => {
-     hab.pokemon_species?.forEach((ps) => {
-       if (ps.name === pokemon.species.name) foundHabitat = hab.name
-     });
+      hab.pokemon_species?.forEach((ps) => {
+        if (ps.name === pokemon.species.name) foundHabitat = hab.name;
+      });
     });
     return foundHabitat;
-  }
+  };
 
-  // useEffect(() => {
-  //   if (pokemons?.length > 0) {
-  //     const sortedPokemons = [...pokemons];
-  //     const { factor, value } = pokemonQuery.sortOrder;
-  //     const isNumeric = typeof pokemons[0][value as keyof Pokemon] === "number";
+  useEffect(() => {
+    if (pokemons?.length > 0) {
+      const sortedPokemons = [...pokemons];
+      const { factor, value } = pokemonQuery.sortOrder;
+      const isNumeric = typeof pokemons[0][value as keyof Pokemon] === "number";
 
-  //     sortedPokemons.sort((a, b) => {
-  //       const aValue = a[value as keyof Pokemon];
-  //       const bValue = b[value as keyof Pokemon];
+      sortedPokemons.sort((a, b) => {
+        const aValue = a[value as keyof Pokemon];
+        const bValue = b[value as keyof Pokemon];
 
-  //       return isNumeric
-  //         ? ((aValue as number) - (bValue as number)) * factor
-  //         : (aValue as string).localeCompare(bValue as string) * factor;
-  //     });
-  //     setPokemons(sortedPokemons);
-  //   }
-  // }, [pokemonQuery.sortOrder]);
+        return isNumeric
+          ? ((aValue as number) - (bValue as number)) * factor
+          : (aValue as string).localeCompare(bValue as string) * factor;
+      });
+      setPokemons(sortedPokemons);
+    }
+  }, [pokemonQuery.sortOrder]);
 
   return (
     <>
