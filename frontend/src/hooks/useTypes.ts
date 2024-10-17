@@ -1,6 +1,6 @@
-import types from "../data/types";
 import { useQuery } from "@tanstack/react-query";
 import fetchFn from "./fetchFn";
+import types from "../data/types";
 
 export interface Type {
   id: number;

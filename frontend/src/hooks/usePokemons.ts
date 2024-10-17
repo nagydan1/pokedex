@@ -1,5 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
 import { Type } from "./useTypes";
-import useData from "./useData";
+import fetchFn from "./fetchFn";
+
 
 export interface Pokemon {
   id: number;
@@ -25,9 +27,10 @@ interface SlottedTypes {
   type: Type;
 }
 
-const usePokemons = () => {
-  const { setData, data, error, isLoading } = useData<Pokemon>("/pokemon?limit=100");
-  return { setPokemons: setData, pokemons: data, error, isLoading };
-};
+const usePokemons = () => useQuery<Pokemon[], Error>({
+  queryKey: ["pokemons"],
+  queryFn: () => fetchFn<Pokemon>("/pokemon?limit=50"),
+  staleTime: 24 * 60 * 60 * 1000, // 24h
+});
 
 export default usePokemons;
