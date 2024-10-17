@@ -21,7 +21,7 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
   const typeSprites = (pokemon: Pokemon, typesArray: Type[]): string[] => {
     const sprites: string[] = [];
     pokemon.types.forEach((pokemonType) => {
-      typesArray.forEach((t) => {
+      typesArray?.forEach((t) => {
         if (t.name === pokemonType.type.name) {
           sprites.push(t.sprites["generation-ix"]["scarlet-violet"].name_icon);
         }

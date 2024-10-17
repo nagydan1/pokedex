@@ -21,7 +21,9 @@ const fetchFn = <T>(endpoint: string): Promise<T[]> => {
             pokeApiClient.get<T>(res.url).then((res) => res.data)
         )
       )
-    );
+    ).catch((error) => {
+      throw error;
+    });
 };
 
 export default fetchFn;

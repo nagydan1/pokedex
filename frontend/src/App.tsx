@@ -18,7 +18,7 @@ export interface PokemonQuery {
 
 function App() {
   const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
-  const { data: types, isLoading, error: typesErr } = useTypes();
+  const { data: types, isLoading: typesLoading, error: typesErr } = useTypes();
   const { habitats, habitatErr } = useHabitats();
 
   return (
@@ -40,7 +40,7 @@ function App() {
           <TypeList
             types={types}
             error={typesErr}
-            isLoading={isLoading}
+            isLoading={typesLoading}
             selectedType={pokemonQuery.type}
             onSelectType={(type) => setPokemonQuery({ ...pokemonQuery, type })}
           />
