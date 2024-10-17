@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import fetchFn from "./fetchFn";
+import { PokeApiClient } from "../services/api-client";
 import habitats from "../data/hatitats";
 
 export interface Habitat {
@@ -13,9 +13,11 @@ interface PokemonSpecies {
   url: string;
 }
 
+const pokeApiClient = new PokeApiClient<Habitat>("/pokemon-habitat");
+
 const useHabitats = () => useQuery({
     queryKey: ["habitats"],
-    queryFn: () => fetchFn<Habitat>("/pokemon-habitat"),
+    queryFn: () => pokeApiClient.getAll(),
     staleTime: 24 * 60 * 60 * 1000, // 24h
     initialData: habitats,
   });

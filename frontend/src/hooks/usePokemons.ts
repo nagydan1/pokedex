@@ -1,7 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
+import { PokeApiClient } from "../services/api-client";
 import { Type } from "./useTypes";
-import fetchFn from "./fetchFn";
-
 
 export interface Pokemon {
   id: number;
@@ -27,9 +26,11 @@ interface SlottedTypes {
   type: Type;
 }
 
+const pokeApiClient = new PokeApiClient<Pokemon>("/pokemon?limit=50");
+
 const usePokemons = () => useQuery<Pokemon[], Error>({
   queryKey: ["pokemons"],
-  queryFn: () => fetchFn<Pokemon>("/pokemon?limit=50"),
+  queryFn: () => pokeApiClient.getAll(),
   staleTime: 24 * 60 * 60 * 1000, // 24h
 });
 
