@@ -12,7 +12,7 @@ interface Props {
   onSelectType: (type: Type | null) => void;
   selectedType: Type | null;
   types: Type[];
-  error: string;
+  error: Error | null;
   isLoading: boolean;
 }
 

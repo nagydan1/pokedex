@@ -18,7 +18,7 @@ export interface PokemonQuery {
 
 function App() {
   const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
-  const { types, isLoading, typesErr } = useTypes();
+  const { data: types, isLoading, error: typesErr } = useTypes();
   const { habitats, habitatErr } = useHabitats();
 
   return (

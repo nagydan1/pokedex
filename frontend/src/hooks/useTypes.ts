@@ -1,5 +1,6 @@
-import useData from "./useData";
-import types from "../data/types"
+import types from "../data/types";
+import { useQuery } from "@tanstack/react-query";
+import fetchFn from "./fetchFn";
 
 export interface Type {
   id: number;
@@ -19,10 +20,11 @@ export interface nameIcon {
   name_icon: string;
 }
 
-const useTypes = () => ({ types, isLoading: false, error: null });
-// const useTypes = () => {
-//   const { data, error, isLoading } = useData<Type>("/type?limit=19");
-//   return { types: data, typesErr: error, isLoading };
-// };
+const useTypes = () => useQuery({
+  queryKey: ['types'],
+  queryFn: () =>  fetchFn<Type>("/type?limit=19"),
+  staleTime: 24 * 60 * 60 * 1000, // 24h
+  initialData: types,
+});
 
 export default useTypes;
