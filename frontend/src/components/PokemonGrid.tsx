@@ -1,5 +1,6 @@
-import React from "react";
-import { Button, SimpleGrid, Text } from "@chakra-ui/react";
+import { useEffect, useMemo, useState } from "react";
+import InfiniteScroll from "react-infinite-scroll-component";
+import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
@@ -19,10 +20,10 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
     data: pokemons,
     error,
     isLoading,
-    isFetchingNextPage,
     fetchNextPage,
     hasNextPage,
   } = usePokemons();
+
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   const typeSprites = (pokemon: Pokemon, typesArray: Type[]): string[] => {
@@ -50,13 +51,28 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
     return foundHabitat;
   };
 
-  const sortedPokemons = React.useMemo(() => {
+  const filterPokemon = (pokemon: Pokemon): boolean => {
+    const matchesSearchText =
+      pokemon.name.search(pokemonQuery.searchText?.toLowerCase()) !== -1;
+    const matchesType =
+      !pokemonQuery.type ||
+      pokemon.types.some((t) => t.type.name === pokemonQuery.type?.name);
+    const matchesHabitat =
+      !pokemonQuery.habitat ||
+      pokemonQuery.habitat.pokemon_species.some(
+        (ps) => ps.name === pokemon.species.name
+      );
+    return matchesSearchText && matchesType && matchesHabitat;
+  };
+
+  const sortedPokemons = useMemo(() => {
     const allPokemons = pokemons?.pages.flatMap((page) => page.results) || [];
     const sortedAllPokemons = [...allPokemons];
 
     if (pokemonQuery.sortOrder) {
       const { factor, value } = pokemonQuery.sortOrder;
-      const isNumeric = typeof allPokemons[0]?.[value as keyof Pokemon] === "number";
+      const isNumeric =
+        typeof allPokemons[0]?.[value as keyof Pokemon] === "number";
 
       sortedAllPokemons.sort((a, b) => {
         const aValue = a[value as keyof Pokemon];
@@ -70,10 +86,19 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
     return sortedAllPokemons;
   }, [pokemons, pokemonQuery.sortOrder]);
 
+  const fetchedPokemonsCount =
+    pokemons?.pages.reduce((acc, page) => acc + page.results.length, 0) || 0;
+
   return (
     <>
       {error && <Text>{error.message}</Text>}
-      <>
+      <InfiniteScroll
+        dataLength={fetchedPokemonsCount}
+        hasMore={!!hasNextPage}
+        next={() => fetchNextPage()}
+        loader={<Spinner my={4} />}
+        endMessage="There are no more pokémon."
+      >
         <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5}>
           {isLoading &&
             skeletons.map((skeleton) => (
@@ -81,33 +106,17 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
                 <PokemonCardSkeleton />
               </PokemonCardContainer>
             ))}
-          {sortedPokemons.map(
-            (pokemon, index) =>
-              pokemon.name.search(pokemonQuery.searchText) !== -1 &&
-              (!pokemonQuery.type ||
-                pokemon.types.some(
-                  (t) => t.type.name === pokemonQuery.type?.name
-                )) &&
-              (!pokemonQuery.habitat ||
-                pokemonQuery.habitat.pokemon_species.some(
-                  (ps) => ps.name === pokemon.species.name
-                )) && (
-                <PokemonCardContainer key={index}>
-                  <PokemonCard
-                    pokemon={pokemon}
-                    typeSprites={typeSprites(pokemon, types)}
-                    habitat={correspondHabitat(pokemon, habitats)}
-                  />
-                </PokemonCardContainer>
-              )
-          )}
+          {sortedPokemons.filter(filterPokemon).map((pokemon, index) => (
+            <PokemonCardContainer key={index}>
+              <PokemonCard
+                pokemon={pokemon}
+                typeSprites={typeSprites(pokemon, types)}
+                habitat={correspondHabitat(pokemon, habitats)}
+              />
+            </PokemonCardContainer>
+          ))}
         </SimpleGrid>
-        {hasNextPage && (
-          <Button my={5} onClick={() => fetchNextPage()}>
-            {isFetchingNextPage ? "Loading..." : "Load More"}
-          </Button>
-        )}
-      </>
+      </InfiniteScroll>
     </>
   );
 };
