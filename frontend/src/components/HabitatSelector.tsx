@@ -1,47 +1,48 @@
-import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import useHabitats, { Habitat } from "../hooks/useHabitats";
+import HabitatEmoji from "./HabitatEmoji";
 import { BsChevronDown } from "react-icons/bs";
-import { Habitat } from "../hooks/useHabitats";
-import { emojiMap } from "./HabitatEmoji";
+import {
+  Button,
+  HStack,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text,
+} from "@chakra-ui/react";
 
 interface Props {
   onSelectHabitat: (habitat: Habitat | null) => void;
   selectedHabitat: Habitat | null;
-  habitats: Habitat[];
-  error: Error | null;
-  isLoading: boolean;
 }
 
-const writeHabitat = (habitatName: string): string | void => {
-  if (!habitatName) return;
-  const emoji: string = emojiMap[habitatName as keyof typeof emojiMap];
-  const name: string = habitatName
-    .charAt(0)
-    .toUpperCase()
-    .concat(habitatName.slice(1));
-  return emoji + "  " + name;
-};
+const HabitatSelector = ({ onSelectHabitat, selectedHabitat }: Props) => {
+  const { data: habitats, isLoading, error } = useHabitats();
 
-const HabitatSelector = ({
-  onSelectHabitat,
-  selectedHabitat,
-  habitats,
-  error,
-  isLoading,
-}: Props) => {
   if (error || isLoading) return null;
-
   return (
     <Menu>
       <MenuButton as={Button} size="lg" rightIcon={<BsChevronDown />} mb={4}>
-        {writeHabitat(selectedHabitat?.name as string) || "🏠 Habitats"}
+        <HStack>
+          <HabitatEmoji habitat={selectedHabitat?.name || "all"} />
+          <Text>
+            {selectedHabitat?.name
+              .charAt(0)
+              .toUpperCase()
+              .concat(selectedHabitat.name.slice(1)) || "Habitats"}
+          </Text>
+        </HStack>
       </MenuButton>
       <MenuList>
         <MenuItem onClick={() => onSelectHabitat(null)}>
-          🏠&nbsp;&nbsp;All habitats
+          <HabitatEmoji habitat={"all"} />
+          &nbsp;&nbsp;All habitats
         </MenuItem>
-        {habitats?.map((habitat) => (
-          <MenuItem key={habitat.name} onClick={() => onSelectHabitat(habitat)}>
-            {writeHabitat(habitat.name) || ""}
+        {habitats?.map((habitat, index) => (
+          <MenuItem key={index} onClick={() => onSelectHabitat(habitat)}>
+            <HabitatEmoji habitat={habitat.name} />
+            &nbsp;&nbsp;
+            {habitat.name.charAt(0).toUpperCase().concat(habitat.name.slice(1))}
           </MenuItem>
         ))}
       </MenuList>

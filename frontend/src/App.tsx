@@ -1,13 +1,13 @@
 import { useState } from "react";
-import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
+import { Type } from "./hooks/useTypes";
+import { Habitat } from "./hooks/useHabitats";
 import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import HabitatSelector from "./components/HabitatSelector";
 import SortSelector, { SortOrder } from "./components/SortSelector";
 import PokemonHeading from "./components/PokemonHeading";
-import useTypes, { Type } from "./hooks/useTypes";
-import useHabitats, { Habitat } from "./hooks/useHabitats";
+import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 
 export interface PokemonQuery {
   type: Type | null;
@@ -18,8 +18,6 @@ export interface PokemonQuery {
 
 function App() {
   const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
-  const { data: types, isLoading: typesLoading, error: typesErr } = useTypes();
-  const { data: habitats, isLoading: habitatsLoading, error: habitatErr } = useHabitats();
 
   return (
     <Grid
@@ -38,9 +36,6 @@ function App() {
       <Show above="md">
         <GridItem area="aside" paddingX={3}>
           <TypeList
-            types={types}
-            error={typesErr}
-            isLoading={typesLoading}
             selectedType={pokemonQuery.type}
             onSelectType={(type) => setPokemonQuery({ ...pokemonQuery, type })}
           />
@@ -52,16 +47,13 @@ function App() {
           <HabitatSelector
             selectedHabitat={pokemonQuery.habitat}
             onSelectHabitat={(habitat) => setPokemonQuery({ ...pokemonQuery, habitat })}
-            habitats={habitats}
-            error={habitatErr}
-            isLoading={habitatsLoading}
           />
           <SortSelector
             sortOrder={pokemonQuery.sortOrder}
             onSelectSortOrder={(sortOrder) => setPokemonQuery({ ...pokemonQuery, sortOrder })}
           />
         </HStack>
-        <PokemonGrid types={types} pokemonQuery={pokemonQuery} habitats={habitats} />
+        <PokemonGrid pokemonQuery={pokemonQuery} />
       </GridItem>
     </Grid>
   );

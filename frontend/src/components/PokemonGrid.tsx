@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useOnScreen from "../hooks/useOnScreen";
-import { Habitat } from "../hooks/useHabitats";
-import { Type } from "../hooks/useTypes";
+import useHabitats, { Habitat } from "../hooks/useHabitats";
+import useTypes, { Type } from "../hooks/useTypes";
 import usePokemons, { Pokemon } from "../hooks/usePokemons";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
@@ -12,18 +12,12 @@ import { PokemonQuery } from "../App";
 
 interface Props {
   pokemonQuery: PokemonQuery;
-  types: Type[];
-  habitats: Habitat[];
 }
 
-const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
-  const {
-    data: pokemons,
-    error,
-    isLoading,
-    fetchNextPage,
-    hasNextPage,
-  } = usePokemons();
+const PokemonGrid = ({ pokemonQuery }: Props) => {
+  const { data: pokemons, error, isLoading, fetchNextPage, hasNextPage } = usePokemons();
+  const { data: types } = useTypes();
+  const { data: habitats } = useHabitats();
 
   const spinnerRef = useRef<HTMLDivElement>(null);
   const isSpinnerVisible = useOnScreen(spinnerRef, {

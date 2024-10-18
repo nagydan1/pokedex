@@ -1,3 +1,4 @@
+import useTypes, { Type } from "../hooks/useTypes";
 import {
   Heading,
   List,
@@ -6,23 +7,18 @@ import {
   Button,
   Image,
 } from "@chakra-ui/react";
-import { Type } from "../hooks/useTypes";
 
 interface Props {
   onSelectType: (type: Type | null) => void;
   selectedType: Type | null;
-  types: Type[];
-  error: Error | null;
-  isLoading: boolean;
 }
 
 const TypeList = ({
-  types,
-  error,
-  isLoading,
   selectedType,
   onSelectType,
 }: Props) => {
+  const { data: types, isLoading, error } = useTypes();
+
   if (error) return null;
   if (isLoading) return <Spinner />;
 

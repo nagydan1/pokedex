@@ -5,6 +5,7 @@ interface Props {
 }
 
 export const emojiMap: { [key: string]: string } = {
+  all: "🏠",
   cave: "🗻",
   forest: "🌳",
   grassland: "🌿",
