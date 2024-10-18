@@ -15,7 +15,7 @@ const NavBar = ({ onSearch }: Props) => {
         <Show above="md">
           <Heading my={2}>Pokedex</Heading>
         </Show>
-        <SearchInput onSearch={onSearch}/>
+        <SearchInput onSearch={onSearch} />
       </HStack>
       <ColorModeSwitch />
     </HStack>

@@ -48,11 +48,13 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
                 fallbackSrc={fallback}
               />
               <HStack mb={2} gap={2} alignItems="center">
-                <Badge fontSize="md" variant="subtle">{pokemon.id}</Badge>
+                <Badge fontSize="md" variant="subtle">
+                  {pokemon.id}
+                </Badge>
                 <Heading size="md">
                   {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
                 </Heading>
-              <HabitatEmoji habitat={habitat}/>
+                <HabitatEmoji habitat={habitat} />
               </HStack>
               <Flex justifyContent="space-between" width="100%" gap={1}>
                 <VStack my={3} gap={0} alignItems="start">

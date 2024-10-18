@@ -5,10 +5,10 @@ const PokemonCardSkeleton = () => {
     <Card>
       <Skeleton height="320px" />
       <CardBody>
-          <SkeletonText />
-        </CardBody>
+        <SkeletonText />
+      </CardBody>
     </Card>
-  )
-}
+  );
+};
 
 export default PokemonCardSkeleton;
