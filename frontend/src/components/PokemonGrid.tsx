@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Button, SimpleGrid, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
@@ -50,23 +50,25 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
     return foundHabitat;
   };
 
-  // useEffect(() => {
-  //   if (pokemons?.length > 0) {
-  //     const sortedPokemons = [...pokemons];
-  //     const { factor, value } = pokemonQuery.sortOrder;
-  //     const isNumeric = typeof pokemons[0][value as keyof Pokemon] === "number";
+  const sortedPokemons = React.useMemo(() => {
+    const allPokemons = pokemons?.pages.flatMap((page) => page.results) || [];
+    const sortedAllPokemons = [...allPokemons];
 
-  //     sortedPokemons.sort((a, b) => {
-  //       const aValue = a[value as keyof Pokemon];
-  //       const bValue = b[value as keyof Pokemon];
+    if (pokemonQuery.sortOrder) {
+      const { factor, value } = pokemonQuery.sortOrder;
+      const isNumeric = typeof allPokemons[0]?.[value as keyof Pokemon] === "number";
 
-  //       return isNumeric
-  //         ? ((aValue as number) - (bValue as number)) * factor
-  //         : (aValue as string).localeCompare(bValue as string) * factor;
-  //     });
-  //     setPokemons(sortedPokemons);
-  //   }
-  // }, [pokemonQuery.sortOrder]);
+      sortedAllPokemons.sort((a, b) => {
+        const aValue = a[value as keyof Pokemon];
+        const bValue = b[value as keyof Pokemon];
+
+        return isNumeric
+          ? ((aValue as number) - (bValue as number)) * factor
+          : (aValue as string).localeCompare(bValue as string) * factor;
+      });
+    }
+    return sortedAllPokemons;
+  }, [pokemons, pokemonQuery.sortOrder]);
 
   return (
     <>
@@ -79,30 +81,26 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
                 <PokemonCardSkeleton />
               </PokemonCardContainer>
             ))}
-          {pokemons?.pages.map((page, index) => (
-            <React.Fragment key={index}>
-              {page.results.map(
-                (pokemon, index) =>
-                  (!pokemonQuery.type ||
-                    pokemon.types.some(
-                      (t) => t.type.name === pokemonQuery.type?.name
-                    )) &&
-                  (!pokemonQuery.habitat ||
-                    pokemonQuery.habitat.pokemon_species.some(
-                      (ps) => ps.name === pokemon.species.name
-                    )) &&
-                  pokemon.name.search(pokemonQuery.searchText) !== -1 && (
-                    <PokemonCardContainer key={index}>
-                      <PokemonCard
-                        pokemon={pokemon}
-                        typeSprites={typeSprites(pokemon, types)}
-                        habitat={correspondHabitat(pokemon, habitats)}
-                      />
-                    </PokemonCardContainer>
-                  )
-              )}
-            </React.Fragment>
-          ))}
+          {sortedPokemons.map(
+            (pokemon, index) =>
+              pokemon.name.search(pokemonQuery.searchText) !== -1 &&
+              (!pokemonQuery.type ||
+                pokemon.types.some(
+                  (t) => t.type.name === pokemonQuery.type?.name
+                )) &&
+              (!pokemonQuery.habitat ||
+                pokemonQuery.habitat.pokemon_species.some(
+                  (ps) => ps.name === pokemon.species.name
+                )) && (
+                <PokemonCardContainer key={index}>
+                  <PokemonCard
+                    pokemon={pokemon}
+                    typeSprites={typeSprites(pokemon, types)}
+                    habitat={correspondHabitat(pokemon, habitats)}
+                  />
+                </PokemonCardContainer>
+              )
+          )}
         </SimpleGrid>
         {hasNextPage && (
           <Button my={5} onClick={() => fetchNextPage()}>
