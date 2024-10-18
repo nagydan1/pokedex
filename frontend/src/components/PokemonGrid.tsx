@@ -1,13 +1,14 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import useOnScreen from "../hooks/useOnScreen";
+import { Habitat } from "../hooks/useHabitats";
+import { Type } from "../hooks/useTypes";
+import usePokemons, { Pokemon } from "../hooks/usePokemons";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
-import usePokemons, { Pokemon } from "../hooks/usePokemons";
-import { Habitat } from "../hooks/useHabitats";
+import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import { PokemonQuery } from "../App";
-import { Type } from "../hooks/useTypes";
 
 interface Props {
   pokemonQuery: PokemonQuery;
@@ -24,6 +25,11 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
     hasNextPage,
   } = usePokemons();
 
+  const spinnerRef = useRef<HTMLDivElement>(null);
+  const isSpinnerVisible = useOnScreen(spinnerRef, {
+    rootMargin: "200px",
+    threshold: 0.1,
+  });
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   const typeSprites = (pokemon: Pokemon, typesArray: Type[]): string[] => {
@@ -89,6 +95,16 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
   const fetchedPokemonsCount =
     pokemons?.pages.reduce((acc, page) => acc + page.results.length, 0) || 0;
 
+  useEffect(() => {
+    if (
+      isSpinnerVisible ||
+      sortedPokemons.slice(sortedPokemons.length - 20).filter(filterPokemon)
+        .length === 0
+    ) {
+      fetchNextPage();
+    }
+  }, [isSpinnerVisible, sortedPokemons, pokemonQuery]);
+
   return (
     <>
       {error && <Text>{error.message}</Text>}
@@ -96,7 +112,7 @@ const PokemonGrid = ({ types, pokemonQuery, habitats }: Props) => {
         dataLength={fetchedPokemonsCount}
         hasMore={!!hasNextPage}
         next={() => fetchNextPage()}
-        loader={<Spinner my={4} />}
+        loader={<Spinner my={4} ref={spinnerRef} />}
         endMessage="There are no more pokémon."
       >
         <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5}>

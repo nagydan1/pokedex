@@ -33,7 +33,7 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
 
   return (
     <>
-      <Card height={350} variant={isSaved ? "filled" : "elevated"}>
+      <Card height={360} variant={isSaved ? "filled" : "elevated"}>
         <CardBody>
           <Flex
             direction="column"
