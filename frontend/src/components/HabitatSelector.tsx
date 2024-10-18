@@ -13,10 +13,10 @@ import {
 
 interface Props {
   onSelectHabitat: (habitat: Habitat | null) => void;
-  selectedHabitat: Habitat | null;
+  selectedHabitatName?: string;
 }
 
-const HabitatSelector = ({ onSelectHabitat, selectedHabitat }: Props) => {
+const HabitatSelector = ({ onSelectHabitat, selectedHabitatName }: Props) => {
   const { data: habitats, isLoading, error } = useHabitats();
 
   if (error || isLoading) return null;
@@ -24,12 +24,12 @@ const HabitatSelector = ({ onSelectHabitat, selectedHabitat }: Props) => {
     <Menu>
       <MenuButton as={Button} size="lg" rightIcon={<BsChevronDown />} mb={4}>
         <HStack>
-          <HabitatEmoji habitat={selectedHabitat?.name || "all"} />
+          <HabitatEmoji habitat={selectedHabitatName || "all"} />
           <Text>
-            {selectedHabitat?.name
-              .charAt(0)
+            {selectedHabitatName
+              ?.charAt(0)
               .toUpperCase()
-              .concat(selectedHabitat.name.slice(1)) || "Habitats"}
+              .concat(selectedHabitatName.slice(1)) || "Habitats"}
           </Text>
         </HStack>
       </MenuButton>

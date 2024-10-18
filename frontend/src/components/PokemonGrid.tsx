@@ -9,21 +9,31 @@ import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import { PokemonQuery } from "../App";
+import useHabitat from "../hooks/useHabitat";
 
 interface Props {
   pokemonQuery: PokemonQuery;
 }
 
 const PokemonGrid = ({ pokemonQuery }: Props) => {
-  const { data: pokemons, error, isLoading, fetchNextPage, hasNextPage } = usePokemons();
+  const {
+    data: pokemons,
+    error,
+    isLoading,
+    fetchNextPage,
+    hasNextPage,
+  } = usePokemons();
+  
   const { data: types } = useTypes();
   const { data: habitats } = useHabitats();
+  const selectedHabitat = useHabitat(pokemonQuery.habitatName);
 
   const spinnerRef = useRef<HTMLDivElement>(null);
   const isSpinnerVisible = useOnScreen(spinnerRef, {
     rootMargin: "200px",
     threshold: 0.1,
   });
+
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
   const typeSprites = (pokemon: Pokemon, typesArray: Type[]): string[] => {
@@ -51,17 +61,15 @@ const PokemonGrid = ({ pokemonQuery }: Props) => {
     return foundHabitat;
   };
 
-  const filterPokemon = (pokemon: Pokemon): boolean => {
+  const filterPokemon = (pokemon: Pokemon): boolean | undefined => {
     const matchesSearchText =
       pokemon.name.search(pokemonQuery.searchText?.toLowerCase()) !== -1;
     const matchesType =
-      !pokemonQuery.type ||
-      pokemon.types.some((t) => t.type.name === pokemonQuery.type?.name);
+      !pokemonQuery.typeName ||
+      pokemon.types.some((t) => t.type.name === pokemonQuery.typeName);
     const matchesHabitat =
-      !pokemonQuery.habitat ||
-      pokemonQuery.habitat.pokemon_species.some(
-        (ps) => ps.name === pokemon.species.name
-      );
+      !pokemonQuery.habitatName ||
+      selectedHabitat?.pokemon_species.some((ps) => ps.name === pokemon.species.name);
     return matchesSearchText && matchesType && matchesHabitat;
   };
 

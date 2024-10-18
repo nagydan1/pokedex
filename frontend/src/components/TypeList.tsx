@@ -10,13 +10,11 @@ import {
 
 interface Props {
   onSelectType: (type: Type | null) => void;
-  selectedType: Type | null;
+  selectedTypeName: string | null;
 }
 
-const TypeList = ({
-  selectedType,
-  onSelectType,
-}: Props) => {
+const TypeList = ({ selectedTypeName, onSelectType }: Props) => {
+  
   const { data: types, isLoading, error } = useTypes();
 
   if (error) return null;
@@ -26,10 +24,7 @@ const TypeList = ({
     <>
       <List>
         <ListItem paddingY="5px">
-          <Button
-            onClick={() => onSelectType(null)}
-            variant="link"
-          >
+          <Button onClick={() => onSelectType(null)} variant="link">
             <Heading mb={2}>Types</Heading>
           </Button>
         </ListItem>
@@ -38,9 +33,9 @@ const TypeList = ({
             <Button
               onClick={() => onSelectType(type)}
               fontSize="lg"
-              variant={type.name === selectedType?.name ? "solid" : "link"}
+              variant={type.name === selectedTypeName ? "solid" : "link"}
               justifyContent="flex-start"
-              fontWeight={type.name === selectedType?.name ? "bold" : "normal"}
+              fontWeight={type.name === selectedTypeName ? "bold" : "normal"}
             >
               <Image
                 src={type.sprites["generation-ix"]["scarlet-violet"].name_icon}
