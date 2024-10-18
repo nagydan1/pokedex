@@ -1,6 +1,12 @@
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { PokeApiClient } from "../services/api-client";
 import { Type } from "./useTypes";
+
+interface PokemonFetchResponse {
+  count: number;
+  next: string | null;
+  results: Pokemon[];
+}
 
 export interface Pokemon {
   id: number;
@@ -26,12 +32,14 @@ interface SlottedTypes {
   type: Type;
 }
 
-const pokeApiClient = new PokeApiClient<Pokemon>("/pokemon?limit=50");
+const pokeApiClient = new PokeApiClient<Pokemon>("/pokemon");
 
-const usePokemons = () => useQuery<Pokemon[], Error>({
-  queryKey: ["pokemons"],
-  queryFn: () => pokeApiClient.getAll(),
-  staleTime: 24 * 60 * 60 * 1000, // 24h
-});
+const usePokemons = () =>
+  useInfiniteQuery<PokemonFetchResponse, Error>({
+    queryKey: ["pokemons"],
+    queryFn: ({ pageParam }) => pokeApiClient.getInfinite(pageParam as string),
+    initialPageParam: "/pokemon",
+    getNextPageParam: (lastPage) => lastPage.next,
+  });
 
 export default usePokemons;

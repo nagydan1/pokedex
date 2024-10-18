@@ -10,6 +10,7 @@ const axiosInstance = axios.create({
 
 interface FetchResponse {
   count: number;
+  next: string | null;
   results: Result[];
 }
 
@@ -36,6 +37,26 @@ export class PokeApiClient<T> {
               axiosInstance.get<T>(res.url).then((res) => res.data)
           )
         )
+      )
+      .catch((error) => {
+        throw error;
+      });
+  };
+
+  getInfinite = (pageParam: string) => {
+    return axiosInstance
+      .get<FetchResponse>(pageParam)
+      .then((res) => res.data)
+      .then((fetchedResultList) =>
+        Promise.all(
+          fetchedResultList.results.map(
+            (res): Promise<T> =>
+              axiosInstance.get<T>(res.url).then((res) => res.data)
+          )
+        ).then((promiseAllresults) => ({
+          ...fetchedResultList,
+          results: promiseAllresults,
+        }))
       )
       .catch((error) => {
         throw error;
