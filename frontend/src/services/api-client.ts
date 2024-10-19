@@ -43,6 +43,15 @@ export class PokeApiClient<T> {
       });
   };
 
+  get = (name: string) => {
+    return axiosInstance
+      .get<T>(this.endpoint + "/" + name)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
+
   getInfinite = (pageParam: string) => {
     return axiosInstance
       .get<FetchResponse>(pageParam)

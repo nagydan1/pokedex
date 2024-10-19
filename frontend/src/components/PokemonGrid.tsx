@@ -113,8 +113,9 @@ const PokemonGrid = () => {
         next={() => fetchNextPage()}
         loader={<Spinner my={4} ref={spinnerRef} />}
         endMessage="There are no more pokémon."
+        style={{ overflow: 'visible' }}
       >
-        <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5}>
+        <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5} >
           {isLoading &&
             skeletons.map((skeleton) => (
               <PokemonCardContainer key={skeleton}>

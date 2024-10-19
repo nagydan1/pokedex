@@ -10,11 +10,12 @@ import {
   HStack,
   Badge,
 } from "@chakra-ui/react";
-import { backendClient } from "../services/api-client";
 import { useState } from "react";
-import fallback from "../assets/pokemon_fallback_PNG12.png";
+import { Link } from "react-router-dom";
+import { backendClient } from "../services/api-client";
 import { Pokemon } from "../hooks/usePokemons";
 import HabitatEmoji from "./HabitatEmoji";
+import fallback from "../assets/pokemon_fallback_PNG12.png";
 
 interface Props {
   pokemon: Pokemon;
@@ -33,7 +34,7 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
 
   return (
     <>
-      <Card height={360} variant={isSaved ? "filled" : "elevated"}>
+      <Card height={360} variant={isSaved ? "filled" : "elevated"} >
         <CardBody>
           <Flex
             direction="column"
@@ -52,7 +53,9 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
                   {pokemon.id}
                 </Badge>
                 <Heading size="md">
-                  {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+                  <Link to={"/pokemon/" + pokemon.name}>
+                    {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+                  </Link>
                 </Heading>
                 <HabitatEmoji habitat={habitat} />
               </HStack>
