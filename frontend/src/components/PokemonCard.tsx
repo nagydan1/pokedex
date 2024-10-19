@@ -8,7 +8,6 @@ import {
   VStack,
   Text,
   HStack,
-  Badge,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -16,6 +15,7 @@ import { backendClient } from "../services/api-client";
 import { Pokemon } from "../entities/Pokemon";
 import HabitatEmoji from "./HabitatEmoji";
 import PokemonImage from "./PokemonImage";
+import PokemonIdBadge from "./PokemonIdBadge";
 
 interface Props {
   pokemon: Pokemon;
@@ -43,11 +43,9 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
             height="100%"
           >
             <Flex direction="column" align="center" width="100%">
-            <PokemonImage src={pokemon.sprites.front_default} />
+              <PokemonImage src={pokemon.sprites.front_default} />
               <HStack mb={2} gap={2} alignItems="center">
-                <Badge fontSize="md" variant="subtle">
-                  {pokemon.id}
-                </Badge>
+                <PokemonIdBadge id={pokemon.id} />
                 <Heading size="md">
                   <Link to={"/pokemon/" + pokemon.name}>
                     {pokemon.name.charAt(0).toUpperCase() +
