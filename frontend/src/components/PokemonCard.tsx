@@ -15,7 +15,7 @@ import { Link } from "react-router-dom";
 import { backendClient } from "../services/api-client";
 import { Pokemon } from "../entities/Pokemon";
 import HabitatEmoji from "./HabitatEmoji";
-import fallback from "../assets/pokemon_fallback_PNG12.png";
+import PokemonImage from "./PokemonImage";
 
 interface Props {
   pokemon: Pokemon;
@@ -43,11 +43,7 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
             height="100%"
           >
             <Flex direction="column" align="center" width="100%">
-              <Image
-                src={pokemon.sprites.front_default}
-                boxSize="160px"
-                fallbackSrc={fallback}
-              />
+            <PokemonImage src={pokemon.sprites.front_default} />
               <HStack mb={2} gap={2} alignItems="center">
                 <Badge fontSize="md" variant="subtle">
                   {pokemon.id}
