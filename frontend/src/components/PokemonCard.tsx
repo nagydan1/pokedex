@@ -13,7 +13,7 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { backendClient } from "../services/api-client";
-import { Pokemon } from "../hooks/usePokemons";
+import { Pokemon } from "../entities/Pokemon";
 import HabitatEmoji from "./HabitatEmoji";
 import fallback from "../assets/pokemon_fallback_PNG12.png";
 
@@ -34,7 +34,7 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
 
   return (
     <>
-      <Card height={360} variant={isSaved ? "filled" : "elevated"} >
+      <Card height={360} variant={isSaved ? "filled" : "elevated"}>
         <CardBody>
           <Flex
             direction="column"
@@ -54,7 +54,8 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
                 </Badge>
                 <Heading size="md">
                   <Link to={"/pokemon/" + pokemon.name}>
-                    {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
+                    {pokemon.name.charAt(0).toUpperCase() +
+                      pokemon.name.slice(1)}
                   </Link>
                 </Heading>
                 <HabitatEmoji habitat={habitat} />

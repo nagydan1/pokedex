@@ -1,9 +1,12 @@
 import { useEffect, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import useOnScreen from "../hooks/useOnScreen";
-import useHabitats, { Habitat } from "../hooks/useHabitats";
-import useTypes, { Type } from "../hooks/useTypes";
-import usePokemons, { Pokemon } from "../hooks/usePokemons";
+import useHabitats from "../hooks/useHabitats";
+import { Habitat } from "../entities/Habitat";
+import useTypes from "../hooks/useTypes";
+import { Type } from "../entities/Type";
+import usePokemons from "../hooks/usePokemons";
+import { Pokemon } from "../entities/Pokemon";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
@@ -20,7 +23,7 @@ const PokemonGrid = () => {
     hasNextPage,
   } = usePokemons();
 
-  const pokemonQuery = usePokemonQueryStore(s => s.pokemonQuery);  
+  const pokemonQuery = usePokemonQueryStore((s) => s.pokemonQuery);
   const { data: types } = useTypes();
   const { data: habitats } = useHabitats();
   const selectedHabitat = useHabitat(pokemonQuery.habitatName);
@@ -66,7 +69,9 @@ const PokemonGrid = () => {
       pokemon.types.some((t) => t.type.name === pokemonQuery.typeName);
     const matchesHabitat =
       !pokemonQuery.habitatName ||
-      selectedHabitat?.pokemon_species.some((ps) => ps.name === pokemon.species.name);
+      selectedHabitat?.pokemon_species.some(
+        (ps) => ps.name === pokemon.species.name
+      );
     return matchesSearchText && matchesType && matchesHabitat;
   };
 
@@ -113,9 +118,9 @@ const PokemonGrid = () => {
         next={() => fetchNextPage()}
         loader={<Spinner my={4} ref={spinnerRef} />}
         endMessage="There are no more pokémon."
-        style={{ overflow: 'visible' }}
+        style={{ overflow: "visible" }}
       >
-        <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5} >
+        <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5}>
           {isLoading &&
             skeletons.map((skeleton) => (
               <PokemonCardContainer key={skeleton}>
