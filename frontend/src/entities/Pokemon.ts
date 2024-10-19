@@ -12,14 +12,41 @@ export interface Pokemon {
   types: SlottedTypes[];
   weight: number;
   height: number;
-  species: Species;
+  species: Feature;
+  abilities: Ability[];
+  base_experience: number
+  held_items: Item[];
+  moves: Move[];
+  stats: Stat[];
 }
-interface Species {
+
+interface Ability {
+  slot: number;
+  ability: Feature;
+}
+
+interface Stat {
+  base_stat: number;
+  stat: Feature;
+}
+
+interface Move {
+  slot: number;
+  move: Feature;
+}
+
+interface Item {
+  slot: number;
+  item: Feature;
+}
+
+interface Feature {
   name: string;
   url: string;
 }
 interface Sprites {
   front_default: string;
+  back_default: string;
 }
 interface SlottedTypes {
   slot: number;
