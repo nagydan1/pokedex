@@ -8,14 +8,10 @@ import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
-import { PokemonQuery } from "../App";
 import useHabitat from "../hooks/useHabitat";
+import usePokemonQueryStore from "../store";
 
-interface Props {
-  pokemonQuery: PokemonQuery;
-}
-
-const PokemonGrid = ({ pokemonQuery }: Props) => {
+const PokemonGrid = () => {
   const {
     data: pokemons,
     error,
@@ -23,7 +19,8 @@ const PokemonGrid = ({ pokemonQuery }: Props) => {
     fetchNextPage,
     hasNextPage,
   } = usePokemons();
-  
+
+  const pokemonQuery = usePokemonQueryStore(s => s.pokemonQuery);  
   const { data: types } = useTypes();
   const { data: habitats } = useHabitats();
   const selectedHabitat = useHabitat(pokemonQuery.habitatName);
@@ -63,7 +60,7 @@ const PokemonGrid = ({ pokemonQuery }: Props) => {
 
   const filterPokemon = (pokemon: Pokemon): boolean | undefined => {
     const matchesSearchText =
-      pokemon.name.search(pokemonQuery.searchText?.toLowerCase()) !== -1;
+      pokemon.name.search(pokemonQuery.searchText.toLowerCase()) !== -1;
     const matchesType =
       !pokemonQuery.typeName ||
       pokemon.types.some((t) => t.type.name === pokemonQuery.typeName);

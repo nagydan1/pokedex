@@ -1,10 +1,6 @@
 import { Button, Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
 import { BsChevronDown } from "react-icons/bs";
-
-interface Props {
-  onSelectSortOrder: (sortOrder: SortOrder) => void;
-  sortOrder: SortOrder;
-}
+import usePokemonQueryStore from "../store";
 
 export interface SortOrder {
   value: string;
@@ -12,7 +8,7 @@ export interface SortOrder {
   label: string;
 }
 
-const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
+const SortSelector = () => {
   const sortOrderList = [
     { value: "id", factor: 1, label: "ID ↑" },
     { value: "id", factor: -1, label: "ID ↓" },
@@ -24,6 +20,8 @@ const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
     { value: "weight", factor: -1, label: "Weight ↓" },
   ];
 
+  const setSortOrder = usePokemonQueryStore((s) => s.setSortOrder);
+  const sortOrder = usePokemonQueryStore((s) => s.pokemonQuery.sortOrder);
   const currentSortOrder = sortOrderList.find(
     (so) => so.label === sortOrder?.label
   );
@@ -36,7 +34,7 @@ const SortSelector = ({ onSelectSortOrder, sortOrder }: Props) => {
       <MenuList>
         {sortOrderList.map((so, index) => (
           <MenuItem
-            onClick={() => onSelectSortOrder(so)}
+            onClick={() => setSortOrder(so)}
             key={index}
             value={so.value}
           >

@@ -1,22 +1,12 @@
-import { useState } from "react";
 import NavBar from "./components/NavBar";
 import PokemonGrid from "./components/PokemonGrid";
 import TypeList from "./components/TypeList";
 import HabitatSelector from "./components/HabitatSelector";
-import SortSelector, { SortOrder } from "./components/SortSelector";
+import SortSelector from "./components/SortSelector";
 import PokemonHeading from "./components/PokemonHeading";
 import { Grid, GridItem, HStack, Show } from "@chakra-ui/react";
 
-export interface PokemonQuery {
-  typeName: string | null;
-  habitatName?: string;
-  sortOrder: SortOrder;
-  searchText: string;
-}
-
 function App() {
-  const [pokemonQuery, setPokemonQuery] = useState<PokemonQuery>({} as PokemonQuery);
-
   return (
     <Grid
       templateAreas={{
@@ -29,30 +19,20 @@ function App() {
       }}
     >
       <GridItem area="nav">
-        <NavBar onSearch={(searchText) => setPokemonQuery({ ...pokemonQuery, searchText })}
-        />
+        <NavBar />
       </GridItem>
       <Show above="md">
         <GridItem area="aside" paddingX={3}>
-          <TypeList
-            selectedTypeName={pokemonQuery.typeName}
-            onSelectType={(type) => setPokemonQuery({ ...pokemonQuery, typeName: type?.name || null })}
-          />
+          <TypeList />
         </GridItem>
       </Show>
       <GridItem area="main" p={2}>
-        <PokemonHeading pokemonQuery={pokemonQuery} />
+        <PokemonHeading />
         <HStack spacing={5}>
-          <HabitatSelector
-            selectedHabitatName={pokemonQuery.habitatName}
-            onSelectHabitat={(habitat) => setPokemonQuery({ ...pokemonQuery, habitatName: habitat?.name})}
-          />
-          <SortSelector
-            sortOrder={pokemonQuery.sortOrder}
-            onSelectSortOrder={(sortOrder) => setPokemonQuery({ ...pokemonQuery, sortOrder })}
-          />
+          <HabitatSelector />
+          <SortSelector />
         </HStack>
-        <PokemonGrid pokemonQuery={pokemonQuery} />
+        <PokemonGrid />
       </GridItem>
     </Grid>
   );

@@ -1,22 +1,18 @@
 import { Heading } from "@chakra-ui/react";
-import { PokemonQuery } from "../App";
 import useType from "../hooks/useType";
 import useHabitat from "../hooks/useHabitat";
+import usePokemonQueryStore from "../store";
 
-interface Props {
-  pokemonQuery: PokemonQuery;
-}
-
-const PokemonHeading = ({ pokemonQuery }: Props) => {
-  const type = useType(pokemonQuery.typeName);
-  const habitat = useHabitat(pokemonQuery.habitatName);
+const PokemonHeading = () => {
+  const typeName = usePokemonQueryStore((s) => s.pokemonQuery.typeName);
+  const type = useType(typeName);
+  
+  const habitatName = usePokemonQueryStore((s) => s.pokemonQuery.habitatName);
+  const habitat = useHabitat(habitatName);
 
   const heading = `
     ${type?.name.charAt(0).toUpperCase()?.concat(type?.name.slice(1)) || ""} 
-    ${
-      habitat?.name.charAt(0).toUpperCase()?.concat(habitat?.name.slice(1)) ||
-      ""
-    } 
+    ${habitat?.name.charAt(0).toUpperCase()?.concat(habitat?.name.slice(1)) || ""} 
     Pokemons
   `;
 

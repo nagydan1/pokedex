@@ -1,4 +1,4 @@
-import useHabitats, { Habitat } from "../hooks/useHabitats";
+import useHabitats from "../hooks/useHabitats";
 import HabitatEmoji from "./HabitatEmoji";
 import { BsChevronDown } from "react-icons/bs";
 import {
@@ -10,14 +10,12 @@ import {
   MenuList,
   Text,
 } from "@chakra-ui/react";
+import usePokemonQueryStore from "../store";
 
-interface Props {
-  onSelectHabitat: (habitat: Habitat | null) => void;
-  selectedHabitatName?: string;
-}
-
-const HabitatSelector = ({ onSelectHabitat, selectedHabitatName }: Props) => {
+const HabitatSelector = () => {
   const { data: habitats, isLoading, error } = useHabitats();
+  const selectedHabitatName = usePokemonQueryStore(s => s.pokemonQuery.habitatName);
+  const setSelectedHabitatName = usePokemonQueryStore(s => s.setHabitatName);
 
   if (error || isLoading) return null;
   return (
@@ -34,12 +32,12 @@ const HabitatSelector = ({ onSelectHabitat, selectedHabitatName }: Props) => {
         </HStack>
       </MenuButton>
       <MenuList>
-        <MenuItem onClick={() => onSelectHabitat(null)}>
+        <MenuItem onClick={() => setSelectedHabitatName(null)}>
           <HabitatEmoji habitat={"all"} />
           &nbsp;&nbsp;All habitats
         </MenuItem>
         {habitats?.map((habitat, index) => (
-          <MenuItem key={index} onClick={() => onSelectHabitat(habitat)}>
+          <MenuItem key={index} onClick={() => setSelectedHabitatName(habitat.name)}>
             <HabitatEmoji habitat={habitat.name} />
             &nbsp;&nbsp;
             {habitat.name.charAt(0).toUpperCase().concat(habitat.name.slice(1))}

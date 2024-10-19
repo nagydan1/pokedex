@@ -7,19 +7,17 @@ import {
   InputRightElement,
 } from "@chakra-ui/react";
 import { BsSearch, BsXCircle } from "react-icons/bs";
+import usePokemonQueryStore from "../store";
 
-interface Props {
-  onSearch: (searchText: string) => void;
-}
-
-const SearchInput = ({ onSearch }: Props) => {
+const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
+  const setSearchText = usePokemonQueryStore((s) => s.setSearchText);
 
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        if (ref.current) onSearch(ref.current.value);
+        if (ref.current) setSearchText(ref.current.value);
       }}
     >
       <InputGroup>
@@ -36,7 +34,7 @@ const SearchInput = ({ onSearch }: Props) => {
               variant="link"
               onClick={() => {
                 if (ref.current) ref.current.value = "";
-                onSearch("");
+                setSearchText("");
               }}
             >
               <BsXCircle />
