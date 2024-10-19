@@ -1,4 +1,4 @@
-import { Grid, Show, GridItem, HStack } from "@chakra-ui/react";
+import { Grid, Show, GridItem, HStack, Flex } from "@chakra-ui/react";
 import HabitatSelector from "../components/HabitatSelector";
 import PokemonGrid from "../components/PokemonGrid";
 import PokemonHeading from "../components/PokemonHeading";
@@ -24,10 +24,10 @@ const HomePage = () => {
       </Show>
       <GridItem area="main" p={2}>
         <PokemonHeading />
-        <HStack spacing={5}>
+        <Flex columnGap={5} flexDirection="row" flexWrap="wrap">
           <HabitatSelector />
           <SortSelector />
-        </HStack>
+        </Flex>
         <PokemonGrid />
       </GridItem>
     </Grid>
