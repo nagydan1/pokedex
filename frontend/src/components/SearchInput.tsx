@@ -8,16 +8,21 @@ import {
 } from "@chakra-ui/react";
 import { BsSearch, BsXCircle } from "react-icons/bs";
 import usePokemonQueryStore from "../store";
+import { useNavigate } from "react-router-dom";
 
 const SearchInput = () => {
   const ref = useRef<HTMLInputElement>(null);
   const setSearchText = usePokemonQueryStore((s) => s.setSearchText);
+  const navigate = useNavigate();
 
   return (
     <form
       onSubmit={(event) => {
         event.preventDefault();
-        if (ref.current) setSearchText(ref.current.value);
+        if (ref.current) {
+          setSearchText(ref.current.value);
+          navigate("/");
+        }
       }}
     >
       <InputGroup>
