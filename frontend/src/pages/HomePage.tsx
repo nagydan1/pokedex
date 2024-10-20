@@ -1,9 +1,10 @@
-import { Grid, Show, GridItem, HStack, Flex } from "@chakra-ui/react";
+import { Grid, Show, GridItem, Flex } from "@chakra-ui/react";
 import HabitatSelector from "../components/HabitatSelector";
 import PokemonGrid from "../components/PokemonGrid";
 import PokemonHeading from "../components/PokemonHeading";
 import SortSelector from "../components/SortSelector";
 import TypeList from "../components/TypeList";
+import TypeSelector from "../components/TypeSelector";
 
 const HomePage = () => {
   return (
@@ -25,6 +26,9 @@ const HomePage = () => {
       <GridItem area="main" p={2}>
         <PokemonHeading />
         <Flex columnGap={5} flexDirection="row" flexWrap="wrap">
+          <Show below="md">
+            <TypeSelector />
+          </Show>
           <HabitatSelector />
           <SortSelector />
         </Flex>

@@ -1,5 +1,5 @@
 import { VStack, Image } from "@chakra-ui/react";
-import useType from "../hooks/useType";
+import useTypes from "../hooks/useTypes";
 import { SlottedTypes } from "../entities/Pokemon";
 
 interface Props {
@@ -8,11 +8,15 @@ interface Props {
 
 const PokemonTypes = ({ types }: Props) => {
   let typeSprites: string[] = [];
+  const { data: typeList } = useTypes();
   types.forEach((type) => {
-    typeSprites.push(
-      useType(type.type.name)?.sprites["generation-ix"]["scarlet-violet"]
-        .name_icon || ""
-    );
+    typeList.forEach((t) => {
+      if (type.type.name === t.name) {
+        typeSprites.push(
+          t.sprites["generation-ix"]["scarlet-violet"].name_icon
+        );
+      }
+    });
   });
 
   return (
