@@ -11,10 +11,10 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { backendClient } from "../services/api-client";
-import HabitatEmoji from "./HabitatEmoji";
 import PokemonImage from "./PokemonImage";
 import PokemonIdBadge from "./PokemonIdBadge";
 import PokemonTypes from "./PokemonTypes";
+import PokemonHabitat from "./PokemonHabitat";
 import { Pokemon } from "../entities/Pokemon";
 
 interface Props {
@@ -22,7 +22,7 @@ interface Props {
   habitat: string;
 }
 
-const PokemonCard = ({ pokemon, habitat }: Props) => {
+const PokemonCard = ({ pokemon }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const handleSavePokemon = () => {
@@ -33,7 +33,7 @@ const PokemonCard = ({ pokemon, habitat }: Props) => {
 
   return (
     <>
-      <Card height={360} variant={isSaved ? "filled" : "elevated"}>
+      <Card height="370px" variant={isSaved ? "filled" : "elevated"}>
         <CardBody>
           <Flex
             direction="column"
@@ -51,7 +51,7 @@ const PokemonCard = ({ pokemon, habitat }: Props) => {
                       pokemon.name.slice(1)}
                   </Link>
                 </Heading>
-                <HabitatEmoji habitat={habitat} />
+                <PokemonHabitat speciesName={pokemon.species.name} onlyEmoji />
               </HStack>
               <Flex justifyContent="space-between" width="100%" gap={1}>
                 <VStack my={3} gap={0} alignItems="start">

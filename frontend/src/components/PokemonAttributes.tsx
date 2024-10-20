@@ -2,6 +2,7 @@ import { SimpleGrid, Box, Text } from "@chakra-ui/react";
 import DefinitionItem from "./DefinitionItem";
 import PokemonIdBadge from "./PokemonIdBadge";
 import PokemonTypes from "./PokemonTypes";
+import PokemonHabitat from "./PokemonHabitat";
 import { Pokemon } from "../entities/Pokemon";
 
 interface Props {
@@ -23,6 +24,9 @@ const PokemonAttributes = ({ pokemon }: Props) => {
         </DefinitionItem>
         <DefinitionItem term="Weight">
           <Text>{pokemon.weight}</Text>
+        </DefinitionItem>
+        <DefinitionItem term="Habitat">
+          <PokemonHabitat speciesName={pokemon.species.name} />
         </DefinitionItem>
         <DefinitionItem term="Types">
           <PokemonTypes types={pokemon.types} />
