@@ -51,7 +51,7 @@ interface Stat {
   stat: Feature;
 }
 
-interface SlottedTypes {
+export interface SlottedTypes {
   slot: number;
   type: Type;
 }

@@ -3,8 +3,6 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import useOnScreen from "../hooks/useOnScreen";
 import useHabitats from "../hooks/useHabitats";
 import { Habitat } from "../entities/Habitat";
-import useTypes from "../hooks/useTypes";
-import { Type } from "../entities/Type";
 import usePokemons from "../hooks/usePokemons";
 import { Pokemon } from "../entities/Pokemon";
 import PokemonCard from "./PokemonCard";
@@ -24,7 +22,6 @@ const PokemonGrid = () => {
   } = usePokemons();
 
   const pokemonQuery = usePokemonQueryStore((s) => s.pokemonQuery);
-  const { data: types } = useTypes();
   const { data: habitats } = useHabitats();
   const selectedHabitat = useHabitat(pokemonQuery.habitatName);
 
@@ -35,18 +32,6 @@ const PokemonGrid = () => {
   });
 
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-  const typeSprites = (pokemon: Pokemon, typesArray: Type[]): string[] => {
-    const sprites: string[] = [];
-    pokemon.types.forEach((pokemonType) => {
-      typesArray?.forEach((t) => {
-        if (t.name === pokemonType.type.name) {
-          sprites.push(t.sprites["generation-ix"]["scarlet-violet"].name_icon);
-        }
-      });
-    });
-    return sprites;
-  };
 
   const correspondHabitat = (
     pokemon: Pokemon,
@@ -131,7 +116,6 @@ const PokemonGrid = () => {
             <PokemonCardContainer key={index}>
               <PokemonCard
                 pokemon={pokemon}
-                typeSprites={typeSprites(pokemon, types)}
                 habitat={correspondHabitat(pokemon, habitats)}
               />
             </PokemonCardContainer>

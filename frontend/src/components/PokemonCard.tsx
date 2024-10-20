@@ -3,7 +3,6 @@ import {
   CardBody,
   Flex,
   Heading,
-  Image,
   Button,
   VStack,
   Text,
@@ -12,18 +11,18 @@ import {
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { backendClient } from "../services/api-client";
-import { Pokemon } from "../entities/Pokemon";
 import HabitatEmoji from "./HabitatEmoji";
 import PokemonImage from "./PokemonImage";
 import PokemonIdBadge from "./PokemonIdBadge";
+import PokemonTypes from "./PokemonTypes";
+import { Pokemon } from "../entities/Pokemon";
 
 interface Props {
   pokemon: Pokemon;
-  typeSprites: string[];
   habitat: string;
 }
 
-const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
+const PokemonCard = ({ pokemon, habitat }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
 
   const handleSavePokemon = () => {
@@ -63,11 +62,7 @@ const PokemonCard = ({ pokemon, typeSprites, habitat }: Props) => {
                     Weight:&nbsp;<b>{pokemon.weight}</b>
                   </Text>
                 </VStack>
-                <VStack my={3} gap={2}>
-                  {typeSprites.map((sprite, index) => (
-                    <Image key={index} src={sprite} width="100px" />
-                  ))}
-                </VStack>
+                <PokemonTypes types={pokemon.types} />
               </Flex>
             </Flex>
             <Button
