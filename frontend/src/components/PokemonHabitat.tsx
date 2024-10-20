@@ -1,6 +1,6 @@
-import { HStack, Text, VStack } from "@chakra-ui/react";
-import useHabitats from "../hooks/useHabitats";
+import { HStack, Text } from "@chakra-ui/react";
 import HabitatEmoji from "./HabitatEmoji";
+import useHabitats from "../hooks/useHabitats";
 
 interface Props {
   speciesName: string;

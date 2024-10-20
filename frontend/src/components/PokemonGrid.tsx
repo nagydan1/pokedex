@@ -1,15 +1,13 @@
 import { useEffect, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
-import useOnScreen from "../hooks/useOnScreen";
-import useHabitats from "../hooks/useHabitats";
-import { Habitat } from "../entities/Habitat";
-import usePokemons from "../hooks/usePokemons";
-import { Pokemon } from "../entities/Pokemon";
+import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
 import PokemonCardSkeleton from "./PokemonCardSkeleton";
 import PokemonCardContainer from "./PokemonCardContainer";
-import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
+import useOnScreen from "../hooks/useOnScreen";
+import usePokemons from "../hooks/usePokemons";
 import useHabitat from "../hooks/useHabitat";
+import { Pokemon } from "../entities/Pokemon";
 import usePokemonQueryStore from "../store";
 
 const PokemonGrid = () => {
@@ -22,7 +20,6 @@ const PokemonGrid = () => {
   } = usePokemons();
 
   const pokemonQuery = usePokemonQueryStore((s) => s.pokemonQuery);
-  const { data: habitats } = useHabitats();
   const selectedHabitat = useHabitat(pokemonQuery.habitatName);
 
   const spinnerRef = useRef<HTMLDivElement>(null);
@@ -32,19 +29,6 @@ const PokemonGrid = () => {
   });
 
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-
-  const correspondHabitat = (
-    pokemon: Pokemon,
-    habitatsArray: Habitat[]
-  ): string => {
-    let foundHabitat: string = "unknown";
-    habitatsArray?.forEach((hab) => {
-      hab.pokemon_species?.forEach((ps) => {
-        if (ps.name === pokemon.species.name) foundHabitat = hab.name;
-      });
-    });
-    return foundHabitat;
-  };
 
   const filterPokemon = (pokemon: Pokemon): boolean | undefined => {
     const matchesSearchText =
@@ -116,7 +100,6 @@ const PokemonGrid = () => {
             <PokemonCardContainer key={index}>
               <PokemonCard
                 pokemon={pokemon}
-                habitat={correspondHabitat(pokemon, habitats)}
               />
             </PokemonCardContainer>
           ))}

@@ -19,7 +19,6 @@ import { Pokemon } from "../entities/Pokemon";
 
 interface Props {
   pokemon: Pokemon;
-  habitat: string;
 }
 
 const PokemonCard = ({ pokemon }: Props) => {
