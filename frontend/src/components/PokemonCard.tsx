@@ -32,7 +32,7 @@ const PokemonCard = ({ pokemon }: Props) => {
 
   return (
     <>
-      <Card height="370px" variant={isSaved ? "filled" : "elevated"}>
+      <Card height="380px" variant={isSaved ? "filled" : "elevated"}>
         <CardBody>
           <Flex
             direction="column"
@@ -44,7 +44,7 @@ const PokemonCard = ({ pokemon }: Props) => {
               <PokemonImage src={pokemon.sprites.front_default} />
               <HStack mb={2} gap={2} alignItems="center">
                 <PokemonIdBadge id={pokemon.id} />
-                <Heading size="md">
+                <Heading size="md" textAlign="center">
                   <Link to={"/pokemon/" + pokemon.name}>
                     {pokemon.name.charAt(0).toUpperCase() +
                       pokemon.name.slice(1)}
