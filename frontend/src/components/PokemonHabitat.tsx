@@ -19,7 +19,7 @@ const PokemonHabitat = ({ speciesName, onlyEmoji }: Props) => {
   console.log(habitatName);
 
   return (
-    <HStack my={3} gap={2}>
+    <HStack gap={2}>
       <HabitatEmoji habitat={habitatName} />
       {!onlyEmoji && <Text>
         {habitatName.charAt(0).toUpperCase().concat(habitatName.slice(1))}

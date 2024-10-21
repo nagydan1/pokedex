@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import usePokemon from "../hooks/usePokemon";
-import { Heading, Spinner, HStack, Box } from "@chakra-ui/react";
+import { Heading, Spinner, Flex } from "@chakra-ui/react";
 import PokemonImage from "../components/PokemonImage";
 import PokemonAttributes from "../components/PokemonAttributes";
 
@@ -12,16 +12,16 @@ const PokemonDetailPage = () => {
   if (error || !pokemon) throw error;
 
   return (
-    <Box p={5}>
+    <Flex p={5} direction="column" alignItems={{ base: "center", md: "start" }}>
       <Heading>
         {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
       </Heading>
-      <HStack>
+      <Flex wrap="wrap" justifyContent="center">
         <PokemonImage src={pokemon.sprites.front_default} />
         <PokemonImage src={pokemon.sprites.back_default} />
-      </HStack>
+      </Flex>
       <PokemonAttributes pokemon={pokemon} />
-    </Box>
+    </Flex>
   );
 };
 

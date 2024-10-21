@@ -1,4 +1,4 @@
-import { SimpleGrid, Box, Text } from "@chakra-ui/react";
+import { Flex, Text } from "@chakra-ui/react";
 import DefinitionItem from "./DefinitionItem";
 import PokemonIdBadge from "./PokemonIdBadge";
 import PokemonTypes from "./PokemonTypes";
@@ -11,47 +11,49 @@ interface Props {
 
 const PokemonAttributes = ({ pokemon }: Props) => {
   return (
-    <SimpleGrid columns={3} as="dl">
-      <Box>
-        <DefinitionItem term="ID number">
-          {<PokemonIdBadge id={pokemon.id} />}
-        </DefinitionItem>
-        <DefinitionItem term="Base experience">
-          <Text>{pokemon.base_experience}</Text>
-        </DefinitionItem>
-        <DefinitionItem term="Height">
-          <Text>{pokemon.height}</Text>
-        </DefinitionItem>
-        <DefinitionItem term="Weight">
-          <Text>{pokemon.weight}</Text>
-        </DefinitionItem>
-        <DefinitionItem term="Habitat">
-          <PokemonHabitat speciesName={pokemon.species.name} />
-        </DefinitionItem>
-        <DefinitionItem term="Types">
-          <PokemonTypes types={pokemon.types} />
-        </DefinitionItem>
-      </Box>
-
-      <Box>
-        <DefinitionItem term="Held items">
-          {pokemon.held_items.map(({ item, slot }) => (
-            <Text key={slot}>
-              {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
-            </Text>
-          ))}
-        </DefinitionItem>
-        <DefinitionItem term="Base stats">
-          {pokemon.stats.map(({ stat, base_stat }, index) => (
-            <Text key={index}>
-              {stat.name.charAt(0).toUpperCase() + stat.name.slice(1)}
-              {": "}
-              {base_stat}
-            </Text>
-          ))}
-        </DefinitionItem>
-      </Box>
-
+    <Flex
+      as="dl"
+      m="auto"
+      width={{ sm: "100%" }}
+      height={{ sm: "60vh" }}
+      gap={5}
+      direction="column"
+      wrap="wrap"
+    >
+      <DefinitionItem term="ID number">
+        {<PokemonIdBadge id={pokemon.id} />}
+      </DefinitionItem>
+      <DefinitionItem term="Base experience">
+        <Text>{pokemon.base_experience}</Text>
+      </DefinitionItem>
+      <DefinitionItem term="Height">
+        <Text>{pokemon.height}</Text>
+      </DefinitionItem>
+      <DefinitionItem term="Weight">
+        <Text>{pokemon.weight}</Text>
+      </DefinitionItem>
+      <DefinitionItem term="Habitat">
+        <PokemonHabitat speciesName={pokemon.species.name} />
+      </DefinitionItem>
+      <DefinitionItem term="Types">
+        <PokemonTypes types={pokemon.types} />
+      </DefinitionItem>
+      <DefinitionItem term="Held items">
+        {pokemon.held_items.map(({ item, slot }) => (
+          <Text key={slot}>
+            {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
+          </Text>
+        ))}
+      </DefinitionItem>
+      <DefinitionItem term="Base stats">
+        {pokemon.stats.map(({ stat, base_stat }, index) => (
+          <Text key={index}>
+            {stat.name.charAt(0).toUpperCase() + stat.name.slice(1)}
+            {": "}
+            {base_stat}
+          </Text>
+        ))}
+      </DefinitionItem>
       <DefinitionItem term="Moves">
         {pokemon.moves.map(({ move, slot }) => (
           <Text key={slot}>
@@ -59,7 +61,7 @@ const PokemonAttributes = ({ pokemon }: Props) => {
           </Text>
         ))}
       </DefinitionItem>
-    </SimpleGrid>
+    </Flex>
   );
 };
 
