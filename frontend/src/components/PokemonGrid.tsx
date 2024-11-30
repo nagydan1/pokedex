@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import { SimpleGrid, Spinner, Text } from "@chakra-ui/react";
 import PokemonCard from "./PokemonCard";
@@ -30,19 +30,27 @@ const PokemonGrid = () => {
 
   const skeletons = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
 
-  const filterPokemon = (pokemon: Pokemon): boolean | undefined => {
-    const matchesSearchText =
-      pokemon.name.search(pokemonQuery.searchText.toLowerCase()) !== -1;
-    const matchesType =
-      !pokemonQuery.typeName ||
-      pokemon.types.some((t) => t.type.name === pokemonQuery.typeName);
-    const matchesHabitat =
-      !pokemonQuery.habitatName ||
-      selectedHabitat?.pokemon_species.some(
-        (ps) => ps.name === pokemon.species.name
-      );
-    return matchesSearchText && matchesType && matchesHabitat;
-  };
+  const filterPokemon = useCallback(
+    (pokemon: Pokemon): boolean | undefined => {
+      const matchesSearchText =
+        pokemon.name.search(pokemonQuery.searchText.toLowerCase()) !== -1;
+      const matchesType =
+        !pokemonQuery.typeName ||
+        pokemon.types.some((t) => t.type.name === pokemonQuery.typeName);
+      const matchesHabitat =
+        !pokemonQuery.habitatName ||
+        selectedHabitat?.pokemon_species.some(
+          (ps) => ps.name === pokemon.species.name
+        );
+      return matchesSearchText && matchesType && matchesHabitat;
+    },
+    [
+      pokemonQuery.habitatName,
+      pokemonQuery.searchText,
+      pokemonQuery.typeName,
+      selectedHabitat?.pokemon_species,
+    ]
+  );
 
   const sortedPokemons = useMemo(() => {
     const allPokemons = pokemons?.pages.flatMap((page) => page.results) || [];
@@ -74,9 +82,17 @@ const PokemonGrid = () => {
       sortedPokemons.slice(sortedPokemons.length - 20).filter(filterPokemon)
         .length === 0
     ) {
-      fetchNextPage();
+      fetchNextPage().catch((error) => {
+        console.error("Failed to fetch the next page:", error);
+      });
     }
-  }, [isSpinnerVisible, sortedPokemons, pokemonQuery]);
+  }, [
+    isSpinnerVisible,
+    sortedPokemons,
+    pokemonQuery,
+    fetchNextPage,
+    filterPokemon,
+  ]);
 
   return (
     <>
@@ -98,9 +114,7 @@ const PokemonGrid = () => {
             ))}
           {sortedPokemons.filter(filterPokemon).map((pokemon, index) => (
             <PokemonCardContainer key={index}>
-              <PokemonCard
-                pokemon={pokemon}
-              />
+              <PokemonCard pokemon={pokemon} />
             </PokemonCardContainer>
           ))}
         </SimpleGrid>

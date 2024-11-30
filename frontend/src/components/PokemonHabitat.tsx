@@ -16,8 +16,6 @@ const PokemonHabitat = ({ speciesName, onlyEmoji }: Props) => {
     });
   });
 
-  console.log(habitatName);
-
   return (
     <HStack gap={2}>
       <HabitatEmoji habitat={habitatName} />

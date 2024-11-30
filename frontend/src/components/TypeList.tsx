@@ -8,6 +8,7 @@ import {
   Image,
 } from "@chakra-ui/react";
 import usePokemonQueryStore from "../store";
+import { Type } from "../entities/Type";
 
 const TypeList = () => {
   const { data: types, isLoading, error } = useTypes();
@@ -25,7 +26,7 @@ const TypeList = () => {
             <Heading mb={2}>Types</Heading>
           </Button>
         </ListItem>
-        {types.map((type) => (
+        {types?.map((type: Type) => (
           <ListItem key={type.name} paddingY="5px">
             <Button
               onClick={() => setSelectedTypeName(type.name)}

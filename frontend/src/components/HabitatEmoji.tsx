@@ -4,7 +4,7 @@ interface Props {
   habitat: string;
 }
 
-export const emojiMap: { [key: string]: string } = {
+const emojiMap: { [key: string]: string } = {
   all: "🏠",
   cave: "🗻",
   forest: "🌳",

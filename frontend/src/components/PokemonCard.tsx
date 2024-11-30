@@ -26,8 +26,11 @@ const PokemonCard = ({ pokemon }: Props) => {
 
   const handleSavePokemon = () => {
     backendClient
-      .post("/api/savedpokemon", { name })
-      .then(() => setIsSaved(true));
+      .post("/api/savedpokemon", { name: pokemon.name })
+      .then(() => setIsSaved(true))
+      .catch((error) => {
+        console.error("Failed to save Pokemon:", error);
+      });
   };
 
   return (

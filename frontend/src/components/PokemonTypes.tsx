@@ -7,10 +7,10 @@ interface Props {
 }
 
 const PokemonTypes = ({ types }: Props) => {
-  let typeSprites: string[] = [];
-  const { data: typeList } = useTypes();
+  const typeSprites: string[] = [];
+  const { data: typeList, error } = useTypes();
   types.forEach((type) => {
-    typeList.forEach((t) => {
+    typeList?.forEach((t) => {
       if (type.type.name === t.name) {
         typeSprites.push(
           t.sprites["generation-ix"]["scarlet-violet"].name_icon
@@ -19,6 +19,8 @@ const PokemonTypes = ({ types }: Props) => {
     });
   });
 
+  if (error) return null;
+  
   return (
     <VStack my={3} gap={2} align="start">
       {typeSprites.map((sprite, index) => (
