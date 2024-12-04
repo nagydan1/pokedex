@@ -14,8 +14,10 @@ import usePokemonQueryStore from "../store";
 
 const HabitatSelector = () => {
   const { data: habitats, isLoading, error } = useHabitats();
-  const selectedHabitatName = usePokemonQueryStore(s => s.pokemonQuery.habitatName);
-  const setSelectedHabitatName = usePokemonQueryStore(s => s.setHabitatName);
+  const selectedHabitatName = usePokemonQueryStore(
+    (s) => s.pokemonQuery.habitatName
+  );
+  const setSelectedHabitatName = usePokemonQueryStore((s) => s.setHabitatName);
 
   if (error || isLoading) return null;
   return (
@@ -37,7 +39,10 @@ const HabitatSelector = () => {
           &nbsp;&nbsp;All habitats
         </MenuItem>
         {habitats?.map((habitat, index) => (
-          <MenuItem key={index} onClick={() => setSelectedHabitatName(habitat.name)}>
+          <MenuItem
+            key={index}
+            onClick={() => setSelectedHabitatName(habitat.name)}
+          >
             <HabitatEmoji habitat={habitat.name} />
             &nbsp;&nbsp;
             {habitat.name.charAt(0).toUpperCase().concat(habitat.name.slice(1))}

@@ -1,5 +1,6 @@
 import { http, HttpResponse } from "msw";
-import { pokemonDetails, pokemonList } from "./handlerData";
+import { pokemonDetails, pokemonList } from "./mockPokemonData";
+import { habitatDetails, habitatList } from "./mockHabitatData";
 
 export const handlers = [
   http.get("https://pokeapi.co/api/v2/pokemon", () => {
@@ -8,8 +9,18 @@ export const handlers = [
 
   http.get("https://pokeapi.co/api/v2/pokemon/:id", ({ params }) => {
     const id = params.id as string;
-    const pokemon = pokemonDetails.find((p) => p.id ===  parseInt(id));
+    const pokemon = pokemonDetails.find((p) => p.id === parseInt(id));
     return HttpResponse.json(pokemon);
+  }),
+
+  http.get("https://pokeapi.co/api/v2/pokemon-habitat", () => {
+    return HttpResponse.json(habitatList);
+  }),
+
+  http.get("https://pokeapi.co/api/v2/pokemon-habitat/:id", ({ params }) => {
+    const id = params.id as string;
+    const habitat = habitatDetails.find((h) => h.id === parseInt(id));
+    return HttpResponse.json(habitat);
   }),
 
   http.get("https://pokeapi.co/api/v2/type", () => {

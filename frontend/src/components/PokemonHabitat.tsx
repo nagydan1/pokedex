@@ -10,7 +10,7 @@ interface Props {
 const PokemonHabitat = ({ speciesName, onlyEmoji }: Props) => {
   let habitatName: string = "unknown";
   const { data: HabitatList } = useHabitats();
-  HabitatList.forEach((habitat) => {
+  HabitatList?.forEach((habitat) => {
     habitat.pokemon_species?.forEach((species) => {
       if (species.name === speciesName) habitatName = habitat.name;
     });
