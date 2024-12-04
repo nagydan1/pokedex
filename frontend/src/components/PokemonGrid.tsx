@@ -105,7 +105,11 @@ const PokemonGrid = () => {
         endMessage="There are no more pokémon."
         style={{ overflow: "visible" }}
       >
-        <SimpleGrid columns={{ sm: 2, lg: 3, xl: 4 }} spacing={5}>
+        <SimpleGrid
+          columns={{ sm: 2, lg: 3, xl: 4 }}
+          spacing={5}
+          role={isLoading ? "progressbar" : undefined}
+        >
           {isLoading &&
             skeletons.map((skeleton) => (
               <PokemonCardContainer key={skeleton}>

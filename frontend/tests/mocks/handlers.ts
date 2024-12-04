@@ -1,6 +1,17 @@
 import { http, HttpResponse } from "msw";
+import { pokemonDetails, pokemonList } from "./handlerData";
 
 export const handlers = [
+  http.get("https://pokeapi.co/api/v2/pokemon", () => {
+    return HttpResponse.json(pokemonList);
+  }),
+
+  http.get("https://pokeapi.co/api/v2/pokemon/:id", ({ params }) => {
+    const id = params.id as string;
+    const pokemon = pokemonDetails.find((p) => p.id ===  parseInt(id));
+    return HttpResponse.json(pokemon);
+  }),
+
   http.get("https://pokeapi.co/api/v2/type", () => {
     return HttpResponse.json({
       count: 2,
