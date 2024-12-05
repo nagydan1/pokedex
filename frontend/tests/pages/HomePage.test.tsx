@@ -9,8 +9,8 @@ import { http, delay, HttpResponse } from "msw";
 import HomePage from "../../src/pages/HomePage";
 import AllProviders from "../AllProviders";
 import { server } from "../mocks/server";
-import { habitatList } from "../mocks/mockHabitatData";
-import { pokemonList } from "../mocks/mockPokemonData";
+import { habitatDetails, habitatList } from "../mocks/mockHabitatData";
+import { pokemonDetails, pokemonList } from "../mocks/mockPokemonData";
 
 describe("HomePage", () => {
   beforeEach(() => {
@@ -54,11 +54,22 @@ describe("HomePage", () => {
     expect(await screen.findByText(/error/i)).toBeInTheDocument();
   });
 
+  it("should reder pokemons", async () => {
+    render(<HomePage />, { wrapper: AllProviders });
+
+    await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
+
+    pokemonList.results.forEach((p) => {
+      const regex = new RegExp(`${p.name}`, "i");
+      expect(screen.getByRole("heading", { name: regex })).toBeInTheDocument();
+    });
+  });
+
   it("should render habitat selector", async () => {
     render(<HomePage />, { wrapper: AllProviders });
 
     const habitatSelector = await screen.findByRole("button", {
-      name: /habitats/i,
+      name: /habitat selector/i,
     });
     expect(habitatSelector).toBeInTheDocument();
 
@@ -74,14 +85,61 @@ describe("HomePage", () => {
     });
   });
 
-  it("should reder pokemons", async () => {
+  it("should filter pokemons by habitat", async () => {
     render(<HomePage />, { wrapper: AllProviders });
 
+    // Arrange
     await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
+    const habitatSelector = screen.getByRole("button", { name: /habitat selector/i });
+    const user = userEvent.setup();
+    await act(async () => {
+      await user.click(habitatSelector);
+    });
 
-    pokemonList.results.forEach((p) => {
-      const regex = new RegExp(`${p.name}`, "i");
-      expect(screen.getByRole("heading", { name: regex })).toBeInTheDocument();
+    // Act
+    const regex = new RegExp(`${habitatDetails[5].name}`, "i");
+    const habitatOption = screen.getByRole("menuitem", { name: regex });
+    await act(async () => {
+      await user.click(habitatOption);
+    });
+
+    // Assert
+    const mockPokemons = pokemonDetails.filter((p) =>
+      habitatDetails[5].pokemon_species.some((ps) => ps.name === p.species.name)
+    );
+    const pokemonCards = screen.getAllByRole("button", { name: /save/i });
+    expect(pokemonCards).toHaveLength(mockPokemons.length);
+
+    mockPokemons.forEach((pokemon) => {
+      const regex = new RegExp(`${pokemon.name}`, "i");
+      expect(screen.getByText(regex)).toBeInTheDocument();
+    });
+  });
+
+  it("should render all pokemons if all habitats is selected", async () => {
+    render(<HomePage />, { wrapper: AllProviders });
+
+    // Arrange
+    await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
+    const habitatSelector = screen.getByRole("button", { name: /habitat selector/i });
+    const user = userEvent.setup();
+    await act(async () => {
+      await user.click(habitatSelector);
+    });
+
+    // Act
+    const habitatOption = screen.getByRole("menuitem", { name: /all/i });
+    await act(async () => {
+      await user.click(habitatOption);
+    });
+
+    // Assert
+    const pokemonCards = screen.getAllByRole("button", { name: /save/i });
+    expect(pokemonCards).toHaveLength(pokemonDetails.length);
+
+    pokemonDetails.forEach((pokemon) => {
+      const regex = new RegExp(`${pokemon.name}`, "i");
+      expect(screen.getByText(regex)).toBeInTheDocument();
     });
   });
 });

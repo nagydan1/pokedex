@@ -22,7 +22,13 @@ const HabitatSelector = () => {
   if (error || isLoading) return null;
   return (
     <Menu>
-      <MenuButton as={Button} size="lg" rightIcon={<BsChevronDown />} mb={4}>
+      <MenuButton
+        as={Button}
+        size="lg"
+        rightIcon={<BsChevronDown />}
+        mb={4}
+        aria-label="Habitat selector"
+      >
         <HStack>
           <HabitatEmoji habitat={selectedHabitatName || "all"} />
           <Text>
