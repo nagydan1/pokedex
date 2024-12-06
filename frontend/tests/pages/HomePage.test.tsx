@@ -5,12 +5,12 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
-import { http, delay, HttpResponse } from "msw";
 import HomePage from "../../src/pages/HomePage";
 import AllProviders from "../AllProviders";
-import { server } from "../mocks/server";
 import { habitatDetails, habitatList } from "../mocks/mockHabitatData";
 import { pokemonDetails, pokemonList } from "../mocks/mockPokemonData";
+import { simulateDelay, simulateError } from "../utils";
+import { Feature, Pokemon } from "../../src/entities/Pokemon";
 
 describe("HomePage", () => {
   beforeEach(() => {
@@ -25,121 +25,121 @@ describe("HomePage", () => {
   });
 
   it("should show a loading skeleton while fetching pokemons", () => {
-    server.use(
-      http.get("https://pokeapi.co/api/v2/pokemon", async () => {
-        await delay();
-        return HttpResponse.json([]);
-      })
-    );
+    simulateDelay("https://pokeapi.co/api/v2/pokemon");
+    const { getPokemonSkeleton } = renderComponent();
 
-    render(<HomePage />, { wrapper: AllProviders });
-
-    const skeletons = screen.getByRole("progressbar");
-    expect(skeletons).toBeInTheDocument();
+    expect(getPokemonSkeleton()).toBeInTheDocument();
   });
 
   it("should hide the loading skeleton after pokemons are fetched", async () => {
-    render(<HomePage />, { wrapper: AllProviders });
+    const { getPokemonSkeleton } = renderComponent();
 
-    await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
+    await waitForElementToBeRemoved(getPokemonSkeleton);
   });
 
   it("should render an error if pokemons cannot be fetched", async () => {
-    server.use(
-      http.get("https://pokeapi.co/api/v2/pokemon", () => HttpResponse.error())
-    );
-
-    render(<HomePage />, { wrapper: AllProviders });
+    simulateError("https://pokeapi.co/api/v2/pokemon");
+    renderComponent();
 
     expect(await screen.findByText(/error/i)).toBeInTheDocument();
   });
 
-  it("should reder pokemons", async () => {
-    render(<HomePage />, { wrapper: AllProviders });
+  it("should render pokemons", async () => {
+    const { getPokemonSkeleton, expectListToBeInTheDocument } =
+      renderComponent();
 
-    await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
+    await waitForElementToBeRemoved(getPokemonSkeleton);
 
-    pokemonList.results.forEach((p) => {
-      const regex = new RegExp(`${p.name}`, "i");
-      expect(screen.getByRole("heading", { name: regex })).toBeInTheDocument();
-    });
+    expectListToBeInTheDocument(pokemonList.results);
   });
 
   it("should render habitat selector", async () => {
-    render(<HomePage />, { wrapper: AllProviders });
+    const {
+      getPokemonSkeleton,
+      getHabitatSelector,
+      expectListToBeInTheDocument,
+    } = renderComponent();
 
-    const habitatSelector = await screen.findByRole("button", {
-      name: /habitat selector/i,
-    });
-    expect(habitatSelector).toBeInTheDocument();
+    await waitForElementToBeRemoved(getPokemonSkeleton);
 
     const user = userEvent.setup();
     await act(async () => {
-      await user.click(habitatSelector);
+      await user.click(getHabitatSelector());
     });
 
+    expect(getHabitatSelector()).toBeInTheDocument();
     expect(screen.getByRole("menuitem", { name: /all/i })).toBeInTheDocument();
-    habitatList.results.forEach((h) => {
-      const regex = new RegExp(`${h.name}`, "i");
-      expect(screen.getByRole("menuitem", { name: regex })).toBeInTheDocument();
-    });
+    expectListToBeInTheDocument(habitatList.results);
   });
 
   it("should filter pokemons by habitat", async () => {
-    render(<HomePage />, { wrapper: AllProviders });
+    const { selectHabitat, getPokemonCards, expectListToBeInTheDocument } =
+      renderComponent();
 
-    // Arrange
-    await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
-    const habitatSelector = screen.getByRole("button", { name: /habitat selector/i });
-    const user = userEvent.setup();
-    await act(async () => {
-      await user.click(habitatSelector);
-    });
-
-    // Act
     const regex = new RegExp(`${habitatDetails[5].name}`, "i");
-    const habitatOption = screen.getByRole("menuitem", { name: regex });
-    await act(async () => {
-      await user.click(habitatOption);
-    });
+    await selectHabitat(regex);
 
-    // Assert
-    const mockPokemons = pokemonDetails.filter((p) =>
+    const filteredPokemons = pokemonDetails.filter((p) =>
       habitatDetails[5].pokemon_species.some((ps) => ps.name === p.species.name)
     );
-    const pokemonCards = screen.getAllByRole("button", { name: /save/i });
-    expect(pokemonCards).toHaveLength(mockPokemons.length);
 
-    mockPokemons.forEach((pokemon) => {
-      const regex = new RegExp(`${pokemon.name}`, "i");
-      expect(screen.getByText(regex)).toBeInTheDocument();
-    });
+    expect(getPokemonCards()).toHaveLength(filteredPokemons.length);
+    expectListToBeInTheDocument(filteredPokemons);
   });
 
   it("should render all pokemons if all habitats is selected", async () => {
+    const { selectHabitat, getPokemonCards, expectListToBeInTheDocument } =
+      renderComponent();
+
+    await selectHabitat(/all/i);
+
+    expect(getPokemonCards()).toHaveLength(pokemonDetails.length);
+    expectListToBeInTheDocument(pokemonDetails);
+  });
+
+  const renderComponent = () => {
     render(<HomePage />, { wrapper: AllProviders });
 
-    // Arrange
-    await waitForElementToBeRemoved(() => screen.getByRole("progressbar"));
-    const habitatSelector = screen.getByRole("button", { name: /habitat selector/i });
-    const user = userEvent.setup();
-    await act(async () => {
-      await user.click(habitatSelector);
-    });
+    const getPokemonSkeleton = () => screen.getByRole("progressbar");
 
-    // Act
-    const habitatOption = screen.getByRole("menuitem", { name: /all/i });
-    await act(async () => {
-      await user.click(habitatOption);
-    });
+    const getHabitatSelector = () =>
+      screen.getByRole("button", { name: /habitat selector/i });
 
-    // Assert
-    const pokemonCards = screen.getAllByRole("button", { name: /save/i });
-    expect(pokemonCards).toHaveLength(pokemonDetails.length);
+    const selectHabitat = async (name: RegExp | string) => {
+      await waitForElementToBeRemoved(getPokemonSkeleton);
+      const user = userEvent.setup();
+      await act(async () => {
+        await user.click(getHabitatSelector());
+      });
 
-    pokemonDetails.forEach((pokemon) => {
-      const regex = new RegExp(`${pokemon.name}`, "i");
-      expect(screen.getByText(regex)).toBeInTheDocument();
-    });
-  });
+      const habitatOption = screen.getByRole("menuitem", { name });
+      await act(async () => {
+        await user.click(habitatOption);
+      });
+    };
+
+    const getPokemonCards = () =>
+      screen.getAllByRole("button", { name: /save/i });
+
+    const expectPokemonsToBeInTheDocument = (pokemons: Pokemon[]) =>
+      pokemons.forEach((pokemon) => {
+        const regex = new RegExp(`${pokemon.name}`, "i");
+        expect(screen.getByText(regex)).toBeInTheDocument();
+      });
+
+    const expectListToBeInTheDocument = (list: Pokemon[] | Feature[]) =>
+      list.forEach((item) => {
+        const regex = new RegExp(`${item.name}`, "i");
+        expect(screen.getByText(regex)).toBeInTheDocument();
+      });
+
+    return {
+      getPokemonSkeleton,
+      getHabitatSelector,
+      selectHabitat,
+      getPokemonCards,
+      expectPokemonsToBeInTheDocument,
+      expectListToBeInTheDocument,
+    };
+  };
 });

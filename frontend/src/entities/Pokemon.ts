@@ -21,7 +21,7 @@ export interface Pokemon {
   types: SlottedTypes[];
 }
 
-interface Feature {
+export interface Feature {
   name: string;
   url: string;
 }
