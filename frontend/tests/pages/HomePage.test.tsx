@@ -5,12 +5,12 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
+import { Feature, Pokemon } from "../../src/entities/Pokemon";
 import HomePage from "../../src/pages/HomePage";
 import AllProviders from "../AllProviders";
 import { habitatDetails, habitatList } from "../mocks/mockHabitatData";
 import { pokemonDetails, pokemonList } from "../mocks/mockPokemonData";
 import { simulateDelay, simulateError } from "../utils";
-import { Feature, Pokemon } from "../../src/entities/Pokemon";
 
 describe("HomePage", () => {
   beforeEach(() => {
@@ -72,19 +72,21 @@ describe("HomePage", () => {
     expectListToBeInTheDocument(habitatList.results);
   });
 
-  it("should filter pokemons by habitat", async () => {
-    const { selectHabitat, getPokemonCards, expectListToBeInTheDocument } =
-      renderComponent();
+  describe("habitat selector should filter pokemons", () => {
+    it.each(habitatDetails)("by $name", async (habitat) => {
+      const { selectHabitat, getPokemonCards, expectListToBeInTheDocument } =
+        renderComponent();
 
-    const regex = new RegExp(`${habitatDetails[5].name}`, "i");
-    await selectHabitat(regex);
+      const regex = new RegExp(`${habitat.name}`, "i");
+      await selectHabitat(regex);
 
-    const filteredPokemons = pokemonDetails.filter((p) =>
-      habitatDetails[5].pokemon_species.some((ps) => ps.name === p.species.name)
-    );
+      const filteredPokemons = pokemonDetails.filter((p) =>
+        habitat.pokemon_species.some((ps) => ps.name === p.species.name)
+      );
 
-    expect(getPokemonCards()).toHaveLength(filteredPokemons.length);
-    expectListToBeInTheDocument(filteredPokemons);
+      expect(getPokemonCards()).toHaveLength(filteredPokemons.length);
+      expectListToBeInTheDocument(filteredPokemons);
+    });
   });
 
   it("should render all pokemons if all habitats is selected", async () => {
