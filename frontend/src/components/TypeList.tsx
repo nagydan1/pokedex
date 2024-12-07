@@ -34,6 +34,7 @@ const TypeList = () => {
               variant={type.name === selectedTypeName ? "solid" : "link"}
               justifyContent="flex-start"
               fontWeight={type.name === selectedTypeName ? "bold" : "normal"}
+              aria-label="type option"
             >
               <Image
                 src={type.sprites["generation-ix"]["scarlet-violet"].name_icon}

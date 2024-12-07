@@ -1,3 +1,4 @@
+//Always restart after modifying this
 import "@testing-library/jest-dom/vitest";
 import { server } from "./mocks/server";
 
@@ -8,7 +9,7 @@ afterAll(() => server.close());
 Object.defineProperty(window, "matchMedia", {
   writable: true,
   value: vi.fn().mockImplementation((query) => ({
-    matches: false,
+    matches: true,
     media: query,
     onchange: null,
     addListener: vi.fn(), // deprecated

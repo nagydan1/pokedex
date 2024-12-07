@@ -11,6 +11,7 @@ import AllProviders from "../AllProviders";
 import { habitatDetails, habitatList } from "../mocks/mockHabitatData";
 import { pokemonDetails, pokemonList } from "../mocks/mockPokemonData";
 import { simulateDelay, simulateError } from "../utils";
+import typeList from "../../src/data/types";
 
 describe("HomePage", () => {
   beforeEach(() => {
@@ -86,6 +87,7 @@ describe("HomePage", () => {
 
       expect(getPokemonCards()).toHaveLength(filteredPokemons.length);
       expectListToBeInTheDocument(filteredPokemons);
+      expect(screen.getByRole("heading", { name: regex }));
     });
   });
 
@@ -94,6 +96,53 @@ describe("HomePage", () => {
       renderComponent();
 
     await selectHabitat(/all/i);
+
+    expect(getPokemonCards()).toHaveLength(pokemonDetails.length);
+    expectListToBeInTheDocument(pokemonDetails);
+  });
+
+  it("should render type list", async () => {
+    const { getPokemonSkeleton } = renderComponent();
+
+    await waitForElementToBeRemoved(getPokemonSkeleton);
+
+    const buttons = screen.getAllByRole("button", { name: /type option/i });
+    expect(buttons.length).toBeGreaterThan(0);
+    expect(screen.getByRole("heading", { name: /types/i })).toBeInTheDocument();
+
+    typeList.forEach((type) => {
+      const regex = new RegExp(`${type.name}`, "i");
+      expect(screen.getByRole("img", { name: regex })).toBeInTheDocument();
+    });
+  });
+
+  describe("type selector should filter pokemons", () => {
+    it.each(typeList)("by $name", async (type) => {
+      const { selectType, getPokemonCards, expectListToBeInTheDocument } =
+        renderComponent();
+
+      const regex = new RegExp(`${type.name}`, "i");
+      await selectType(regex);
+
+      const filteredPokemons = pokemonDetails.filter((p) =>
+        p.types.some((pt) => pt.type.name === type.name)
+      );
+
+      expect(getPokemonCards()).toHaveLength(filteredPokemons.length);
+      expectListToBeInTheDocument(filteredPokemons);
+      expect(screen.getByRole("heading", { name: regex }));
+    });
+  });
+
+  it("should render all pokemons if all types is selected", async () => {
+    const { getPokemonCards, expectListToBeInTheDocument } = renderComponent();
+
+    const typesHeading = screen.getByRole("heading", { name: /types/i });
+
+    const user = userEvent.setup();
+    await act(async () => {
+      await user.click(typesHeading);
+    });
 
     expect(getPokemonCards()).toHaveLength(pokemonDetails.length);
     expectListToBeInTheDocument(pokemonDetails);
@@ -120,8 +169,18 @@ describe("HomePage", () => {
       });
     };
 
+    const selectType = async (name: RegExp | string) => {
+      await waitForElementToBeRemoved(getPokemonSkeleton);
+      const user = userEvent.setup();
+
+      const typeOption = screen.getByRole("img", { name });
+      await act(async () => {
+        await user.click(typeOption);
+      });
+    };
+
     const getPokemonCards = () =>
-      screen.getAllByRole("button", { name: /save/i });
+      screen.queryAllByRole("button", { name: /save/i });
 
     const expectPokemonsToBeInTheDocument = (pokemons: Pokemon[]) =>
       pokemons.forEach((pokemon) => {
@@ -139,6 +198,7 @@ describe("HomePage", () => {
       getPokemonSkeleton,
       getHabitatSelector,
       selectHabitat,
+      selectType,
       getPokemonCards,
       expectPokemonsToBeInTheDocument,
       expectListToBeInTheDocument,
