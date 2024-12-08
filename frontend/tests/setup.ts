@@ -19,3 +19,15 @@ Object.defineProperty(window, "matchMedia", {
     dispatchEvent: vi.fn(),
   })),
 });
+
+class IntersectionObserver {
+  observe = vi.fn();
+  disconnect = vi.fn();
+  unobserve = vi.fn();
+}
+
+Object.defineProperty(window, "IntersectionObserver", {
+  writable: true,
+  configurable: true,
+  value: IntersectionObserver,
+});

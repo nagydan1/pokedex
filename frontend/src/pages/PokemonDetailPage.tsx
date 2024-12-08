@@ -13,7 +13,7 @@ const PokemonDetailPage = () => {
 
   return (
     <Flex p={5} direction="column" alignItems={{ base: "center", md: "start" }}>
-      <Heading>
+      <Heading as="h1">
         {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
       </Heading>
       <Flex wrap="wrap" justifyContent="center">

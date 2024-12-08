@@ -39,8 +39,8 @@ const PokemonAttributes = ({ pokemon }: Props) => {
         <PokemonTypes types={pokemon.types} />
       </DefinitionItem>
       <DefinitionItem term="Held items">
-        {pokemon.held_items.map(({ item, slot }) => (
-          <Text key={slot}>
+        {pokemon.held_items.map(({ item }, index) => (
+          <Text key={index}>
             {item.name.charAt(0).toUpperCase() + item.name.slice(1)}
           </Text>
         ))}
@@ -55,8 +55,8 @@ const PokemonAttributes = ({ pokemon }: Props) => {
         ))}
       </DefinitionItem>
       <DefinitionItem term="Moves">
-        {pokemon.moves.map(({ move, slot }) => (
-          <Text key={slot}>
+        {pokemon.moves.map(({ move }, index) => (
+          <Text key={index}>
             {move.name.charAt(0).toUpperCase() + move.name.slice(1)}
           </Text>
         ))}

@@ -1,15 +1,19 @@
 import { http, HttpResponse } from "msw";
-import { pokemonDetails, pokemonList } from "./mockPokemonData";
 import { habitatDetails, habitatList } from "./mockHabitatData";
+import { pokemonDetails, pokemonList } from "./mockPokemonData";
 
 export const handlers = [
   http.get("https://pokeapi.co/api/v2/pokemon", () => {
     return HttpResponse.json(pokemonList);
   }),
 
-  http.get("https://pokeapi.co/api/v2/pokemon/:id", ({ params }) => {
-    const id = params.id as string;
-    const pokemon = pokemonDetails.find((p) => p.id === parseInt(id));
+  http.get("https://pokeapi.co/api/v2/pokemon/:idOrName", ({ params }) => {
+    const idOrName = params.idOrName as string;
+    const pokemon = pokemonDetails.find((p) =>
+      isNaN(parseInt(idOrName))
+        ? p.name === idOrName
+        : p.id === parseInt(idOrName)
+    );
     return HttpResponse.json(pokemon);
   }),
 

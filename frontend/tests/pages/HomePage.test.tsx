@@ -5,13 +5,13 @@ import {
 } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
+import typeList from "../../src/data/types";
 import { Feature, Pokemon } from "../../src/entities/Pokemon";
 import HomePage from "../../src/pages/HomePage";
-import AllProviders from "../AllProviders";
 import { habitatDetails, habitatList } from "../mocks/mockHabitatData";
 import { pokemonDetails, pokemonList } from "../mocks/mockPokemonData";
+import AllProviders from "../providers/AllProviders";
 import { simulateDelay, simulateError } from "../utils";
-import typeList from "../../src/data/types";
 
 describe("HomePage", () => {
   beforeEach(() => {

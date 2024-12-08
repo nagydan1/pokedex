@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import TypeList from "../../src/components/TypeList";
-import AllProviders from "../AllProviders";
+import AllProviders from "../providers/AllProviders";
 
 describe("TypeList", () => {
   it("should render the heading", async () => {

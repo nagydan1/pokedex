@@ -1,10 +1,10 @@
 import { createBrowserRouter } from "react-router-dom";
-import Layout from "./pages/Layout";
-import HomePage from "./pages/HomePage";
-import PokemonDetailPage from "./pages/PokemonDetailPage";
 import ErrorPage from "./pages/ErrorPage";
+import HomePage from "./pages/HomePage";
+import Layout from "./pages/Layout";
+import PokemonDetailPage from "./pages/PokemonDetailPage";
 
-const router = createBrowserRouter([
+export const routes = [
   {
     path: "/",
     element: <Layout />,
@@ -14,6 +14,8 @@ const router = createBrowserRouter([
       { path: "pokemon/:name", element: <PokemonDetailPage /> },
     ],
   },
-]);
+];
+
+const router = createBrowserRouter(routes);
 
 export default router;
