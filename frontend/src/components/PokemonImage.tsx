@@ -11,6 +11,7 @@ const PokemonImage = ({src}: Props) => {
       src={src}
       boxSize="160px"
       fallbackSrc={fallback}
+      alt="pokemon image"
     />
   );
 };

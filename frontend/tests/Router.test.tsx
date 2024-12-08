@@ -2,7 +2,7 @@ import { screen } from "@testing-library/react";
 import { navigateTo } from "./utils";
 import { pokemonDetails } from "./mocks/mockPokemonData";
 
-describe.skip("Router", () => {
+describe("Router", () => {
   it("should render the home page for /", () => {
     navigateTo("/");
 
