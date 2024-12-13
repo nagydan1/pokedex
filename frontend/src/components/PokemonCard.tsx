@@ -47,7 +47,7 @@ const PokemonCard = ({ pokemon }: Props) => {
               <PokemonImage src={pokemon.sprites.front_default} />
               <HStack mb={2} gap={2} alignItems="center">
                 <PokemonIdBadge id={pokemon.id} />
-                <Heading size="md" textAlign="center">
+                <Heading size="md" textAlign="center" data-testid="pokemon-name">
                   <Link to={"/pokemon/" + pokemon.name}>
                     {pokemon.name.charAt(0).toUpperCase() +
                       pokemon.name.slice(1)}

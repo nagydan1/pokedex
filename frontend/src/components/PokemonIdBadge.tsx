@@ -6,7 +6,7 @@ interface Props {
 
 const PokemonIdBadge = ({ id }: Props) => {
   return (
-    <Badge fontSize="md" variant="subtle">
+    <Badge fontSize="md" variant="subtle" data-testid="pokemon-id">
       {id}
     </Badge>
   );

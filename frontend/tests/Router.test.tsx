@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
-import { navigateTo } from "./utils";
 import { pokemonDetails } from "./mocks/mockPokemonData";
+import { navigateTo } from "./utils";
 
 describe("Router", () => {
   it("should render the home page for /", () => {
@@ -12,7 +12,7 @@ describe("Router", () => {
   });
 
   it("should render the pokemon details page for /pokemon/:name", async () => {
-    const pokemon = pokemonDetails[0]
+    const pokemon = pokemonDetails[0];
     navigateTo("/pokemon/" + pokemon.name);
 
     const regex = new RegExp(`${pokemon.name}`, "i");

@@ -148,13 +148,71 @@ describe("HomePage", () => {
     expectListToBeInTheDocument(pokemonDetails);
   });
 
+  it("should render sort selector", async () => {
+    const { getPokemonSkeleton, getSortSelector } = renderComponent();
+
+    await waitForElementToBeRemoved(getPokemonSkeleton);
+
+    expect(getSortSelector()).toBeInTheDocument();
+  });
+
+  describe("sort selector should sort", () => {
+    it("pokemons alphabetically", async () => {
+      const { sortPokemons, expectOrderToMatch } = renderComponent();
+      await sortPokemons("A → Z");
+
+      const sortedPokemons = pokemonDetails.sort((a, b) =>
+        a.name.localeCompare(b.name)
+      );
+      const pokemonNames = screen.getAllByTestId("pokemon-name");
+
+      expectOrderToMatch("name", sortedPokemons, pokemonNames);
+    });
+
+    it("pokemons by ascending height", async () => {
+      const { sortPokemons, expectOrderToMatch } = renderComponent();
+      await sortPokemons("Height ↑");
+
+      const sortedPokemons = pokemonDetails.sort((a, b) => a.height - b.height);
+      const pokemonHeights = screen.getAllByText(/height:/i);
+
+      expectOrderToMatch("height", sortedPokemons, pokemonHeights);
+    });
+
+    it("pokemons by descending weight", async () => {
+      const { sortPokemons, expectOrderToMatch } = renderComponent();
+      await sortPokemons("Weight ↓");
+
+      const sortedPokemons = pokemonDetails.sort((a, b) => b.weight - a.weight);
+      const pokemonWeights = screen.getAllByText(/weight:/i);
+
+      expectOrderToMatch("weight", sortedPokemons, pokemonWeights);
+    });
+
+    it("pokemons by descending ID", async () => {
+      const { sortPokemons, expectOrderToMatch } = renderComponent();
+      await sortPokemons("ID ↓");
+
+      const sortedPokemons = pokemonDetails.sort((a, b) => b.id - a.id);
+      const pokemonIDs = screen.getAllByTestId("pokemon-id");
+
+      expectOrderToMatch("id", sortedPokemons, pokemonIDs);
+    });
+  });
+
   const renderComponent = () => {
     render(<HomePage />, { wrapper: AllProviders });
 
     const getPokemonSkeleton = () => screen.getByRole("progressbar");
 
+    const getPokemonCards = () =>
+      screen.queryAllByRole("button", { name: /save/i });
+
     const getHabitatSelector = () =>
       screen.getByRole("button", { name: /habitat selector/i });
+
+    const getSortSelector = () =>
+      screen.getByRole("button", { name: /order by/i });
 
     const selectHabitat = async (name: RegExp | string) => {
       await waitForElementToBeRemoved(getPokemonSkeleton);
@@ -179,14 +237,18 @@ describe("HomePage", () => {
       });
     };
 
-    const getPokemonCards = () =>
-      screen.queryAllByRole("button", { name: /save/i });
-
-    const expectPokemonsToBeInTheDocument = (pokemons: Pokemon[]) =>
-      pokemons.forEach((pokemon) => {
-        const regex = new RegExp(`${pokemon.name}`, "i");
-        expect(screen.getByText(regex)).toBeInTheDocument();
+    const sortPokemons = async (orderLabel: string) => {
+      await waitForElementToBeRemoved(getPokemonSkeleton);
+      const user = userEvent.setup();
+      await act(async () => {
+        await user.click(getSortSelector());
       });
+
+      const habitatOption = screen.getByRole("menuitem", { name: orderLabel });
+      await act(async () => {
+        await user.click(habitatOption);
+      });
+    };
 
     const expectListToBeInTheDocument = (list: Pokemon[] | Feature[]) =>
       list.forEach((item) => {
@@ -194,14 +256,26 @@ describe("HomePage", () => {
         expect(screen.getByText(regex)).toBeInTheDocument();
       });
 
+    const expectOrderToMatch = (
+      sortBy: "name" | "height" | "weight" | "id",
+      sortedPokemons: Pokemon[],
+      nodes: HTMLElement[]
+    ) =>
+      sortedPokemons.forEach((p, index) => {
+        const regex = new RegExp(`${p[sortBy]}`, "i");
+        expect(nodes[index]).toHaveTextContent(regex);
+      });
+
     return {
       getPokemonSkeleton,
+      getPokemonCards,
       getHabitatSelector,
+      getSortSelector,
       selectHabitat,
       selectType,
-      getPokemonCards,
-      expectPokemonsToBeInTheDocument,
+      sortPokemons,
       expectListToBeInTheDocument,
+      expectOrderToMatch,
     };
   };
 });
