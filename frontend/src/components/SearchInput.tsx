@@ -41,6 +41,7 @@ const SearchInput = () => {
                 if (ref.current) ref.current.value = "";
                 setSearchText("");
               }}
+              aria-label="clear search"
             >
               <BsXCircle />
             </Button>
