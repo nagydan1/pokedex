@@ -1,6 +1,6 @@
 import { screen } from "@testing-library/react";
 import { pokemonDetails } from "./mocks/mockPokemonData";
-import { navigateTo } from "./utils";
+import { navigateTo, regex } from "./utils";
 
 describe("Router", () => {
   it("should render the home page for /", () => {
@@ -15,9 +15,8 @@ describe("Router", () => {
     const pokemon = pokemonDetails[0];
     navigateTo("/pokemon/" + pokemon.name);
 
-    const regex = new RegExp(`${pokemon.name}`, "i");
     expect(
-      await screen.findByRole("heading", { name: regex })
+      await screen.findByRole("heading", { name: regex(pokemon.name) })
     ).toBeInTheDocument();
   });
 

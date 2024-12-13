@@ -1,6 +1,6 @@
 import { screen, waitForElementToBeRemoved } from "@testing-library/react";
 import { pokemonDetails } from "../mocks/mockPokemonData";
-import { navigateTo, simulateDelay, simulateError } from "../utils";
+import { navigateTo, regex, simulateDelay, simulateError } from "../utils";
 
 describe("PokemonDetailsPage", () => {
   const mockPokemon = pokemonDetails[0];
@@ -30,9 +30,8 @@ describe("PokemonDetailsPage", () => {
 
     await waitForElementToBeRemoved(screen.getByText(/loading/i));
 
-    const regexName = new RegExp(`${mockPokemon.name}`, "i");
     expect(
-      screen.getByRole("heading", { name: regexName })
+      screen.getByRole("heading", { name: regex(mockPokemon.name) })
     ).toBeInTheDocument();
     expect(screen.getAllByRole("img", { name: /pokemon image/i })).toHaveLength(
       2

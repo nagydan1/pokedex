@@ -25,6 +25,6 @@ export const navigateTo = (path: string) => {
   render(<RouterProvider router={router} />, { wrapper: ProvidersForRouting });
 };
 
-export const regex = (string: string) => {
-  return new RegExp(`${string}`, "i");
+export const regex = (string: string): RegExp => {
+  return new RegExp(string, "i");
 };

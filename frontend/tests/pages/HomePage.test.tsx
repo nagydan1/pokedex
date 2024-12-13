@@ -11,7 +11,7 @@ import HomePage from "../../src/pages/HomePage";
 import { habitatDetails, habitatList } from "../mocks/mockHabitatData";
 import { pokemonDetails, pokemonList } from "../mocks/mockPokemonData";
 import AllProviders from "../providers/AllProviders";
-import { simulateDelay, simulateError } from "../utils";
+import { regex, simulateDelay, simulateError } from "../utils";
 
 describe("HomePage", () => {
   beforeEach(() => {
@@ -78,8 +78,7 @@ describe("HomePage", () => {
       const { selectHabitat, getPokemonCards, expectListToBeInTheDocument } =
         renderComponent();
 
-      const regex = new RegExp(`${habitat.name}`, "i");
-      await selectHabitat(regex);
+      await selectHabitat(regex(habitat.name));
 
       const filteredPokemons = pokemonDetails.filter((p) =>
         habitat.pokemon_species.some((ps) => ps.name === p.species.name)
@@ -87,7 +86,7 @@ describe("HomePage", () => {
 
       expect(getPokemonCards()).toHaveLength(filteredPokemons.length);
       expectListToBeInTheDocument(filteredPokemons);
-      expect(screen.getByRole("heading", { name: regex }));
+      expect(screen.getByRole("heading", { name: regex(habitat.name) }));
     });
   });
 
@@ -111,8 +110,9 @@ describe("HomePage", () => {
     expect(screen.getByRole("heading", { name: /types/i })).toBeInTheDocument();
 
     typeList.forEach((type) => {
-      const regex = new RegExp(`${type.name}`, "i");
-      expect(screen.getByRole("img", { name: regex })).toBeInTheDocument();
+      expect(
+        screen.getByRole("img", { name: regex(type.name) })
+      ).toBeInTheDocument();
     });
   });
 
@@ -121,8 +121,7 @@ describe("HomePage", () => {
       const { selectType, getPokemonCards, expectListToBeInTheDocument } =
         renderComponent();
 
-      const regex = new RegExp(`${type.name}`, "i");
-      await selectType(regex);
+      await selectType(regex(type.name));
 
       const filteredPokemons = pokemonDetails.filter((p) =>
         p.types.some((pt) => pt.type.name === type.name)
@@ -130,7 +129,7 @@ describe("HomePage", () => {
 
       expect(getPokemonCards()).toHaveLength(filteredPokemons.length);
       expectListToBeInTheDocument(filteredPokemons);
-      expect(screen.getByRole("heading", { name: regex }));
+      expect(screen.getByRole("heading", { name: regex(type.name) }));
     });
   });
 
@@ -252,8 +251,7 @@ describe("HomePage", () => {
 
     const expectListToBeInTheDocument = (list: Pokemon[] | Feature[]) =>
       list.forEach((item) => {
-        const regex = new RegExp(`${item.name}`, "i");
-        expect(screen.getByText(regex)).toBeInTheDocument();
+        expect(screen.getByText(regex(item.name))).toBeInTheDocument();
       });
 
     const expectOrderToMatch = (
@@ -262,8 +260,7 @@ describe("HomePage", () => {
       nodes: HTMLElement[]
     ) =>
       sortedPokemons.forEach((p, index) => {
-        const regex = new RegExp(`${p[sortBy]}`, "i");
-        expect(nodes[index]).toHaveTextContent(regex);
+        expect(nodes[index]).toHaveTextContent(regex(p[sortBy].toString()));
       });
 
     return {

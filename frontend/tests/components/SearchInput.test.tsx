@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import { Pokemon } from "../../src/entities/Pokemon";
 import { pokemonDetails } from "../mocks/mockPokemonData";
-import { navigateTo } from "../utils";
+import { navigateTo, regex } from "../utils";
 
 describe("SearchInput", () => {
   it("should render on HomePage", () => {
@@ -80,9 +80,8 @@ describe("SearchInput", () => {
 
     const expectPokemonsToBeInTheDocument = (list: Pokemon[]) =>
       list.forEach((item) => {
-        const regex = new RegExp(`${item.name}`, "i");
         expect(
-          screen.getByRole("heading", { name: regex })
+          screen.getByRole("heading", { name: regex(item.name) })
         ).toBeInTheDocument();
       });
 
