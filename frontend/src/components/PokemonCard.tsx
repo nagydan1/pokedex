@@ -1,21 +1,22 @@
 import {
+  Button,
   Card,
   CardBody,
   Flex,
   Heading,
-  Button,
-  VStack,
-  Text,
   HStack,
+  Text,
+  VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { backendClient } from "../services/api-client";
-import PokemonImage from "./PokemonImage";
-import PokemonIdBadge from "./PokemonIdBadge";
-import PokemonTypes from "./PokemonTypes";
-import PokemonHabitat from "./PokemonHabitat";
 import { Pokemon } from "../entities/Pokemon";
+import useSavedPokemons from "../hooks/useSavedPokemons";
+import { backendClient } from "../services/api-client";
+import PokemonHabitat from "./PokemonHabitat";
+import PokemonIdBadge from "./PokemonIdBadge";
+import PokemonImage from "./PokemonImage";
+import PokemonTypes from "./PokemonTypes";
 
 interface Props {
   pokemon: Pokemon;
@@ -23,6 +24,13 @@ interface Props {
 
 const PokemonCard = ({ pokemon }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
+  const { data: savedPokemons, isLoading, error } = useSavedPokemons();
+
+  useEffect(() => {
+    savedPokemons?.some((sp) => sp.name === pokemon.name)
+      ? setIsSaved(true)
+      : setIsSaved(false);
+  }, [savedPokemons, pokemon]);
 
   const handleSavePokemon = () => {
     backendClient
@@ -47,7 +55,11 @@ const PokemonCard = ({ pokemon }: Props) => {
               <PokemonImage src={pokemon.sprites.front_default} />
               <HStack mb={2} gap={2} alignItems="center">
                 <PokemonIdBadge id={pokemon.id} />
-                <Heading size="md" textAlign="center" data-testid="pokemon-name">
+                <Heading
+                  size="md"
+                  textAlign="center"
+                  data-testid="pokemon-name"
+                >
                   <Link to={"/pokemon/" + pokemon.name}>
                     {pokemon.name.charAt(0).toUpperCase() +
                       pokemon.name.slice(1)}
@@ -70,7 +82,7 @@ const PokemonCard = ({ pokemon }: Props) => {
             <Button
               colorScheme="blue"
               onClick={handleSavePokemon}
-              isDisabled={isSaved}
+              isDisabled={isLoading || error ? true : false || isSaved}
             >
               {isSaved ? "Saved" : "Save"}
             </Button>
