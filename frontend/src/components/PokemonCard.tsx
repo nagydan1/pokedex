@@ -74,14 +74,9 @@ const PokemonCard = ({ pokemon }: Props) => {
             <Button
               colorScheme="blue"
               onClick={() => savePokemon.mutate({ name: pokemon.name })}
-              isDisabled={
-                isLoading ||
-                error ? true : false ||
-                savePokemon.isPending ||
-                isSaved
-              }
+              isDisabled={isLoading || error ? true : false || isSaved}
             >
-              {isSaved ? "Saved" : savePokemon.isPending ? "Saving" : "Save"}
+              {isSaved ? "Saved" : "Save"}
             </Button>
           </Flex>
         </CardBody>

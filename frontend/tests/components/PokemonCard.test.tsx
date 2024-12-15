@@ -50,27 +50,27 @@ describe("PokemonCard", () => {
     expect(types).toHaveLength(pokemon.types.length);
   });
 
-  it.only("should render disabled save button while loading", async () => {
+  it("should render disabled save button while loading", async () => {
     simulateDelay(backendURL + "/savedpokemon");
     const { findSaveButton } = renderComponent();
 
     expect(await findSaveButton("Save")).toBeDisabled();
   });
 
-  it.only("should render disabled save button in case of error", async () => {
+  it("should render disabled save button in case of error", async () => {
     simulateError(backendURL + "/savedpokemon");
     const { findSaveButton } = renderComponent();
 
     expect(await findSaveButton("Save")).toBeDisabled();
   });
 
-  it.only("should render disabled saved button if pokemon is saved", async () => {
+  it("should render disabled saved button if pokemon is saved", async () => {
     const { findSaveButton } = renderComponent("isSaved");
 
     expect(await findSaveButton("Saved")).toBeDisabled();
   });
 
-  it.only("should render enabled save button if pokemon is not saved", async () => {
+  it("should render enabled save button if pokemon is not saved", async () => {
     const { findSaveButton } = renderComponent();
 
     await waitFor(async () => {
@@ -78,7 +78,7 @@ describe("PokemonCard", () => {
     });
   });
 
-  it.only("should change save button to saved if it is clicked", async () => {
+  it("should change save button to saved if it is clicked", async () => {
     const { findSaveButton } = renderComponent();
 
     const button = await findSaveButton("Save");
