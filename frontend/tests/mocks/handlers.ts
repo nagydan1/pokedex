@@ -3,7 +3,8 @@ import { habitatDetails, habitatList } from "./mockHabitatData";
 import { pokemonDetails, pokemonList } from "./mockPokemonData";
 import { savedPokemonList } from "./mockSavedPokemons";
 
-export const backendURL: string = import.meta.env.REACT_APP_BACKEND_URL || "http://localhost:7654/api";
+export const backendURL: string =
+  import.meta.env.REACT_APP_BACKEND_URL || "http://localhost:7654/api";
 
 export const handlers = [
   http.get("https://pokeapi.co/api/v2/pokemon", () => {
@@ -58,5 +59,12 @@ export const handlers = [
 
   http.get(backendURL + "/savedpokemon", () => {
     return HttpResponse.json(savedPokemonList);
+  }),
+
+  http.post(backendURL + "/savedpokemon", () => {
+    return HttpResponse.json({
+      id: 3,
+      name: "pidgey",
+    });
   }),
 ];

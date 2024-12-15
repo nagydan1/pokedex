@@ -3,7 +3,7 @@ import { pokemonDetails } from "../mocks/mockPokemonData";
 import { navigateTo, regex, simulateDelay, simulateError } from "../utils";
 
 describe("PokemonDetailsPage", () => {
-  const mockPokemon = pokemonDetails[0];
+  const mockPokemon = pokemonDetails[2];
 
   it("should show a spinner while fetching pokemon", () => {
     simulateDelay("https://pokeapi.co/api/v2/pokemon/:idOrName");

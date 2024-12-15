@@ -18,6 +18,10 @@ export const simulateError = (endpoint: string) => {
   server.use(http.get(endpoint, () => HttpResponse.error()));
 };
 
+export const simulatePostError = (endpoint: string) => {
+  server.use(http.post(endpoint, () => HttpResponse.error()));
+};
+
 export const navigateTo = (path: string) => {
   const router = createMemoryRouter(routes, {
     initialEntries: [path],

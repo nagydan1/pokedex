@@ -3,7 +3,7 @@ import userEvent from "@testing-library/user-event";
 import { act } from "react-dom/test-utils";
 import { navigateTo } from "../utils";
 
-describe.only("ColorModeSwitch", () => {
+describe("ColorModeSwitch", () => {
   it("should render on HomePage", () => {
     const { getColorModeSwitch } = navigateToHomePage();
 

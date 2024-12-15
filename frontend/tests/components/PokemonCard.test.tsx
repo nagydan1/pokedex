@@ -5,7 +5,12 @@ import PokemonCard from "../../src/components/PokemonCard";
 import { backendURL } from "../mocks/handlers";
 import { pokemonDetails } from "../mocks/mockPokemonData";
 import AllProviders from "../providers/AllProviders";
-import { regex, simulateDelay, simulateError } from "../utils";
+import {
+  regex,
+  simulateDelay,
+  simulateError,
+  simulatePostError,
+} from "../utils";
 
 describe("PokemonCard", () => {
   it("should render the pokemon's image", () => {
@@ -57,7 +62,7 @@ describe("PokemonCard", () => {
     expect(await findSaveButton("Save")).toBeDisabled();
   });
 
-  it("should render disabled save button in case of error", async () => {
+  it("should render disabled save button in case of failed fetch", async () => {
     simulateError(backendURL + "/savedpokemon");
     const { findSaveButton } = renderComponent();
 
@@ -78,20 +83,21 @@ describe("PokemonCard", () => {
     });
   });
 
-  it("should change save button to saved if it is clicked", async () => {
-    const { findSaveButton } = renderComponent();
+  it("should change save button to saved if pokemon is saved", async () => {
+    const { findSaveButton, clickEnabledSave } = renderComponent();
 
-    const button = await findSaveButton("Save");
-    await waitFor(() => {
-      expect(button).not.toBeDisabled();
-    });
-
-    const user = userEvent.setup();
-    await act(async () => {
-      await user.click(button);
-    });
+    await clickEnabledSave();
 
     expect(await findSaveButton("Saved")).toBeDisabled();
+  });
+
+  it("should render error toast in case of failed post", async () => {
+    simulatePostError(backendURL + "/savedpokemon");
+    const { clickEnabledSave } = renderComponent();
+
+    await clickEnabledSave();
+
+    expect(await screen.findByRole("status")).toBeInTheDocument();
   });
 
   const renderComponent = (isSaved?: string) => {
@@ -101,6 +107,18 @@ describe("PokemonCard", () => {
     const findSaveButton = async (name: string | RegExp) =>
       await screen.findByRole("button", { name });
 
-    return { pokemon, findSaveButton };
+    const clickEnabledSave = async () => {
+      const button = await findSaveButton("Save");
+      await waitFor(() => {
+        expect(button).not.toBeDisabled();
+      });
+
+      const user = userEvent.setup();
+      await act(async () => {
+        await user.click(button);
+      });
+    };
+
+    return { pokemon, findSaveButton, clickEnabledSave };
   };
 });
