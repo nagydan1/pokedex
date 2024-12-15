@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Pokemon } from "../entities/Pokemon";
 import useSavedPokemons from "../hooks/useSavedPokemons";
-import { backendClient } from "../services/api-client";
+import useSavePokemon from "../hooks/useSavePokemon";
 import PokemonHabitat from "./PokemonHabitat";
 import PokemonIdBadge from "./PokemonIdBadge";
 import PokemonImage from "./PokemonImage";
@@ -25,21 +25,13 @@ interface Props {
 const PokemonCard = ({ pokemon }: Props) => {
   const [isSaved, setIsSaved] = useState(false);
   const { data: savedPokemons, isLoading, error } = useSavedPokemons();
+  const savePokemon = useSavePokemon();
 
   useEffect(() => {
     savedPokemons?.some((sp) => sp.name === pokemon.name)
       ? setIsSaved(true)
       : setIsSaved(false);
   }, [savedPokemons, pokemon]);
-
-  const handleSavePokemon = () => {
-    backendClient
-      .post("/api/savedpokemon", { name: pokemon.name })
-      .then(() => setIsSaved(true))
-      .catch((error) => {
-        console.error("Failed to save Pokemon:", error);
-      });
-  };
 
   return (
     <>
@@ -81,10 +73,15 @@ const PokemonCard = ({ pokemon }: Props) => {
             </Flex>
             <Button
               colorScheme="blue"
-              onClick={handleSavePokemon}
-              isDisabled={isLoading || error ? true : false || isSaved}
+              onClick={() => savePokemon.mutate({ name: pokemon.name })}
+              isDisabled={
+                isLoading ||
+                error ? true : false ||
+                savePokemon.isPending ||
+                isSaved
+              }
             >
-              {isSaved ? "Saved" : "Save"}
+              {isSaved ? "Saved" : savePokemon.isPending ? "Saving" : "Save"}
             </Button>
           </Flex>
         </CardBody>

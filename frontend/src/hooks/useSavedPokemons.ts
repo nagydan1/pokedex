@@ -1,14 +1,11 @@
 import { useQuery } from "@tanstack/react-query";
-import { SavedPokemon } from "../entities/SavedPokemon";
-import { BackendClient } from "../services/backend-client";
-
-const backendClient = new BackendClient<SavedPokemon[]>("/savedpokemon");
+import savedPokemonService from "../services/savedPokemonService";
 
 const useSavedPokemons = () =>
   useQuery({
     queryKey: ["savedPokemons"],
-    queryFn: () => backendClient.get(),
-    staleTime: 60 * 60 * 1000, // 1h
+    queryFn: () => savedPokemonService.get(),
+    staleTime: 24 * 60 * 60 * 1000, // 24h
   });
 
 export default useSavedPokemons;
