@@ -13,14 +13,19 @@ const useSavePokemon = () => {
   const toast = useToast();
 
   return useMutation<SavedPokemon, Error, SavedPokemon, SavePokemonContext>({
-    mutationFn: savedPokemonService.post,
+    mutationFn: savedPokemonService.put,
     onMutate: (newPokemon) => {
       const previousSavedPokemons =
         queryClient.getQueryData<SavedPokemon[]>(CACHE_KEY_SAVEDPOKEMONS) || [];
 
       queryClient.setQueryData<SavedPokemon[]>(
         CACHE_KEY_SAVEDPOKEMONS,
-        (savedPokemons) => [...(savedPokemons || []), newPokemon]
+        (savedPokemons) =>
+          savedPokemons?.find((sp) => sp.id === newPokemon.id)
+            ? savedPokemons?.map((sp) =>
+                sp.id === newPokemon.id ? newPokemon : sp
+              )
+            : [...(savedPokemons || []), newPokemon]
       );
 
       return { previousSavedPokemons };
@@ -29,7 +34,9 @@ const useSavePokemon = () => {
       queryClient.setQueryData<SavedPokemon[]>(
         CACHE_KEY_SAVEDPOKEMONS,
         (savedPokemons) =>
-          savedPokemons?.map((sp) => (sp === newPokemon ? savedPokemon : sp))
+          savedPokemons?.map((sp) =>
+            sp.id === newPokemon.id ? savedPokemon : sp
+          )
       );
     },
     onError: (error, newPokemon, context) => {

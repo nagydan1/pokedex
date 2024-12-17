@@ -1,4 +1,5 @@
 export interface SavedPokemon {
-  id?: number;
+  id: number;
   name: string;
+  likes: number;
 }

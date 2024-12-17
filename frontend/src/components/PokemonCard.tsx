@@ -1,5 +1,4 @@
 import {
-  Button,
   Card,
   CardBody,
   Flex,
@@ -8,11 +7,9 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Pokemon } from "../entities/Pokemon";
-import useSavedPokemons from "../hooks/useSavedPokemons";
-import useSavePokemon from "../hooks/useSavePokemon";
+import LikeButton from "./LikeButton";
 import PokemonHabitat from "./PokemonHabitat";
 import PokemonIdBadge from "./PokemonIdBadge";
 import PokemonImage from "./PokemonImage";
@@ -23,19 +20,9 @@ interface Props {
 }
 
 const PokemonCard = ({ pokemon }: Props) => {
-  const [isSaved, setIsSaved] = useState(false);
-  const { data: savedPokemons, isLoading, error } = useSavedPokemons();
-  const savePokemon = useSavePokemon();
-
-  useEffect(() => {
-    savedPokemons?.some((sp) => sp.name === pokemon.name)
-      ? setIsSaved(true)
-      : setIsSaved(false);
-  }, [savedPokemons, pokemon]);
-
   return (
     <>
-      <Card height="380px" variant={isSaved ? "filled" : "elevated"}>
+      <Card height="380px" variant="filled">
         <CardBody>
           <Flex
             direction="column"
@@ -71,13 +58,7 @@ const PokemonCard = ({ pokemon }: Props) => {
                 <PokemonTypes types={pokemon.types} />
               </Flex>
             </Flex>
-            <Button
-              colorScheme="blue"
-              onClick={() => savePokemon.mutate({ name: pokemon.name })}
-              isDisabled={isLoading || error ? true : false || isSaved}
-            >
-              {isSaved ? "Saved" : "Save"}
-            </Button>
+            <LikeButton pokemon={pokemon} />
           </Flex>
         </CardBody>
       </Card>

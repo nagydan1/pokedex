@@ -28,4 +28,13 @@ export class BackendClient<T> {
         throw error;
       });
   };
+
+  put = (data: T) => {
+    return axiosInstance
+      .put<T>(this.endpoint, data)
+      .then((res) => res.data)
+      .catch((error) => {
+        throw error;
+      });
+  };
 }
