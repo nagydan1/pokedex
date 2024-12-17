@@ -204,8 +204,7 @@ describe("HomePage", () => {
 
     const getPokemonSkeleton = () => screen.getByRole("progressbar");
 
-    const getPokemonCards = () =>
-      screen.queryAllByRole("button", { name: /save/i });
+    const getPokemonCards = () => screen.queryAllByTestId("pokemon-name");
 
     const getHabitatSelector = () =>
       screen.getByRole("button", { name: /habitat selector/i });

@@ -61,10 +61,11 @@ export const handlers = [
     return HttpResponse.json(savedPokemonList);
   }),
 
-  http.post(backendURL + "/savedpokemon", () => {
+  http.put(backendURL + "/savedpokemon", () => {
     return HttpResponse.json({
-      id: 3,
-      name: "pidgey",
+      id: 144,
+      name: "articuno",
+      likes: 2,
     });
   }),
 ];

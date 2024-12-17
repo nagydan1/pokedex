@@ -20,15 +20,6 @@ export class BackendClient<T> {
       });
   };
  
-  post = (data: T) => {
-    return axiosInstance
-      .post<T>(this.endpoint, data)
-      .then((res) => res.data)
-      .catch((error) => {
-        throw error;
-      });
-  };
-
   put = (data: T) => {
     return axiosInstance
       .put<T>(this.endpoint, data)

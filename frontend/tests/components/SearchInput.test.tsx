@@ -60,7 +60,7 @@ describe("SearchInput", () => {
       screen.getByRole("button", { name: /search/i });
     const getPokemonSkeleton = () => screen.getByRole("progressbar");
     const getPokemonCards = () =>
-      screen.queryAllByRole("button", { name: /save/i });
+      screen.queryAllByTestId("pokemon-name");
 
     const searchPokemons = async (searchTerm: string) => {
       await waitForElementToBeRemoved(getPokemonSkeleton);

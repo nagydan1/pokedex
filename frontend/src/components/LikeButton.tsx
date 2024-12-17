@@ -44,7 +44,7 @@ const LikeButton = ({ pokemon }: Props) => {
   if (isLoading || error) return;
   return (
     <HStack spacing={0} justify="center">
-      <Button variant="link" colorScheme="blue" onClick={handleOnClick}>
+      <Button variant="link" colorScheme="blue" onClick={handleOnClick} aria-label="like">
         {isLiked ? <BsHeartFill size={25} /> : <BsHeart size={25} />}
       </Button>
       <Text fontSize="md">{savedPokemon ? savedPokemon.likes : 0}</Text>

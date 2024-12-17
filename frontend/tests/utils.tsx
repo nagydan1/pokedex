@@ -18,8 +18,8 @@ export const simulateError = (endpoint: string) => {
   server.use(http.get(endpoint, () => HttpResponse.error()));
 };
 
-export const simulatePostError = (endpoint: string) => {
-  server.use(http.post(endpoint, () => HttpResponse.error()));
+export const simulatePutError = (endpoint: string) => {
+  server.use(http.put(endpoint, () => HttpResponse.error()));
 };
 
 export const navigateTo = (path: string) => {

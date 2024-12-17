@@ -1,10 +1,12 @@
 export const savedPokemonList = [
   {
-    id: 1,
+    id: 144,
     name: "articuno",
+    likes: 1
   },
   {
-    id: 2,
+    id: 228,
     name: "houndour",
+    likes: 2
   },
 ];
