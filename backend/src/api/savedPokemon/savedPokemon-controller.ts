@@ -6,10 +6,6 @@ const savedpokemonController = {
     const savedPokemonList = await savedPokemonService.getPokemon();
     ctx.body = savedPokemonList;
   },
-  async post(ctx: Context) {
-    const savedPokemon = await savedPokemonService.savePokemon(ctx);
-    ctx.body = savedPokemon;
-  },
   async put(ctx: Context) {
     const savedPokemon = await savedPokemonService.putPokemon(ctx);
     ctx.body = savedPokemon;
