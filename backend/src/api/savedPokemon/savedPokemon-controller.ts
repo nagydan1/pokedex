@@ -10,6 +10,10 @@ const savedpokemonController = {
     const savedPokemon = await savedPokemonService.savePokemon(ctx);
     ctx.body = savedPokemon;
   },
+  async put(ctx: Context) {
+    const savedPokemon = await savedPokemonService.putPokemon(ctx);
+    ctx.body = savedPokemon;
+  },
 };
 
 export default savedpokemonController;

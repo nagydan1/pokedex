@@ -32,9 +32,15 @@ declare module 'zapatos/schema' {
       /**
       * **savedpokemon.id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - `NOT NULL`, default: `nextval('savedpokemon_id_seq'::regclass)`
       */
       id: number;
+      /**
+      * **savedpokemon.likes**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      likes: number;
       /**
       * **savedpokemon.name**
       * - `varchar` in database
@@ -46,9 +52,15 @@ declare module 'zapatos/schema' {
       /**
       * **savedpokemon.id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - `NOT NULL`, default: `nextval('savedpokemon_id_seq'::regclass)`
       */
       id: number;
+      /**
+      * **savedpokemon.likes**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      likes: number;
       /**
       * **savedpokemon.name**
       * - `varchar` in database
@@ -60,9 +72,15 @@ declare module 'zapatos/schema' {
       /**
       * **savedpokemon.id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - `NOT NULL`, default: `nextval('savedpokemon_id_seq'::regclass)`
       */
       id?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
+      /**
+      * **savedpokemon.likes**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      likes?: number | db.Parameter<number> | db.SQLFragment | db.ParentColumn | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment | db.ParentColumn>;
       /**
       * **savedpokemon.name**
       * - `varchar` in database
@@ -74,9 +92,15 @@ declare module 'zapatos/schema' {
       /**
       * **savedpokemon.id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - `NOT NULL`, default: `nextval('savedpokemon_id_seq'::regclass)`
       */
-      id: number | db.Parameter<number> | db.SQLFragment;
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
+      /**
+      * **savedpokemon.likes**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      likes?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment;
       /**
       * **savedpokemon.name**
       * - `varchar` in database
@@ -88,9 +112,15 @@ declare module 'zapatos/schema' {
       /**
       * **savedpokemon.id**
       * - `int4` in database
-      * - `NOT NULL`, no default
+      * - `NOT NULL`, default: `nextval('savedpokemon_id_seq'::regclass)`
       */
-      id?: number | db.Parameter<number> | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.SQLFragment>;
+      id?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
+      /**
+      * **savedpokemon.likes**
+      * - `int4` in database
+      * - `NOT NULL`, default: `1`
+      */
+      likes?: number | db.Parameter<number> | db.DefaultType | db.SQLFragment | db.SQLFragment<any, number | db.Parameter<number> | db.DefaultType | db.SQLFragment>;
       /**
       * **savedpokemon.name**
       * - `varchar` in database
