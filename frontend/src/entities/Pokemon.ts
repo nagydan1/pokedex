@@ -37,12 +37,10 @@ interface Ability {
 }
 
 interface Item {
-  slot: number;
   item: Feature;
 }
 
 interface Move {
-  slot: number;
   move: Feature;
 }
 
@@ -53,5 +51,5 @@ interface Stat {
 
 export interface SlottedTypes {
   slot: number;
-  type: Type;
+  type: Type | Feature;
 }

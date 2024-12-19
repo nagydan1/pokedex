@@ -39,7 +39,7 @@ const useSavePokemon = () => {
           )
       );
     },
-    onError: (error, newPokemon, context) => {
+    onError: (error, _, context) => {
       if (!context) return;
 
       queryClient.setQueryData<SavedPokemon[]>(

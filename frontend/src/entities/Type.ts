@@ -3,9 +3,11 @@ export interface Type {
   name: string;
   sprites: Sprites;
 }
+
 interface Sprites {
   "generation-ix": GenerationIX;
 }
+
 interface GenerationIX {
   "scarlet-violet": nameIcon;
 }
