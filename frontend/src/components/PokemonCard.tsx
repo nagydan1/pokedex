@@ -21,15 +21,15 @@ interface Props {
 
 const PokemonCard = ({ pokemon }: Props) => {
   return (
-    <Link to={"/pokemon/" + pokemon.name}>
-      <Card height="380px" variant="filled">
-        <CardBody>
-          <Flex
-            direction="column"
-            align="center"
-            justifyContent="space-between"
-            height="100%"
-          >
+    <Card height="380px" variant="filled">
+      <CardBody>
+        <Flex
+          direction="column"
+          align="center"
+          justifyContent="space-between"
+          height="100%"
+        >
+          <Link to={"/pokemon/" + pokemon.name}>
             <Flex direction="column" align="center" width="100%">
               <PokemonImage src={pokemon.sprites.front_default} />
               <HStack mb={2} gap={2} alignItems="center">
@@ -55,11 +55,11 @@ const PokemonCard = ({ pokemon }: Props) => {
                 <PokemonTypes types={pokemon.types} />
               </Flex>
             </Flex>
-            <LikeButton pokemon={pokemon} />
-          </Flex>
-        </CardBody>
-      </Card>
-    </Link>
+          </Link>
+          <LikeButton pokemon={pokemon} />
+        </Flex>
+      </CardBody>
+    </Card>
   );
 };
 
