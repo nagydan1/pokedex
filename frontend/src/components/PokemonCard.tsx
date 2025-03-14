@@ -21,7 +21,7 @@ interface Props {
 
 const PokemonCard = ({ pokemon }: Props) => {
   return (
-    <>
+    <Link to={"/pokemon/" + pokemon.name}>
       <Card height="380px" variant="filled">
         <CardBody>
           <Flex
@@ -39,10 +39,7 @@ const PokemonCard = ({ pokemon }: Props) => {
                   textAlign="center"
                   data-testid="pokemon-name"
                 >
-                  <Link to={"/pokemon/" + pokemon.name}>
-                    {pokemon.name.charAt(0).toUpperCase() +
-                      pokemon.name.slice(1)}
-                  </Link>
+                  {pokemon.name.charAt(0).toUpperCase() + pokemon.name.slice(1)}
                 </Heading>
                 <PokemonHabitat speciesName={pokemon.species.name} onlyEmoji />
               </HStack>
@@ -62,7 +59,7 @@ const PokemonCard = ({ pokemon }: Props) => {
           </Flex>
         </CardBody>
       </Card>
-    </>
+    </Link>
   );
 };
 
