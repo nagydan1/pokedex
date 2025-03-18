@@ -13,6 +13,10 @@ const config: Config = {
     port: parseInt(process.env.DB_PORT || "5432"),
     password: process.env.DB_PASSWORD,
     database: process.env.DB_DATABASE,
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false,
+    },
   },
 };
 

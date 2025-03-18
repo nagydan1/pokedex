@@ -1,7 +1,7 @@
-import { pool } from "../../index";
 import { Context } from "koa";
 import * as db from "zapatos/db";
 import type * as s from "zapatos/schema";
+import { pool } from "../../index";
 
 export interface SavedPokemon {
   id: number;

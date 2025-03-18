@@ -1,11 +1,11 @@
 {
   "name": "backend",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "api/index.ts",
   "license": "MIT",
   "scripts": {
     "build": "tsc --build",
-    "dev": "nodemon -r dotenv/config src/index.ts",
+    "dev": "nodemon -r dotenv/config api/index.ts",
     "test": "jest --watchAll"
   },
   "dependencies": {

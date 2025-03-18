@@ -1,8 +1,8 @@
 import { Context } from "koa";
-import savedPokemonController from "../src/api/savedPokemon/savedPokemon-controller";
-import savedPokemonService from "../src/api/savedPokemon/savedPokemon-service";
+import savedPokemonController from "../api/api/savedPokemon/savedPokemon-controller";
+import savedPokemonService from "../api/api/savedPokemon/savedPokemon-service";
 
-jest.mock("../src/api/savedPokemon/savedPokemon-service", () => ({
+jest.mock("../api/api/savedPokemon/savedPokemon-service", () => ({
   getPokemon: jest.fn(),
   savePokemon: jest.fn(),
   putPokemon: jest.fn(),

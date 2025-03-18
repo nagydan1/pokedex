@@ -106,7 +106,7 @@
     // "skipDefaultLibCheck": true,                      /* Skip type checking .d.ts files that are included with TypeScript. */
     "skipLibCheck": true                                 /* Skip type checking all .d.ts files. */
   },
-  "include": ["src", "tests"],
+  "include": ["api", "tests", "api/index.ts"],
   "exclude": ["node_modules"],
-  "files": ["src/zapatos/schema.d.ts"],
+  "files": ["api/zapatos/schema.d.ts"]
 }
