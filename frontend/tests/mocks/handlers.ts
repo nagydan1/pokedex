@@ -4,7 +4,7 @@ import { pokemonDetails, pokemonList } from "./mockPokemonData";
 import { savedPokemonList } from "./mockSavedPokemons";
 
 export const backendURL: string =
-  import.meta.env.REACT_APP_BACKEND_URL || "http://localhost:7654/api";
+  import.meta.env.VITE_BACKEND_URL as string || "http://localhost:7654/api";
 
 export const handlers = [
   http.get("https://pokeapi.co/api/v2/pokemon", () => {

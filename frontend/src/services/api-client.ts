@@ -1,9 +1,5 @@
 import axios from "axios";
 
-export const backendClient = axios.create({
-  baseURL: import.meta.env.REACT_APP_BACKEND_URL || "http://localhost:7654",
-});
-
 const axiosInstance = axios.create({
   baseURL: "https://pokeapi.co/api/v2",
 });
