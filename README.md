@@ -2,7 +2,7 @@
 
 ## Description
 
-![Pokedex](frontend/public/main.jpg)
+![Pokedex](frontend/public/main.png)
 
 The Pokedex is a full-stack web application containing detailed information about every creature from the Pokémon games. Visitors can filter, sort, search, like, and view detailed profiles of Pokémon.
 
@@ -14,7 +14,7 @@ The Pokedex is a full-stack web application containing detailed information abou
 - Written entirely in **TypeScript**
 
 ## Pages
-1. Main page with pokemon list
+1. Main page with Pokémon list
 2. Details page for each creature
 
 ## Features
@@ -84,8 +84,8 @@ User authentication is not part of this Pokedex yet, but I’ve included it in a
 🔐 See my auth-enabled project here: [FlashCards App](https://github.com/nagydan1/flashcards-app)
 
 ## Screenshots
-![Filter](frontend/public/filter.jpg)
+![Filter](frontend/public/filter.png)
 
-![Search](frontend/public/search.jpg)
+![Search](frontend/public/search.png)
 
-![Details](frontend/public/details.jpg)
+![Details](frontend/public/details.png)
